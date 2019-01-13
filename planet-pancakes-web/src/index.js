@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Map from './components/Map';
-import './styles/main.css';
-import './styles/bootstrap.min.css';
+import App from './components/App';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'leaflet/dist/leaflet.css';
+import './main.css';
 
-ReactDOM.render(<Map />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
