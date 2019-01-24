@@ -17,4 +17,8 @@ html, body, #root {
 .map {
   height: 100%;
   width: auto;
+  background-color: #F5DEB3;
+}
+.map-sidebar-menu-item {
+  word-wrap: break-word;
 }

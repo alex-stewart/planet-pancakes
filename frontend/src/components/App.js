@@ -5,8 +5,8 @@ import Navigation from './Navigation';
 export default class App extends Component {
     render() {
         return ([
-            <Navigation/>,
-            <WorldMap/>
+            <Navigation key={"navigation-bar"}/>,
+            <WorldMap key={"world-map"}/>
         ]);
     }
 }

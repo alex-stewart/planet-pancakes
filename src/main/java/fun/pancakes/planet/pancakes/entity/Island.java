@@ -3,7 +3,6 @@ package fun.pancakes.planet.pancakes.entity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -16,5 +15,7 @@ public class Island {
 
     private String name;
 
-    private Circle geometry;
+    private String description;
+
+    private IslandGeometry geometry;
 }

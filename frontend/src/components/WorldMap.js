@@ -35,23 +35,35 @@ export default class WorldMap extends Component {
     }
 
     render() {
-        const zoom  = 14;
-        const coordinates = [50,50];
         const bounds = [[0,0], [100,100]];
 
         return (
             <div className="map-container">
                 <ListGroup className="sidebar">
                     {this.state.islands.map(function(island){
-                        return <ListGroupItem>{island.name}</ListGroupItem>
+                        return <ListGroupItem key={'island-menu-item-' + island.id}
+                                              className={"map-sidebar-menu-item"}>
+                            <div>{island.name}</div>
+                            <div className={"small"}>{island.description}</div>
+                        </ListGroupItem>
                     })}
                 </ListGroup>
-                <Map className="map" center={coordinates} zoom={zoom} bounds={bounds} crs={CRS.Simple}>
+                <Map className="map"
+                     bounds={bounds}
+                     crs={CRS.Simple}
+                     zoom={3}>
+                    <Circle stroke={false}
+                            fillColor={'#5F9EA0'}
+                            fillOpacity={1}
+                            center={[50,50]}
+                            radius={50}/>
                     {this.state.islands.map(function(island){
-                        let islandGeometry = island.geometry;
-                        return <Circle key={'island-' + island.id}
-                                       center={[islandGeometry.center.x, islandGeometry.center.y]}
-                                       radius={islandGeometry.radius}/>
+                        return <Circle key={'island-map-item-' + island.id}
+                                       center={[island.geometry.posX, island.geometry.posY]}
+                                       stroke={false}
+                                       fillColor={'#6ea15f'}
+                                       fillOpacity={1}
+                                       radius={island.geometry.radius} />
                     })}
                 </Map>
             </div>
