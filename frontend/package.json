@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
+    "leaflet": "^1.4.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-leaflet": "^2.2.0",
     "react-scripts": "2.1.3",
-    "reactstrap": "^7.0.2"
+    "reactstrap": "^7.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "react-scripts build && rm -rf ../src/main/resources/public && mv build ../src/main/resources/public",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
