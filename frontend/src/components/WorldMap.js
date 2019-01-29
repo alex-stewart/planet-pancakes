@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Map, Circle} from 'react-leaflet';
+import {Map, Circle, ImageOverlay, LayersControl, LayerGroup} from 'react-leaflet';
 import {CRS} from 'leaflet';
 import axios from 'axios';
 import {ListGroup, ListGroupItem} from 'reactstrap';
@@ -52,19 +52,36 @@ export default class WorldMap extends Component {
                      bounds={bounds}
                      crs={CRS.Simple}
                      zoom={3}>
-                    <Circle stroke={false}
-                            fillColor={'#5F9EA0'}
-                            fillOpacity={1}
-                            center={[50,50]}
-                            radius={50}/>
-                    {this.state.islands.map(function(island){
-                        return <Circle key={'island-map-item-' + island.id}
-                                       center={[island.geometry.posX, island.geometry.posY]}
-                                       stroke={false}
-                                       fillColor={'#6ea15f'}
-                                       fillOpacity={1}
-                                       radius={island.geometry.radius} />
-                    })}
+                    <LayersControl>
+                        <Circle stroke={true}
+                                weight={1}
+                                color={'#000000'}
+                                fillColor={'#5F9EA0'}
+                                fillOpacity={1}
+                                center={[50,50]}
+                                radius={50}
+                                pane={"mapPane"}/>
+                        <LayersControl.Overlay name={"Islands"}
+                                               checked={true}>
+                            <LayerGroup>
+                                {this.state.islands.map(function(island){
+                                    let islandBounds = [
+                                        {
+                                            lat: island.coordinates[0] - island.size,
+                                            lng: island.coordinates[1] - island.size
+                                        },
+                                        {
+                                            lat: island.coordinates[0] + island.size,
+                                            lng: island.coordinates[1] + island.size
+                                        }
+                                    ];
+                                    return <ImageOverlay key={'island-map-item-' + island.id}
+                                                         url={'http://localhost:8080/islands/island_' + island.id + '.svg'}
+                                                         bounds={islandBounds}/>
+                                })}
+                            </LayerGroup>
+                        </LayersControl.Overlay>
+                    </LayersControl>
                 </Map>
             </div>
         );

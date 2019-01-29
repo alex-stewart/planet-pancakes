@@ -2,8 +2,9 @@ package fun.pancakes.planet.pancakes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = RepositoryRestMvcAutoConfiguration.class)
 public class PlanetPancakesApplication {
 
     public static void main(String[] args) {
