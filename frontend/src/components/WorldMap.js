@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Map, Circle, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
 import axios from 'axios';
 import Leaflet from 'leaflet'
-import 'leaflet-imageoverlay-rotated'
 import {ListGroup, ListGroupItem} from 'reactstrap';
 import {LatLng} from "leaflet/dist/leaflet-src.esm";
 
@@ -27,14 +26,6 @@ export default class WorldMap extends Component {
                     this.setState({
                         islands: result.data
                     });
-                    let url = 'http://localhost:8080/islands/island_' + result.data[0].id + '.svg';
-                    let topLeft    = new Leaflet.LatLng(50, 60);
-                    let topRight   = new Leaflet.LatLng(60, 60);
-                    let bottomLeft = new Leaflet.LatLng(50, 50);
-                    Leaflet.imageOverlay.rotated(url, topLeft, topRight, bottomLeft, {
-                        opacity: 0.7,
-                        interactive: true
-                    }).addTo(this.islandGroup.leafletElement);
                 },
                 (error) => {
                     this.setState({
@@ -78,11 +69,6 @@ export default class WorldMap extends Component {
                                     let radians = (Math.PI / 180) * island.bearing;
                                     let islandY = 50 + (island.radius * Math.cos(radians));
                                     let islandX = 50 + (island.radius * Math.sin(radians));
-
-                                    // let cos = Math.sin(radians);
-                                    // let sin = Math.sin(radians);
-                                    // let centerX = (cos * (startX - 50)) + (sin * (startY - 50)) + 50;
-                                    // let centerY = (cos * (startY - 50)) - (sin * (startX - 50)) + 50;
 
                                     let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
                                     let topRight = new LatLng(islandY + island.size, islandX + island.size);
