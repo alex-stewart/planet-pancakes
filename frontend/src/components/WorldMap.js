@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Map, Circle, ImageOverlay, LayersControl, LayerGroup} from 'react-leaflet';
-import {CRS} from 'leaflet';
+import {Map, Circle, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
 import axios from 'axios';
+import Leaflet from 'leaflet'
+import 'leaflet-imageoverlay-rotated'
 import {ListGroup, ListGroupItem} from 'reactstrap';
+import {LatLng} from "leaflet/dist/leaflet-src.esm";
 
 export default class WorldMap extends Component {
 
@@ -25,6 +27,14 @@ export default class WorldMap extends Component {
                     this.setState({
                         islands: result.data
                     });
+                    let url = 'http://localhost:8080/islands/island_' + result.data[0].id + '.svg';
+                    let topLeft    = new Leaflet.LatLng(50, 60);
+                    let topRight   = new Leaflet.LatLng(60, 60);
+                    let bottomLeft = new Leaflet.LatLng(50, 50);
+                    Leaflet.imageOverlay.rotated(url, topLeft, topRight, bottomLeft, {
+                        opacity: 0.7,
+                        interactive: true
+                    }).addTo(this.islandGroup.leafletElement);
                 },
                 (error) => {
                     this.setState({
@@ -50,7 +60,7 @@ export default class WorldMap extends Component {
                 </ListGroup>
                 <Map className="map"
                      bounds={bounds}
-                     crs={CRS.Simple}
+                     crs={Leaflet.CRS.Simple}
                      zoom={3}>
                     <LayersControl>
                         <Circle stroke={true}
@@ -63,18 +73,20 @@ export default class WorldMap extends Component {
                                 pane={"mapPane"}/>
                         <LayersControl.Overlay name={"Islands"}
                                                checked={true}>
-                            <LayerGroup>
+                            <LayerGroup ref={LayerGroup => this.islandGroup = LayerGroup}>
                                 {this.state.islands.map(function(island){
-                                    let islandBounds = [
-                                        {
-                                            lat: island.coordinates[0] - island.size,
-                                            lng: island.coordinates[1] - island.size
-                                        },
-                                        {
-                                            lat: island.coordinates[0] + island.size,
-                                            lng: island.coordinates[1] + island.size
-                                        }
-                                    ];
+                                    let radians = (Math.PI / 180) * island.bearing;
+                                    let islandY = 50 + (island.radius * Math.cos(radians));
+                                    let islandX = 50 + (island.radius * Math.sin(radians));
+
+                                    // let cos = Math.sin(radians);
+                                    // let sin = Math.sin(radians);
+                                    // let centerX = (cos * (startX - 50)) + (sin * (startY - 50)) + 50;
+                                    // let centerY = (cos * (startY - 50)) - (sin * (startX - 50)) + 50;
+
+                                    let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
+                                    let topRight = new LatLng(islandY + island.size, islandX + island.size);
+                                    let islandBounds = [bottomLeft, topRight];
                                     return <ImageOverlay key={'island-map-item-' + island.id}
                                                          url={'http://localhost:8080/islands/island_' + island.id + '.svg'}
                                                          bounds={islandBounds}/>
@@ -84,6 +96,6 @@ export default class WorldMap extends Component {
                     </LayersControl>
                 </Map>
             </div>
-        );
+        )
     }
 }

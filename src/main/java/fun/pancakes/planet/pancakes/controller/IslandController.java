@@ -1,7 +1,7 @@
 package fun.pancakes.planet.pancakes.controller;
 
-import fun.pancakes.planet.pancakes.entity.Island;
-import fun.pancakes.planet.pancakes.repository.IslandRepository;
+import fun.pancakes.planet.pancakes.dto.IslandDto;
+import fun.pancakes.planet.pancakes.service.IslandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +15,15 @@ import java.util.List;
 @RequestMapping("/api")
 public class IslandController {
 
-    private IslandRepository islandRepository;
+    private IslandService islandService;
 
     @Autowired
-    public IslandController(IslandRepository islandRepository) {
-        this.islandRepository = islandRepository;
+    public IslandController(IslandService islandService) {
+        this.islandService = islandService;
     }
 
     @GetMapping(value = "/islands")
-    public List<Island> getAllIslands() {
-        return islandRepository.findAll();
+    public List<IslandDto> getAllIslands() {
+        return islandService.getAllIslands();
     }
 }

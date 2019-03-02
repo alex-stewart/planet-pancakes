@@ -5,8 +5,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
 @Builder
 @Document(collection = "islands")
@@ -21,5 +19,7 @@ public class Island {
 
     private Double size;
 
-    private List<Double> coordinates;
+    private Integer ring;
+
+    private Double bearing;
 }
