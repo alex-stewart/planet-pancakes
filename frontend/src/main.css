@@ -3,7 +3,7 @@ html, body, #root {
   width: 100%;
   overflow: hidden;
 }
-.map-container {
+.map-container, .main-container {
   height: 100%;
   width: 100%;
   overflow: hidden;

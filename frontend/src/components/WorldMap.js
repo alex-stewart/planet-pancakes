@@ -35,6 +35,19 @@ export default class WorldMap extends Component {
             )
     }
 
+    generateIslandOverlay(island) {
+        let radians = (Math.PI / 180) * island.bearing;
+        let islandY = 50 + (island.radius * Math.cos(radians));
+        let islandX = 50 + (island.radius * Math.sin(radians));
+
+        let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
+        let topRight = new LatLng(islandY + island.size, islandX + island.size);
+        let islandBounds = [bottomLeft, topRight];
+        return <ImageOverlay key={'island-map-item-' + island.id}
+                             url={'http://localhost:8080/islands/island_' + island.id + '.svg'}
+                             bounds={islandBounds}/>
+    }
+
     render() {
         const bounds = [[0,0], [100,100]];
 
@@ -64,19 +77,10 @@ export default class WorldMap extends Component {
                                 pane={"mapPane"}/>
                         <LayersControl.Overlay name={"Islands"}
                                                checked={true}>
-                            <LayerGroup ref={LayerGroup => this.islandGroup = LayerGroup}>
-                                {this.state.islands.map(function(island){
-                                    let radians = (Math.PI / 180) * island.bearing;
-                                    let islandY = 50 + (island.radius * Math.cos(radians));
-                                    let islandX = 50 + (island.radius * Math.sin(radians));
-
-                                    let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
-                                    let topRight = new LatLng(islandY + island.size, islandX + island.size);
-                                    let islandBounds = [bottomLeft, topRight];
-                                    return <ImageOverlay key={'island-map-item-' + island.id}
-                                                         url={'http://localhost:8080/islands/island_' + island.id + '.svg'}
-                                                         bounds={islandBounds}/>
-                                })}
+                            <LayerGroup>
+                                {
+                                    this.state.islands.map(this.generateIslandOverlay)
+                                }
                             </LayerGroup>
                         </LayersControl.Overlay>
                     </LayersControl>

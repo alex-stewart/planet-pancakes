@@ -7,21 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
-@Document(collection = "islands")
-public class Island {
+@Document(collection = "rings")
+public class Ring {
 
     @Id
     private Integer id;
 
-    private String name;
+    private boolean clockwise;
 
-    private String description;
-
-    private Double size;
-
-    private Integer ring;
+    private Double yearSeconds;
 
     private Double radius;
-
-    private Double bearing;
 }

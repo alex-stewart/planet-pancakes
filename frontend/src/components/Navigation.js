@@ -28,6 +28,14 @@ export default class Example extends React.Component {
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="p2" navbar>
+                        <NavItem>
+                            <NavLink href="/map">World Map</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/wiki">Wiki</NavLink>
+                        </NavItem>
+                    </Nav>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink href="https://github.com/alex-stewart/planet-pancakes">GitHub</NavLink>

@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
+import {BrowserRouter, Route} from 'react-router-dom';
 import WorldMap from './WorldMap';
 import Navigation from './Navigation';
+import Wiki from "./Wiki";
 
 export default class App extends Component {
+
     render() {
         return ([
-            <Navigation key={"navigation-bar"}/>,
-            <WorldMap key={"world-map"}/>
+            <BrowserRouter key="browser-router">
+                <div className="main-container">
+                    <Navigation/>
+                    <Route path="/map" component={WorldMap}/>
+                    <Route path="/wiki" component={Wiki}/>
+                </div>
+            </BrowserRouter>
         ]);
     }
 }
