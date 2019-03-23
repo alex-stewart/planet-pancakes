@@ -15,8 +15,6 @@ public class Island {
 
     private String name;
 
-    private String description;
-
     private Double size;
 
     private Integer ring;

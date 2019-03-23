@@ -58,7 +58,6 @@ export default class WorldMap extends Component {
                         return <ListGroupItem key={'island-menu-item-' + island.id}
                                               className={"map-sidebar-menu-item"}>
                             <div>{island.name}</div>
-                            <div className={"small"}>{island.description}</div>
                         </ListGroupItem>
                     })}
                 </ListGroup>

@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 
 export default class WikiSection extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let subsections = this.props.section.subsections ? this.props.section.subsections : [];
         let heading = this.props.section.heading ? this.props.section.heading : "";

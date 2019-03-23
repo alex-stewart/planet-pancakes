@@ -12,8 +12,6 @@ public class IslandDto {
 
     private String name;
 
-    private String description;
-
     private Integer size;
 
     private Double radius;
