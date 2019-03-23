@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 import WorldMap from './WorldMap';
 import Navigation from './Navigation';
-import Wiki from "./Wiki";
+import Wiki from './Wiki';
 
 export default class App extends Component {
 

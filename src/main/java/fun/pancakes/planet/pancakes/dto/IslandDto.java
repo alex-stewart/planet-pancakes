@@ -1,5 +1,6 @@
 package fun.pancakes.planet.pancakes.dto;
 
+import fun.pancakes.planet.pancakes.entity.WikiSection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,4 +19,6 @@ public class IslandDto {
     private Double radius;
 
     private Double bearing;
+
+    private WikiSection wiki;
 }

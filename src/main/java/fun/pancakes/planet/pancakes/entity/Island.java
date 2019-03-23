@@ -24,4 +24,6 @@ public class Island {
     private Double radius;
 
     private Double bearing;
+
+    private WikiSection wiki;
 }

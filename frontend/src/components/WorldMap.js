@@ -3,7 +3,7 @@ import {Map, Circle, LayersControl, LayerGroup, ImageOverlay} from 'react-leafle
 import axios from 'axios';
 import Leaflet from 'leaflet'
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import {LatLng} from "leaflet/dist/leaflet-src.esm";
+import {LatLng} from 'leaflet/dist/leaflet-src.esm';
 
 export default class WorldMap extends Component {
 
