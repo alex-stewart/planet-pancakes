@@ -16,6 +16,10 @@
     <name>Planet Pancakes</name>
     <description>Planet Pancakes Web Application</description>
 
+    <build>
+        <finalName>planet-pancakes</finalName>
+    </build>
+
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
