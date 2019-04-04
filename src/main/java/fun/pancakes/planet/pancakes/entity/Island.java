@@ -1,13 +1,13 @@
 package fun.pancakes.planet.pancakes.entity;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
-@Document(collection = "islands")
+@DynamoDBTable(tableName = "island")
 public class Island {
 
     @Id
