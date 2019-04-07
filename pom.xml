@@ -9,19 +9,15 @@
         <version>2.1.1.RELEASE</version>
     </parent>
 
-    <groupId>fun.pancakes.planey</groupId>
+    <groupId>fun.pancakes.planet</groupId>
     <artifactId>planet-pancakes</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>Planet Pancakes</name>
     <description>Planet Pancakes Web Application</description>
 
-    <build>
-        <finalName>planet-pancakes</finalName>
-    </build>
-
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -69,4 +65,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>planet-pancakes</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
