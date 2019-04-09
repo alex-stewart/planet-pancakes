@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
-VOLUME /tmp
+VOLUME /resources
 COPY target/planet-pancakes.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]

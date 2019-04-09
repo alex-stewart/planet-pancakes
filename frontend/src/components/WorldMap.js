@@ -20,7 +20,7 @@ export default class WorldMap extends Component {
     }
 
     getIslands() {
-        axios.get("http://localhost:8080/api/islands")
+        axios.get("/api/islands")
             .then(
                 (result) => {
                     this.setState({
@@ -44,7 +44,7 @@ export default class WorldMap extends Component {
         let topRight = new LatLng(islandY + island.size, islandX + island.size);
         let islandBounds = [bottomLeft, topRight];
         return <ImageOverlay key={'island-map-item-' + island.id}
-                             url={'http://localhost:8080/islands/island_' + island.id + '.svg'}
+                             url={'/islands/island_' + island.id + '.svg'}
                              bounds={islandBounds}/>
     }
 

@@ -19,7 +19,7 @@ export default class Wiki extends Component {
     }
 
     getIslands() {
-        axios.get("http://localhost:8080/api/islands")
+        axios.get("/api/islands")
             .then(
                 (result) => {
                     this.setState({
