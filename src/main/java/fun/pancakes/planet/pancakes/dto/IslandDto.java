@@ -14,6 +14,8 @@ public class IslandDto {
 
     private Integer size;
 
+    private Integer ring;
+
     private Double radius;
 
     private Double bearing;

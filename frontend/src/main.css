@@ -8,7 +8,7 @@ html, body, #root {
   width: 100%;
   overflow: hidden;
 }
-.sidebar {
+.map-sidebar {
   float: left;
   height: 100%;
   max-width: 100%;
@@ -21,4 +21,9 @@ html, body, #root {
 }
 .map-sidebar-menu-item {
   word-wrap: break-word;
+}
+
+.wiki-sidebar-group {
+  padding-top: 10px;
+  padding-left: 10px;
 }

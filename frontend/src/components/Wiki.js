@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {Row, Col, Nav, NavLink} from 'reactstrap';
+import {Row, Col, ListGroup, ListGroupItem} from 'reactstrap';
 import axios from 'axios';
 import WikiPage from './WikiPage';
+import _ from 'lodash';
 
 export default class Wiki extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            islands: [],
+            islands: null,
             selectedIsland: null,
             error: null
         }
@@ -23,7 +24,7 @@ export default class Wiki extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        islands: result.data
+                        islands: _.groupBy(result.data, 'ring')
                     });
                 },
                 (error) => {
@@ -41,21 +42,34 @@ export default class Wiki extends Component {
     }
 
     render() {
-        return (
-            <Row>
-                <Col className={"col-md-2"}>
-                    <Nav vertical>
-                        {this.state.islands.map(function(island){
-                            return <NavLink href="#" key={'island-menu-item-' + island.id}>
-                                <div onClick={(event) => this.setSelectedPage(event, island)}>{island.name}</div>
-                            </NavLink>
+        if (this.state.islands) {
+            return (
+                <Row>
+                    <Col className={"col-md-2"}>
+                        {Object.keys(this.state.islands).map(function (ring) {
+                            return <div>
+                                <ListGroup key={'island-menu-group-' + ring}
+                                           className={"wiki-sidebar-group"}>
+                                    {this.state.islands[ring].map(function (island) {
+                                        if (island.wiki) {
+                                            return <ListGroupItem
+                                                key={'island-menu-item-' + island.id}
+                                                onClick={(event) => this.setSelectedPage(event, island)}>
+                                                    {island.name}
+                                            </ListGroupItem>
+                                        }
+                                    }, this)}
+                                </ListGroup>
+                            </div>
                         }, this)}
-                    </Nav>
-                </Col>
-                <Col>
-                    <WikiPage island={this.state.selectedIsland}/>
-                </Col>
-            </Row>
-        );
+                    </Col>
+                    <Col>
+                        <WikiPage island={this.state.selectedIsland}/>
+                    </Col>
+                </Row>
+            );
+        } else {
+            return null;
+        }
     }
 }
