@@ -37,8 +37,8 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         let radians = (Math.PI / 180) * island.bearing;
-        let islandY = 50 + (island.radius * Math.cos(radians));
-        let islandX = 50 + (island.radius * Math.sin(radians));
+        let islandY = 100 + (island.radius * Math.cos(radians));
+        let islandX = 100 + (island.radius * Math.sin(radians));
 
         let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
         let topRight = new LatLng(islandY + island.size, islandX + island.size);
@@ -49,11 +49,11 @@ export default class WorldMap extends Component {
     }
 
     render() {
-        const bounds = [[0,0], [100,100]];
+        const bounds = [[0,0], [200,200]];
 
         return (
             <div className="map-container">
-                <ListGroup className="sidebar">
+                <ListGroup className="map-sidebar">
                     {this.state.islands.map(function(island){
                         return <ListGroupItem key={'island-menu-item-' + island.id}
                                               className={"map-sidebar-menu-item"}>
@@ -71,7 +71,7 @@ export default class WorldMap extends Component {
                                 color={'#000000'}
                                 fillColor={'#5F9EA0'}
                                 fillOpacity={1}
-                                center={[50,50]}
+                                center={[100,100]}
                                 radius={50}
                                 pane={"mapPane"}/>
                         <LayersControl.Overlay name={"Islands"}
