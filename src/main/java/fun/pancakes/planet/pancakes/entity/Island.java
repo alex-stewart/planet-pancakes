@@ -23,5 +23,9 @@ public class Island {
 
     private Double bearing;
 
+    private Double wobbleRadius;
+
+    private Double wobbleCycleSeconds;
+
     private WikiSection wiki;
 }

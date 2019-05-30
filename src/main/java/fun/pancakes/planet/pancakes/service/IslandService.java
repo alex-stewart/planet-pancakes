@@ -14,15 +14,15 @@ import java.util.stream.Collectors;
 public class IslandService {
 
     private IslandRepository islandRepository;
-    private RingService ringService;
+    private IslandPositionService islandPositionService;
     private ModelMapper modelMapper;
 
     @Autowired
     public IslandService(IslandRepository islandRepository,
-                         RingService ringService,
+                         IslandPositionService islandPositionService,
                          ModelMapper modelMapper) {
         this.islandRepository = islandRepository;
-        this.ringService = ringService;
+        this.islandPositionService = islandPositionService;
         this.modelMapper = modelMapper;
     }
 
@@ -31,8 +31,8 @@ public class IslandService {
 
         return islands.stream().map(
                 island -> {
-                    Island positionEnrichedIsland = ringService.enrichIslandPosition(island);
-                    return modelMapper.map(positionEnrichedIsland, IslandDto.class);
+                    islandPositionService.enrichIslandPosition(island);
+                    return modelMapper.map(island, IslandDto.class);
                 }
         ).collect(Collectors.toList());
     }
