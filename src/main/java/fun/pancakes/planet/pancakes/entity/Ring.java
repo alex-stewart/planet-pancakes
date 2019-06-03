@@ -13,9 +13,9 @@ public class Ring {
     @Id
     private Integer id;
 
-    private boolean clockwise;
+    private Boolean clockwise;
 
-    private Double yearSeconds;
+    private Integer yearDays;
 
     private Double radius;
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class IslandPositionService {
@@ -20,14 +21,14 @@ public class IslandPositionService {
 
     public void enrichIslandPosition(Island island) {
         Ring ring = ringRepository.findDistinctById(island.getRing());
-        island.setBearing( getBearing(island, ring));
+        island.setBearing(getBearing(island, ring));
         island.setRadius(getRadius(island, ring));
     }
 
     private Double getRadius(Island island, Ring ring) {
-        Double unixSeconds = (double)Instant.now().getEpochSecond();
-        Double cycleSeconds = island.getWobbleCycleSeconds();
-        if (cycleSeconds != null) {
+        Double unixSeconds = (double) Instant.now().getEpochSecond();
+        if (island.getWobbleCycleDays() != null) {
+            Double cycleSeconds = (double) TimeUnit.DAYS.toSeconds(island.getWobbleCycleDays());
             Double remainderSeconds = unixSeconds % cycleSeconds;
             Double cycleFraction = remainderSeconds / cycleSeconds;
             Double offset = island.getWobbleRadius() * Math.sin(cycleFraction * 360);
@@ -39,12 +40,12 @@ public class IslandPositionService {
 
     private Double getBearing(Island island, Ring ring) {
         Long unixSeconds = Instant.now().getEpochSecond();
-        Double yearSeconds = ring.getYearSeconds();
-        if (yearSeconds > 0) {
+        if (ring.getYearDays() != null) {
+            Double yearSeconds = (double) TimeUnit.DAYS.toSeconds(ring.getYearDays());
             Double remainderSeconds = unixSeconds % yearSeconds;
             Double yearFraction = remainderSeconds / yearSeconds;
             Double angle = yearFraction * 360;
-            if (ring.isClockwise()) {
+            if (ring.getClockwise()) {
                 return island.getBearing() + angle;
             } else {
                 return island.getBearing() - angle;

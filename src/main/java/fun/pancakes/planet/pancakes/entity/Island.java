@@ -25,7 +25,7 @@ public class Island {
 
     private Double wobbleRadius;
 
-    private Double wobbleCycleSeconds;
+    private Integer wobbleCycleDays;
 
     private WikiSection wiki;
 }
