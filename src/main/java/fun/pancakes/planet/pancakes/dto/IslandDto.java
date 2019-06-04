@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class IslandDto {
 
-    private String id;
+    private Integer id;
 
     private String name;
 
