@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Map, Circle, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
+import {Map, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
 import axios from 'axios';
 import Leaflet from 'leaflet'
 import {ListGroup, ListGroupItem} from 'reactstrap';
@@ -37,8 +37,8 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         let radians = (Math.PI / 180) * island.bearing;
-        let islandY = 100 + (island.radius * Math.cos(radians));
-        let islandX = 100 + (island.radius * Math.sin(radians));
+        let islandY = island.radius * Math.cos(radians);
+        let islandX = island.radius * Math.sin(radians);
 
         let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
         let topRight = new LatLng(islandY + island.size, islandX + island.size);
@@ -49,7 +49,7 @@ export default class WorldMap extends Component {
     }
 
     render() {
-        const bounds = [[0,0], [200,200]];
+        const bounds = [[-100,-100], [100,100]];
 
         return (
             <div className="map-container">
@@ -66,14 +66,6 @@ export default class WorldMap extends Component {
                      crs={Leaflet.CRS.Simple}
                      zoom={3}>
                     <LayersControl>
-                        <Circle stroke={true}
-                                weight={1}
-                                color={'#000000'}
-                                fillColor={'#5F9EA0'}
-                                fillOpacity={1}
-                                center={[100,100]}
-                                radius={50}
-                                pane={"mapPane"}/>
                         <LayersControl.Overlay name={"Islands"}
                                                checked={true}>
                             <LayerGroup>
