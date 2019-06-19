@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Map, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import Leaflet from 'leaflet'
 import {ListGroup, ListGroupItem} from 'reactstrap';
@@ -11,12 +13,14 @@ export default class WorldMap extends Component {
         super(props);
         this.state = {
             islands: [],
+            bounds: [[-100, -100], [100, 100]],
             error: null
         }
     }
 
     componentDidMount() {
         this.getIslands();
+        this.addMapListeners();
     }
 
     getIslands() {
@@ -24,7 +28,7 @@ export default class WorldMap extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        islands: result.data
+                        islands: result.data.map(this.calculateIslandPosition)
                     });
                 },
                 (error) => {
@@ -35,36 +39,74 @@ export default class WorldMap extends Component {
             )
     }
 
-    generateIslandOverlay(island) {
+    calculateIslandPosition(island) {
         let radians = (Math.PI / 180) * island.bearing;
         let islandY = island.radius * Math.cos(radians);
         let islandX = island.radius * Math.sin(radians);
 
         let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
         let topRight = new LatLng(islandY + island.size, islandX + island.size);
-        let islandBounds = [bottomLeft, topRight];
+        island.bounds = [bottomLeft, topRight];
+        return island;
+    }
+
+    addMapListeners = () => {
+        if (this.refs.map) {
+            this.refs.map.leafletElement.on('zoomstart', this.resetBounds);
+            this.refs.map.leafletElement.on('movestart', this.resetBounds);
+        }
+    };
+
+    resetBounds = () => {
+        if (this.state.bounds) {
+            this.setState({
+                bounds: null
+            });
+        }
+    };
+
+    focusOnIsland(event, island) {
+        this.setState({
+            bounds: island.bounds
+        });
+    }
+
+    generateIslandOverlay(island) {
         return <ImageOverlay key={'island-map-item-' + island.id}
                              url={'/islands/island_' + island.id + '.svg'}
-                             bounds={islandBounds}/>
+                             bounds={island.bounds}/>
+    }
+
+    generateSideBarItem(island) {
+        return (
+            <ListGroupItem key={'island-menu-item-' + island.id}
+                           className={"map-sidebar-menu-item"}>
+                {island.name}
+                <div>
+                    <span className={"map-sidebar-icon"}>
+                        <FontAwesomeIcon icon={faAtlas}/>
+                    </span>
+                    <span className={"map-sidebar-icon"} onClick={event => this.focusOnIsland(event, island)}>
+                        <FontAwesomeIcon icon={faSearchLocation}/>
+                    </span>
+                </div>
+            </ListGroupItem>
+        )
     }
 
     render() {
-        const bounds = [[-100,-100], [100,100]];
-
         return (
             <div className="map-container">
                 <ListGroup className="map-sidebar">
-                    {this.state.islands.map(function(island){
-                        return <ListGroupItem key={'island-menu-item-' + island.id}
-                                              className={"map-sidebar-menu-item"}>
-                            <div>{island.name}</div>
-                        </ListGroupItem>
-                    })}
+                    {
+                        this.state.islands.map(this.generateSideBarItem.bind(this))
+                    }
                 </ListGroup>
                 <Map className="map"
-                     bounds={bounds}
+                     bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
-                     zoom={3}>
+                     zoom={3}
+                     ref={"map"}>
                     <LayersControl>
                         <LayersControl.Overlay name={"Islands"}
                                                checked={true}>

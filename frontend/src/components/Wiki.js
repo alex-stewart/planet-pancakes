@@ -20,7 +20,7 @@ export default class Wiki extends Component {
     }
 
     getIslands() {
-        axios.get("/api/islands")
+        axios.get("http://localhost/api/islands")
             .then(
                 (result) => {
                     this.setState({
@@ -45,10 +45,9 @@ export default class Wiki extends Component {
         if (this.state.islands) {
             return (
                 <Row>
-                    <Col className={"col-md-2"}>
+                    <Col key={"wiki-column-wiki-sidebar"} className={"col-md-2"}>
                         {Object.keys(this.state.islands).map(function (ring) {
-                            return <div>
-                                <ListGroup key={'island-menu-group-' + ring}
+                            return <ListGroup key={'island-menu-group-' + ring}
                                            className={"wiki-sidebar-group"}>
                                     {this.state.islands[ring].map(function (island) {
                                         if (island.wiki) {
@@ -60,10 +59,9 @@ export default class Wiki extends Component {
                                         }
                                     }, this)}
                                 </ListGroup>
-                            </div>
                         }, this)}
                     </Col>
-                    <Col>
+                    <Col key={"wiki-column-wiki-content"}>
                         <WikiPage island={this.state.selectedIsland}/>
                     </Col>
                 </Row>
