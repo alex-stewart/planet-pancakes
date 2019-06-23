@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Map, LayersControl, LayerGroup, ImageOverlay} from 'react-leaflet';
+import {Map, LayersControl, LayerGroup, ImageOverlay, Marker} from 'react-leaflet';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import Leaflet from 'leaflet'
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import {LatLng} from 'leaflet/dist/leaflet-src.esm';
+import {LatLng, DivIcon, Point} from 'leaflet/dist/leaflet-src.esm';
 
 export default class WorldMap extends Component {
 
@@ -43,6 +43,7 @@ export default class WorldMap extends Component {
         let radians = (Math.PI / 180) * island.bearing;
         let islandY = island.radius * Math.cos(radians);
         let islandX = island.radius * Math.sin(radians);
+        island.position = [islandY, islandX];
 
         let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
         let topRight = new LatLng(islandY + island.size, islandX + island.size);
@@ -73,8 +74,24 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         return <ImageOverlay key={'island-map-item-' + island.id}
-                             url={'/islands/island_' + island.id + '.svg'}
-                             bounds={island.bounds}/>
+                          url={'/islands/island_' + island.id + '.svg'}
+                          bounds={island.bounds}/>
+    }
+
+    generateIslandMarker(island) {
+        let divIcon = new DivIcon({
+            iconSize: new Point(500, 10),
+            className: "map-island-label",
+            html: island.name
+        });
+
+        let islandPosition = [
+            island.position[0] - island.size,
+            island.position[1]
+        ];
+
+        return <Marker position={islandPosition}
+                icon={divIcon}/>
     }
 
     generateSideBarItem(island) {
@@ -102,17 +119,25 @@ export default class WorldMap extends Component {
                         this.state.islands.map(this.generateSideBarItem.bind(this))
                     }
                 </ListGroup>
-                <Map className="map"
+                <Map className={"map"}
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
                      zoom={3}
                      ref={"map"}>
-                    <LayersControl>
+                    <LayersControl collapsed={false}>
                         <LayersControl.Overlay name={"Islands"}
                                                checked={true}>
                             <LayerGroup>
                                 {
                                     this.state.islands.map(this.generateIslandOverlay)
+                                }
+                            </LayerGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay name={"Labels"}
+                                               checked={true}>
+                            <LayerGroup>
+                                {
+                                    this.state.islands.map(this.generateIslandMarker)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>

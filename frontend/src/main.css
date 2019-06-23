@@ -1,35 +1,50 @@
+@import url('https://fonts.googleapis.com/css?family=Bilbo+Swash+Caps');
+
 html, body, #root {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
+
 .map-container, .main-container {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
+
 .map-sidebar {
-  float: left;
-  height: 100%;
-  max-width: 100%;
-  width: 200px;
+    float: left;
+    height: 100%;
+    max-width: 100%;
+    width: 200px;
 }
-.map {
-  height: 100%;
-  width: auto;
-  background-color: #5F9EA0;
-}
+
 .map-sidebar-menu-item {
-  word-wrap: break-word;
-  font-size: 15px;
+    word-wrap: break-word;
+    font-size: 15px;
 }
+
 .map-sidebar-icon {
-  cursor: pointer;
-  margin-top: 10px;
-  margin-right: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.map {
+    height: 100%;
+    width: auto;
+    background-color: #5F9EA0;
+}
+
+.map-island-label {
+    white-space: nowrap;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Bilbo Swash Caps';
+    width: 100%
 }
 
 .wiki-sidebar-group {
-  padding-top: 10px;
-  padding-left: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
 }
