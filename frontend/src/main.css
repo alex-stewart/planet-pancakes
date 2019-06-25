@@ -44,6 +44,11 @@ html, body, #root {
     width: 100%
 }
 
+.map-city-label {
+    background: #8B0000;
+    border-radius: 50%;
+}
+
 .wiki-sidebar-group {
     padding-top: 10px;
     padding-left: 10px;

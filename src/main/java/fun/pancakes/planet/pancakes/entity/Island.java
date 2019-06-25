@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Builder
 @Document(collection = "islands")
@@ -14,18 +16,12 @@ public class Island {
     private Integer id;
 
     private String name;
-
     private Double size;
-
     private Integer ring;
-
     private Double radius;
-
     private Double bearing;
-
     private Double wobbleRadius;
-
     private Integer wobbleCycleDays;
-
     private WikiSection wiki;
+    private List<Landmark> cities;
 }

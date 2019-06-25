@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Map, LayersControl, LayerGroup, ImageOverlay, Marker} from 'react-leaflet';
+import {Map, LayersControl, LayerGroup, ImageOverlay, Marker, Popup} from 'react-leaflet';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -74,8 +74,8 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         return <ImageOverlay key={'island-map-item-' + island.id}
-                          url={'/islands/island_' + island.id + '.svg'}
-                          bounds={island.bounds}/>
+                             url={'/islands/island_' + island.id + '.svg'}
+                             bounds={island.bounds}/>
     }
 
     generateIslandMarker(island) {
@@ -90,8 +90,36 @@ export default class WorldMap extends Component {
             island.position[1]
         ];
 
-        return <Marker position={islandPosition}
-                icon={divIcon}/>
+        return <Marker key={'island-marker-' + island.id}
+                       position={islandPosition}
+                       icon={divIcon}/>
+    }
+
+    generateCityMarkers(island) {
+
+        if (!island.cities) {
+            return null;
+        }
+
+        return island.cities.map(function (city) {
+            let cityPosition = [
+                island.position[0] + city.location.x,
+                island.position[1] + city.location.y
+            ];
+
+            let divIcon = new DivIcon({
+                iconSize: new Point(10, 10),
+                className: "map-city-label",
+            });
+
+            return <Marker position={cityPosition}
+                           icon={divIcon}>
+                <Popup>
+                    <h3>{city.name}</h3>
+                    <h5>{city.description}</h5>
+                </Popup>
+            </Marker>
+        });
     }
 
     generateSideBarItem(island) {
@@ -138,6 +166,14 @@ export default class WorldMap extends Component {
                             <LayerGroup>
                                 {
                                     this.state.islands.map(this.generateIslandMarker)
+                                }
+                            </LayerGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay name={"Cities"}
+                                               checked={false}>
+                            <LayerGroup>
+                                {
+                                    this.state.islands.map(this.generateCityMarkers)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>

@@ -8,10 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class WikiSection {
-
-    String heading;
-
-    String content;
-
-    List<WikiSection> subsections;
+    private String heading;
+    private String content;
+    private List<WikiSection> subsections;
 }
