@@ -112,7 +112,8 @@ export default class WorldMap extends Component {
                 className: "map-city-label",
             });
 
-            return <Marker position={cityPosition}
+            return <Marker key={"city-icon-" + city.name}
+                           position={cityPosition}
                            icon={divIcon}>
                 <Popup>
                     <h3>{city.name}</h3>
@@ -153,7 +154,8 @@ export default class WorldMap extends Component {
                      zoom={3}
                      ref={"map"}>
                     <LayersControl collapsed={false}>
-                        <LayersControl.Overlay name={"Islands"}
+                        <LayersControl.Overlay key={"island-overlay"}
+                                               name={"Islands"}
                                                checked={true}>
                             <LayerGroup>
                                 {
@@ -161,7 +163,8 @@ export default class WorldMap extends Component {
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay name={"Labels"}
+                        <LayersControl.Overlay key={"label-overlay"}
+                                               name={"Labels"}
                                                checked={true}>
                             <LayerGroup>
                                 {
@@ -169,7 +172,8 @@ export default class WorldMap extends Component {
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay name={"Cities"}
+                        <LayersControl.Overlay key={"city-overlay"}
+                                               name={"Cities"}
                                                checked={false}>
                             <LayerGroup>
                                 {
