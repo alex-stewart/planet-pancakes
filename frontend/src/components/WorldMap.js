@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Map, LayersControl, LayerGroup, ImageOverlay, Marker, Popup} from 'react-leaflet';
+import {Map, LayersControl, LayerGroup, Marker, Popup} from 'react-leaflet';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
-import Leaflet from 'leaflet'
+import Leaflet from 'leaflet';
+import L from 'leaflet';
 import {ListGroup, ListGroupItem} from 'reactstrap';
-import {LatLng, DivIcon, Point} from 'leaflet/dist/leaflet-src.esm';
+import ImageOverlayRotated from './ImageOverlayRotated';
 
 export default class WorldMap extends Component {
 
@@ -28,7 +29,10 @@ export default class WorldMap extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        islands: result.data.map(this.calculateIslandPosition)
+                        islands: result.data
+                            .map(this.calculateIslandPosition.bind(this))
+                            .map(this.calculateIslandRotation.bind(this))
+                            .map(this.calculateCityPositionsForIsland.bind(this))
                     });
                 },
                 (error) => {
@@ -39,15 +43,37 @@ export default class WorldMap extends Component {
             )
     }
 
-    calculateIslandPosition(island) {
-        let radians = (Math.PI / 180) * island.bearing;
-        let islandY = island.radius * Math.cos(radians);
-        let islandX = island.radius * Math.sin(radians);
-        island.position = [islandY, islandX];
+    rotatePoint(pointX, pointY, centerX, centerY, bearing) {
+        let angle = (bearing) * (Math.PI / 180);
+        let rotatedX = Math.cos(angle) * (pointX - centerX) - Math.sin(angle) * (pointY - centerY) + centerX;
+        let rotatedY = Math.sin(angle) * (pointX - centerX) + Math.cos(angle) * (pointY - centerY) + centerY;
+        return [rotatedX, rotatedY];
+    }
 
-        let bottomLeft = new LatLng(islandY - island.size, islandX - island.size);
-        let topRight = new LatLng(islandY + island.size, islandX + island.size);
+    calculateIslandPosition(island) {
+        island.position = this.rotatePoint(island.radius, 0, 0, 0, island.bearing);
+        let bottomLeft = new L.LatLng(island.position[0] - island.size, island.position[1] - island.size);
+        let topRight = new L.LatLng(island.position[0] + island.size, island.position[1] + island.size);
         island.bounds = [bottomLeft, topRight];
+        return island;
+    }
+
+    calculateIslandRotation(island) {
+        island.bottomLeft = this.rotatePoint(island.bounds[0].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
+        island.topLeft = this.rotatePoint(island.bounds[1].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
+        island.topRight = this.rotatePoint(island.bounds[1].lat, island.bounds[1].lng, island.position[0], island.position[1], island.bearing);
+        return island;
+    }
+
+    calculateCityPositionsForIsland(island) {
+        if (island.cities) {
+            island.cities.forEach(city => {
+                let cityX = island.position[0] + city.location.x;
+                let cityY = island.position[1] + city.location.y;
+                city.position = this.rotatePoint(cityX, cityY, island.position[0], island.position[1], island.bearing);
+                return city;
+            })
+        }
         return island;
     }
 
@@ -73,47 +99,43 @@ export default class WorldMap extends Component {
     }
 
     generateIslandOverlay(island) {
-        return <ImageOverlay key={'island-map-item-' + island.id}
-                             url={'/islands/island_' + island.id + '.svg'}
-                             bounds={island.bounds}/>
+        return <ImageOverlayRotated key={'island-map-item-' + island.id}
+                                    url={'/islands/island_' + island.id + '.svg'}
+                                    topLeft={island.topLeft}
+                                    topRight={island.topRight}
+                                    bottomLeft={island.bottomLeft}/>
     }
 
     generateIslandMarker(island) {
-        let divIcon = new DivIcon({
-            iconSize: new Point(500, 10),
+        let divIcon = new L.DivIcon({
+            iconSize: new L.Point(500, 10),
             className: "map-island-label",
             html: island.name
         });
 
-        let islandPosition = [
+        let islandLabelPosition = [
             island.position[0] - island.size,
             island.position[1]
         ];
 
         return <Marker key={'island-marker-' + island.id}
-                       position={islandPosition}
+                       position={islandLabelPosition}
                        icon={divIcon}/>
     }
 
     generateCityMarkers(island) {
-
         if (!island.cities) {
             return null;
         }
 
         return island.cities.map(function (city) {
-            let cityPosition = [
-                island.position[0] + city.location.x,
-                island.position[1] + city.location.y
-            ];
-
-            let divIcon = new DivIcon({
-                iconSize: new Point(10, 10),
+            let divIcon = new L.DivIcon({
+                iconSize: new L.Point(10, 10),
                 className: "map-city-label",
             });
 
             return <Marker key={"city-icon-" + city.name}
-                           position={cityPosition}
+                           position={city.position}
                            icon={divIcon}>
                 <Popup>
                     <h3>{city.name}</h3>
