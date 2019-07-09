@@ -7,6 +7,7 @@ import Leaflet from 'leaflet';
 import L from 'leaflet';
 import {ListGroup, ListGroupItem} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
+import {rotatePoint} from '../util/pointUtils';
 
 export default class WorldMap extends Component {
 
@@ -30,9 +31,9 @@ export default class WorldMap extends Component {
                 (result) => {
                     this.setState({
                         islands: result.data
-                            .map(this.calculateIslandPosition.bind(this))
-                            .map(this.calculateIslandRotation.bind(this))
-                            .map(this.calculateCityPositionsForIsland.bind(this))
+                            .map(this.calculateIslandPosition)
+                            .map(this.calculateIslandRotation)
+                            .map(this.calculateCityPositionsForIsland)
                     });
                 },
                 (error) => {
@@ -43,15 +44,8 @@ export default class WorldMap extends Component {
             )
     }
 
-    rotatePoint(pointX, pointY, centerX, centerY, bearing) {
-        let angle = (bearing) * (Math.PI / 180);
-        let rotatedX = Math.cos(angle) * (pointX - centerX) - Math.sin(angle) * (pointY - centerY) + centerX;
-        let rotatedY = Math.sin(angle) * (pointX - centerX) + Math.cos(angle) * (pointY - centerY) + centerY;
-        return [rotatedX, rotatedY];
-    }
-
     calculateIslandPosition(island) {
-        island.position = this.rotatePoint(island.radius, 0, 0, 0, island.bearing);
+        island.position = rotatePoint(island.radius, 0, 0, 0, island.bearing);
         let bottomLeft = new L.LatLng(island.position[0] - island.size, island.position[1] - island.size);
         let topRight = new L.LatLng(island.position[0] + island.size, island.position[1] + island.size);
         island.bounds = [bottomLeft, topRight];
@@ -59,9 +53,9 @@ export default class WorldMap extends Component {
     }
 
     calculateIslandRotation(island) {
-        island.bottomLeft = this.rotatePoint(island.bounds[0].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
-        island.topLeft = this.rotatePoint(island.bounds[1].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
-        island.topRight = this.rotatePoint(island.bounds[1].lat, island.bounds[1].lng, island.position[0], island.position[1], island.bearing);
+        island.bottomLeft = rotatePoint(island.bounds[0].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
+        island.topLeft = rotatePoint(island.bounds[1].lat, island.bounds[0].lng, island.position[0], island.position[1], island.bearing);
+        island.topRight = rotatePoint(island.bounds[1].lat, island.bounds[1].lng, island.position[0], island.position[1], island.bearing);
         return island;
     }
 
@@ -70,7 +64,7 @@ export default class WorldMap extends Component {
             island.cities.forEach(city => {
                 let cityX = island.position[0] + city.location.x;
                 let cityY = island.position[1] + city.location.y;
-                city.position = this.rotatePoint(cityX, cityY, island.position[0], island.position[1], island.bearing);
+                city.position = rotatePoint(cityX, cityY, island.position[0], island.position[1], island.bearing);
                 return city;
             })
         }
