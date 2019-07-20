@@ -169,18 +169,14 @@ export default class WorldMap extends Component {
                      crs={Leaflet.CRS.Simple}
                      zoom={3}
                      ref={"map"}>
-                    <LayersControl collapsed={false}>
-                        <LayersControl.Overlay key={"island-overlay"}
-                                               name={"Islands"}
-                                               checked={true}>
-                            <LayerGroup>
-                                {
-                                    this.state.islands.map(this.generateIslandOverlay)
-                                }
-                            </LayerGroup>
-                        </LayersControl.Overlay>
+                    <LayerGroup>
+                        {
+                            this.state.islands.map(this.generateIslandOverlay)
+                        }
+                    </LayerGroup>
+                    <LayersControl>
                         <LayersControl.Overlay key={"label-overlay"}
-                                               name={"Labels"}
+                                               name={"Island Labels"}
                                                checked={true}>
                             <LayerGroup>
                                 {
