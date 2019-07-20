@@ -20,17 +20,15 @@ public class IslandPositionService {
     }
 
     public void enrichIslandPosition(Island island) {
+        Double currentTimeInSeconds = (double) Instant.now().getEpochSecond();
         Ring ring = ringRepository.findDistinctById(island.getRing());
-        island.setBearing(getBearing(island, ring));
-        island.setRadius(getRadius(island, ring));
+        island.setBearing(islandBearingAtTime(island, ring, currentTimeInSeconds));
+        island.setRadius(islandRadiusAtTime(island, ring, currentTimeInSeconds));
     }
 
-    private Double getRadius(Island island, Ring ring) {
-        Double unixSeconds = (double) Instant.now().getEpochSecond();
+    private Double islandRadiusAtTime(Island island, Ring ring, Double currentTimeInSeconds) {
         if (island.getWobbleCycleDays() != null) {
-            Double cycleSeconds = (double) TimeUnit.DAYS.toSeconds(island.getWobbleCycleDays());
-            Double remainderSeconds = unixSeconds % cycleSeconds;
-            Double cycleFraction = remainderSeconds / cycleSeconds;
+            Double cycleFraction = fractionIntoCurrentCycle(currentTimeInSeconds, island.getWobbleCycleDays());
             Double offset = island.getWobbleRadius() * Math.sin(cycleFraction * 360);
             return ring.getRadius() + offset;
         } else {
@@ -38,12 +36,9 @@ public class IslandPositionService {
         }
     }
 
-    private Double getBearing(Island island, Ring ring) {
-        Long unixSeconds = Instant.now().getEpochSecond();
+    private Double islandBearingAtTime(Island island, Ring ring, Double currentTimeInSeconds) {
         if (ring.getYearDays() != null) {
-            Double yearSeconds = (double) TimeUnit.DAYS.toSeconds(ring.getYearDays());
-            Double remainderSeconds = unixSeconds % yearSeconds;
-            Double yearFraction = remainderSeconds / yearSeconds;
+            Double yearFraction = fractionIntoCurrentCycle(currentTimeInSeconds, ring.getYearDays());
             Double angle = yearFraction * 360;
             if (ring.getClockwise()) {
                 return island.getBearing() + angle;
@@ -53,5 +48,11 @@ public class IslandPositionService {
         } else {
             return 0d;
         }
+    }
+
+    private Double fractionIntoCurrentCycle (Double currentTimeInSeconds, Integer cycleDays) {
+        Double cycleSeconds = (double) TimeUnit.DAYS.toSeconds(cycleDays);
+        Double remainderSeconds = currentTimeInSeconds % cycleSeconds;
+        return remainderSeconds / cycleSeconds;
     }
 }
