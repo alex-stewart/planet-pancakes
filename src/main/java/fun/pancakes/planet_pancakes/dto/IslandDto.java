@@ -1,7 +1,7 @@
-package fun.pancakes.planet.pancakes.dto;
+package fun.pancakes.planet_pancakes.dto;
 
-import fun.pancakes.planet.pancakes.entity.Landmark;
-import fun.pancakes.planet.pancakes.entity.WikiSection;
+import fun.pancakes.planet_pancakes.entity.Landmark;
+import fun.pancakes.planet_pancakes.entity.WikiSection;
 import lombok.Getter;
 import lombok.Setter;
 

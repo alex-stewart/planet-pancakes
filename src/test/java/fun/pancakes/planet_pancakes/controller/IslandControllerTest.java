@@ -1,7 +1,7 @@
-package fun.pancakes.planet.pancakes.controller;
+package fun.pancakes.planet_pancakes.controller;
 
-import fun.pancakes.planet.pancakes.dto.IslandDto;
-import fun.pancakes.planet.pancakes.service.IslandService;
+import fun.pancakes.planet_pancakes.dto.IslandDto;
+import fun.pancakes.planet_pancakes.service.IslandService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

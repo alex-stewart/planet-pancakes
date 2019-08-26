@@ -1,6 +1,6 @@
-package fun.pancakes.planet.pancakes.repository;
+package fun.pancakes.planet_pancakes.repository;
 
-import fun.pancakes.planet.pancakes.entity.Ring;
+import fun.pancakes.planet_pancakes.entity.Ring;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface RingRepository extends MongoRepository<Ring, Integer> {

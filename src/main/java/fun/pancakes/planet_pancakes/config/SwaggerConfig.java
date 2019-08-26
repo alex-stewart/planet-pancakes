@@ -1,4 +1,4 @@
-package fun.pancakes.planet.pancakes.config;
+package fun.pancakes.planet_pancakes.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

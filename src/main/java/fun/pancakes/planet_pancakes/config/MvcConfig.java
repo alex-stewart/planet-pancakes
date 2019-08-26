@@ -1,4 +1,4 @@
-package fun.pancakes.planet.pancakes.config;
+package fun.pancakes.planet_pancakes.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

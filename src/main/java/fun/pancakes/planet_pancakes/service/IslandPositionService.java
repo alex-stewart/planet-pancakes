@@ -1,8 +1,8 @@
-package fun.pancakes.planet.pancakes.service;
+package fun.pancakes.planet_pancakes.service;
 
-import fun.pancakes.planet.pancakes.entity.Island;
-import fun.pancakes.planet.pancakes.entity.Ring;
-import fun.pancakes.planet.pancakes.repository.RingRepository;
+import fun.pancakes.planet_pancakes.entity.Island;
+import fun.pancakes.planet_pancakes.entity.Ring;
+import fun.pancakes.planet_pancakes.repository.RingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

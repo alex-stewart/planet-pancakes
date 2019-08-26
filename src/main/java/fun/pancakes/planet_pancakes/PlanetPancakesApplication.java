@@ -1,4 +1,4 @@
-package fun.pancakes.planet.pancakes;
+package fun.pancakes.planet_pancakes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

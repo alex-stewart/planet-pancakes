@@ -1,8 +1,8 @@
-package fun.pancakes.planet.pancakes.service;
+package fun.pancakes.planet_pancakes.service;
 
-import fun.pancakes.planet.pancakes.dto.IslandDto;
-import fun.pancakes.planet.pancakes.entity.Island;
-import fun.pancakes.planet.pancakes.repository.IslandRepository;
+import fun.pancakes.planet_pancakes.dto.IslandDto;
+import fun.pancakes.planet_pancakes.entity.Island;
+import fun.pancakes.planet_pancakes.repository.IslandRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

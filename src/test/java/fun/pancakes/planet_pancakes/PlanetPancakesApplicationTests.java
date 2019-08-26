@@ -1,4 +1,4 @@
-package fun.pancakes.planet.pancakes;
+package fun.pancakes.planet_pancakes;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
