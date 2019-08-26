@@ -7,7 +7,7 @@ import Leaflet from 'leaflet';
 import L from 'leaflet';
 import {ListGroup, ListGroupItem} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
-import {rotatePoint} from '../util/pointUtils';
+import {rotatePoint} from '../util/point-utils';
 
 export default class WorldMap extends Component {
 
@@ -94,7 +94,7 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         return <ImageOverlayRotated key={'island-map-item-' + island.id}
-                                    url={'/islands/island_' + island.id + '.svg'}
+                                    url={'http://localhost/islands/island_' + island.id + '.svg'}
                                     topLeft={island.topLeft}
                                     topRight={island.topRight}
                                     bottomLeft={island.bottomLeft}/>
