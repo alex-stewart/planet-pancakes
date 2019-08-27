@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink } from 'reactstrap';
+import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 
 export default class Example extends React.Component {
     constructor(props) {
@@ -17,16 +10,18 @@ export default class Example extends React.Component {
             isOpen: false
         };
     }
+
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen
         });
     }
+
     render() {
         return (
             <Navbar color="dark" dark expand="md">
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
-                <NavbarToggler onClick={this.toggle} />
+                <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="p2" navbar>
                         <NavItem>
@@ -38,7 +33,7 @@ export default class Example extends React.Component {
                     </Nav>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="https://github.com/alex-stewart/planet-pancakes">GitHub</NavLink>
+                            <NavLink href="/login">Login</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

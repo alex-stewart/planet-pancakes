@@ -49,15 +49,17 @@ export default class Wiki extends Component {
                         {Object.keys(this.state.islands).map(function (ring) {
                             return <ListGroup key={'island-menu-group-' + ring}
                                            className={"wiki-sidebar-group"}>
-                                    {this.state.islands[ring].map(function (island) {
+                                    {
+                                        Object.keys(this.state.islands[ring]).forEach(function (island) {
                                         if (island.wiki) {
                                             return <ListGroupItem
                                                 key={'island-menu-item-' + island.id}
                                                 onClick={(event) => this.setSelectedPage(event, island)}>
                                                     {island.name}
-                                            </ListGroupItem>
-                                        }
-                                    }, this)}
+                                                </ListGroupItem>
+                                            }
+                                        }, this)
+                                    }
                                 </ListGroup>
                         }, this)}
                     </Col>
