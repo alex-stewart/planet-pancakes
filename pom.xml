@@ -18,6 +18,9 @@
 
     <properties>
         <java.version>8</java.version>
+        <node.version>v10.15.3</node.version>
+        <npm.version>6.10.3</npm.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -93,8 +96,8 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>${frontend-maven-plugin.version}</version>
                 <configuration>
-                    <nodeVersion>v10.15.3</nodeVersion>
-                    <npmVersion>6.10.3</npmVersion>
+                    <nodeVersion>${node.version}</nodeVersion>
+                    <npmVersion>${npm.version}</npmVersion>
                     <workingDirectory>src/main/webapp/WEB-INF/view/react</workingDirectory>
                 </configuration>
                 <executions>

@@ -11,7 +11,7 @@ export default class App extends Component {
             <BrowserRouter key="browser-router">
                 <div className="main-container">
                     <Navigation/>
-                    <Route exact path="/" component={WorldMap}/>
+                    <Route exact path="/"/>
                     <Route path="/map" component={WorldMap}/>
                     <Route path="/wiki" component={Wiki}/>
                 </div>
