@@ -27,6 +27,7 @@
         <lombok.version>1.18.4</lombok.version>
         <model-mapper.version>2.3.2</model-mapper.version>
         <swagger.version>2.9.2</swagger.version>
+        <spring-security-oauth.version>2.3.6.RELEASE</spring-security-oauth.version>
 
         <frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
     </properties>
@@ -50,9 +51,9 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>${parent.version}</version>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+            <version>${spring-security.version}</version>
         </dependency>
 
         <!-- Swagger -->
