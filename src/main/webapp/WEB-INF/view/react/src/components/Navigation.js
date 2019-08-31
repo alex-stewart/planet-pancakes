@@ -18,6 +18,30 @@ export default class Example extends React.Component {
     }
 
     render() {
+
+        function userNavigation(authenticated) {
+            if (authenticated) {
+                return (
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                            <NavLink href="/user">User</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/logout">Logout</NavLink>
+                        </NavItem>
+                    </Nav>
+                )
+            } else {
+                return (
+                    <Nav className="ml-auto" navbar>,
+                        <NavItem>
+                            <NavLink href="/login">Login</NavLink>
+                        </NavItem>
+                    </Nav>
+                )
+            }
+        }
+
         return (
             <Navbar color="dark" dark expand="md">
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
@@ -25,17 +49,13 @@ export default class Example extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="p2" navbar>
                         <NavItem>
-                            <NavLink href="/map">World Map</NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink href="/wiki">Wiki</NavLink>
                         </NavItem>
-                    </Nav>
-                    <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="/login">Login</NavLink>
+                            <NavLink href="/map">World Map</NavLink>
                         </NavItem>
                     </Nav>
+                    {userNavigation(this.props.authenticated)}
                 </Collapse>
             </Navbar>
         );
