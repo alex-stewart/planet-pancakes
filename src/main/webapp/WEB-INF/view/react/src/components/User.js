@@ -4,6 +4,8 @@ import React from "react";
 export default class User extends Component {
 
     render() {
-      return <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt lorem non ex efficitur, nec placerat justo fringilla. Cras non eleifend diam. In placerat, justo ac porttitor faucibus, urna nunc consequat risus, nec mollis enim libero sit amet libero. Proin hendrerit, ante at finibus semper, ex massa laoreet tortor, in ultricies nisl elit a nisl. Etiam maximus suscipit arcu sed auctor. Donec feugiat rhoncus elementum. Maecenas a lacus sit amet urna gravida faucibus eget sed felis. Mauris non ultrices dolor. Vivamus nec dolor odio. Nulla placerat fermentum consectetur. Donec porta urna sit amet iaculis aliquam. Morbi quis dolor quam. Praesent congue non dui non eleifend. Vestibulum pellentesque leo neque, sit amet vestibulum nisi gravida at. Quisque at condimentum urna.</div>
+      return <div>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultrices suscipit molestie. Etiam varius est at mi dapibus dictum. Nunc vulputate erat consequat convallis iaculis. Vestibulum imperdiet nec quam eu finibus. Ut blandit aliquet nibh nec eleifend. Nulla rutrum faucibus orci vitae condimentum. Nullam venenatis nisi at neque elementum vulputate. Duis rhoncus enim id massa vestibulum auctor. Pellentesque vitae condimentum leo. Vivamus in dictum velit, in varius nisi. Nam placerat ante ut faucibus suscipit. Aenean sit amet tortor ultricies, malesuada enim ac, commodo neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </div>
     }
 }

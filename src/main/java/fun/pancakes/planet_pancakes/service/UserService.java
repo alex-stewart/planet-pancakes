@@ -1,8 +1,8 @@
 package fun.pancakes.planet_pancakes.service;
 
 import fun.pancakes.planet_pancakes.dto.ProfileDto;
-import fun.pancakes.planet_pancakes.entity.User;
-import fun.pancakes.planet_pancakes.repository.UserRepository;
+import fun.pancakes.planet_pancakes.persistence.entity.User;
+import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

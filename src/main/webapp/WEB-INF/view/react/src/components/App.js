@@ -26,7 +26,7 @@ export default class App extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        currentUser: result,
+                        currentUser: result.data,
                         authenticated: true,
                         loading: false
                     });
@@ -54,11 +54,11 @@ export default class App extends Component {
         return ([
             <BrowserRouter key="browser-router">
                 <div className="main-container">
-                    <Navigation authenticated={this.state.authenticated}/>
+                    <Navigation user={this.state.currentUser}/>
                     <Route exact path="/" component={WorldMap}/>
                     <Route path="/map" component={WorldMap}/>
                     <Route path="/wiki" component={Wiki}/>
-                    <Route path="/user" component={User}/>
+                    <Route path="/user" user={this.state.currentUser} component={User}/>
                 </div>
             </BrowserRouter>
         ]);

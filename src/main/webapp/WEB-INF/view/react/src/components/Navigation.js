@@ -19,12 +19,12 @@ export default class Example extends React.Component {
 
     render() {
 
-        function userNavigation(authenticated) {
-            if (authenticated) {
+        function userNavigation(user) {
+            if (user != null) {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="/user">User</NavLink>
+                            <NavLink href="/user">{user.id}</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/logout">Logout</NavLink>
@@ -55,7 +55,7 @@ export default class Example extends React.Component {
                             <NavLink href="/map">World Map</NavLink>
                         </NavItem>
                     </Nav>
-                    {userNavigation(this.props.authenticated)}
+                    {userNavigation(this.props.user)}
                 </Collapse>
             </Navbar>
         );
