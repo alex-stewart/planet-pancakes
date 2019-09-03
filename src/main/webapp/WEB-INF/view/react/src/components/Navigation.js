@@ -24,7 +24,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="/user">{user.id}</NavLink>
+                            <NavLink href="/user">{user.name}</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/logout">Logout</NavLink>

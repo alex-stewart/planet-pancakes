@@ -22,9 +22,10 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public void createUser(String userId) {
+    public void createUser(String userId, String username) {
         User user = User.builder()
                 .id(userId)
+                .name(username)
                 .coins(500)
                 .build();
         userRepository.insert(user);
