@@ -6,10 +6,22 @@ html, body, #root {
     overflow: hidden;
 }
 
-.map-container, .main-container {
-    height: 100%;
+.map-container {
+    height: calc(100% - 56px);
     width: 100%;
     overflow: hidden;
+}
+
+.main-container {
+    height: 100%;
+    width: 100%;
+}
+.wiki-container {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .map-sidebar {
@@ -47,6 +59,10 @@ html, body, #root {
 .map-city-label {
     background: #8B0000;
     border-radius: 50%;
+}
+
+.wiki-page {
+    overflow-y: scroll;
 }
 
 .wiki-sidebar-group {

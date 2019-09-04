@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, ListGroup, ListGroupItem} from 'reactstrap';
+import {Col, ListGroup, ListGroupItem} from 'reactstrap';
 import axios from 'axios';
 import WikiPage from './WikiPage';
 import _ from 'lodash';
@@ -20,7 +20,7 @@ export default class Wiki extends Component {
     }
 
     getIslands() {
-        axios.get("/api/islands")
+        axios.get("http://localhost/api/islands")
             .then(
                 (result) => {
                     this.setState({
@@ -44,7 +44,7 @@ export default class Wiki extends Component {
     render() {
         if (this.state.islands) {
             return (
-                <Row>
+                <div className={"wiki-container"}>
                     <Col key={"wiki-column-wiki-sidebar"} className={"col-md-2"}>
                         {Object.keys(this.state.islands).map(function (ring) {
                             return <ListGroup key={'island-menu-group-' + ring}
@@ -64,7 +64,7 @@ export default class Wiki extends Component {
                     <Col key={"wiki-column-wiki-content"}>
                         <WikiPage island={this.state.selectedIsland}/>
                     </Col>
-                </Row>
+                </div>
             );
         } else {
             return null;

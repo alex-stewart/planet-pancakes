@@ -49,10 +49,10 @@ export default class Example extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="p2" navbar>
                         <NavItem>
-                            <NavLink href="/wiki">Wiki</NavLink>
+                            <NavLink href="/map">World Map</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/map">World Map</NavLink>
+                            <NavLink href="/wiki">Wiki</NavLink>
                         </NavItem>
                     </Nav>
                     {userNavigation(this.props.user)}
