@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.entity;
+package fun.pancakes.planet_pancakes.persistence.entity;
 
 import lombok.Builder;
 import lombok.Data;

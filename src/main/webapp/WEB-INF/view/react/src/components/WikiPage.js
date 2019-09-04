@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import WikiSection from './WikiSection';
+
 export default class WikiPage extends Component {
 
     render() {

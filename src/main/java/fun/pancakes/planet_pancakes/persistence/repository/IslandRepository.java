@@ -1,6 +1,6 @@
-package fun.pancakes.planet_pancakes.repository;
+package fun.pancakes.planet_pancakes.persistence.repository;
 
-import fun.pancakes.planet_pancakes.entity.Island;
+import fun.pancakes.planet_pancakes.persistence.entity.Island;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

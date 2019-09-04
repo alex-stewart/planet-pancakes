@@ -48,17 +48,17 @@ export default class Wiki extends Component {
                     <Col key={"wiki-column-wiki-sidebar"} className={"col-md-2"}>
                         {Object.keys(this.state.islands).map(function (ring) {
                             return <ListGroup key={'island-menu-group-' + ring}
-                                           className={"wiki-sidebar-group"}>
-                                    {this.state.islands[ring].map(function (island) {
-                                        if (island.wiki) {
-                                            return <ListGroupItem
-                                                key={'island-menu-item-' + island.id}
-                                                onClick={(event) => this.setSelectedPage(event, island)}>
-                                                    {island.name}
-                                            </ListGroupItem>
-                                        }
-                                    }, this)}
-                                </ListGroup>
+                                              className={"wiki-sidebar-group"}>
+                                {this.state.islands[ring].map(function (island) {
+                                    if (island.wiki) {
+                                        return <ListGroupItem
+                                            key={'island-menu-item-' + island.id}
+                                            onClick={(event) => this.setSelectedPage(event, island)}>
+                                            {island.name}
+                                        </ListGroupItem>
+                                    }
+                                }, this)}
+                            </ListGroup>
                         }, this)}
                     </Col>
                     <Col key={"wiki-column-wiki-content"}>
