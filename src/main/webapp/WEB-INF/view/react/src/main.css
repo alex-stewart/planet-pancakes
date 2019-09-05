@@ -61,6 +61,11 @@ html, body, #root {
     border-radius: 50%;
 }
 
+.island-wiki-box {
+    width: 80%;
+    max-width: none;
+}
+
 .wiki-page {
     overflow-y: scroll;
 }

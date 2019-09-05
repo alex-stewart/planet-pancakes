@@ -51,9 +51,6 @@ export default class Example extends React.Component {
                         <NavItem>
                             <NavLink href="/map">World Map</NavLink>
                         </NavItem>
-                        <NavItem>
-                            <NavLink href="/wiki">Wiki</NavLink>
-                        </NavItem>
                     </Nav>
                     {userNavigation(this.props.user)}
                 </Collapse>

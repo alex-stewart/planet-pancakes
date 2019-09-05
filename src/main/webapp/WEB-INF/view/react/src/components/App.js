@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 import WorldMap from './WorldMap';
 import Navigation from './Navigation';
-import Wiki from './Wiki';
 import User from './User';
 import axios from "axios";
 
@@ -57,7 +56,6 @@ export default class App extends Component {
                     <Navigation user={this.state.currentUser}/>
                     <Route exact path="/" component={WorldMap}/>
                     <Route path="/map" component={WorldMap}/>
-                    <Route path="/wiki" component={Wiki}/>
                     <Route path="/user" user={this.state.currentUser} component={User}/>
                 </div>
             </BrowserRouter>

@@ -5,9 +5,10 @@ import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import Leaflet from 'leaflet';
 import L from 'leaflet';
-import {ListGroup, ListGroupItem} from 'reactstrap';
+import {ListGroup, ListGroupItem, Modal, ModalBody} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
 import {rotatePoint} from '../util/point-utils';
+import WikiPage from "./WikiPage";
 
 export default class WorldMap extends Component {
 
@@ -16,7 +17,8 @@ export default class WorldMap extends Component {
         this.state = {
             islands: [],
             bounds: [[-100, -100], [100, 100]],
-            error: null
+            error: null,
+            selectedIsland: false
         }
     }
 
@@ -26,7 +28,7 @@ export default class WorldMap extends Component {
     }
 
     getIslands() {
-        axios.get("/api/islands")
+        axios.get("http://localhost/api/islands")
             .then(
                 (result) => {
                     this.setState({
@@ -145,7 +147,7 @@ export default class WorldMap extends Component {
                            className={"map-sidebar-menu-item"}>
                 {island.name}
                 <div>
-                    <span className={"map-sidebar-icon"}>
+                    <span className={"map-sidebar-icon"} onClick={event => this.setSelectedIsland(event, island)}>
                         <FontAwesomeIcon icon={faAtlas}/>
                     </span>
                     <span className={"map-sidebar-icon"} onClick={event => this.focusOnIsland(event, island)}>
@@ -156,7 +158,20 @@ export default class WorldMap extends Component {
         )
     }
 
+    setSelectedIsland(event, selectedIsland) {
+        this.setState({
+            "selectedIsland": selectedIsland
+        })
+    }
+
+    clearSelectedIsland() {
+        this.setState({
+            "selectedIsland": null
+        })
+    }
+
     render() {
+
         return (
             <div className="map-container">
                 <ListGroup className="map-sidebar">
@@ -164,6 +179,13 @@ export default class WorldMap extends Component {
                         this.state.islands.map(this.generateSideBarItem.bind(this))
                     }
                 </ListGroup>
+                <Modal isOpen={this.state.selectedIsland}
+                       toggle={this.clearSelectedIsland.bind(this)}
+                       className={"island-wiki-box"}>
+                    <ModalBody>
+                        <WikiPage island={this.state.selectedIsland}/>
+                    </ModalBody>
+                </Modal>
                 <Map className={"map"}
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
