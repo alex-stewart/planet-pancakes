@@ -96,7 +96,7 @@ export default class WorldMap extends Component {
 
     generateIslandOverlay(island) {
         return <ImageOverlayRotated key={'island-map-item-' + island.id}
-                                    url={'http://localhost/islands/island_' + island.id + '.svg'}
+                                    url={'/islands/island_' + island.id + '.svg'}
                                     topLeft={island.topLeft}
                                     topRight={island.topRight}
                                     bottomLeft={island.bottomLeft}/>
