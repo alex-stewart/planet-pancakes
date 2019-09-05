@@ -28,7 +28,7 @@ export default class WorldMap extends Component {
     }
 
     getIslands() {
-        axios.get("http://localhost/api/islands")
+        axios.get("/api/islands")
             .then(
                 (result) => {
                     this.setState({
