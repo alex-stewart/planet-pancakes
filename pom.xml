@@ -134,7 +134,7 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/public">
-                                    <fileset dir="${project.basedir}/frontend/build"/>
+                                    <fileset dir="${project.basedir}/src/main/webapp/WEB-INF/view/react/build"/>
                                 </copy>
                             </target>
                         </configuration>
