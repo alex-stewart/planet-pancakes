@@ -30,6 +30,7 @@
         <spring-security-oauth.version>2.3.6.RELEASE</spring-security-oauth.version>
 
         <frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
+        <frontend-src-dir>src/main/webapp/WEB-INF/view/react</frontend-src-dir>
     </properties>
 
     <dependencies>
@@ -99,7 +100,7 @@
                 <configuration>
                     <nodeVersion>${node.version}</nodeVersion>
                     <npmVersion>${npm.version}</npmVersion>
-                    <workingDirectory>src/main/webapp/WEB-INF/view/react</workingDirectory>
+                    <workingDirectory>${frontend-src-dir}</workingDirectory>
                     <installDirectory>target</installDirectory>
                 </configuration>
                 <executions>
@@ -127,20 +128,24 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="${project.build.directory}/classes/public">
-                                    <fileset dir="${project.basedir}/src/main/webapp/WEB-INF/view/react/build"/>
-                                </copy>
-                            </target>
-                        </configuration>
+                        <id>position-react-build</id>
                         <goals>
-                            <goal>run</goal>
+                            <goal>copy-resources</goal>
                         </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${frontend-src-dir}/build</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
