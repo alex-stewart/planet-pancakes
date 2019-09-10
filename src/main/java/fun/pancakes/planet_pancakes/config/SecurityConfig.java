@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import static fun.pancakes.planet_pancakes.security.OAuth2UserAgentUtils.withUserAgent;
 
 @Configuration
-@PropertySource("classpath:secret.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
