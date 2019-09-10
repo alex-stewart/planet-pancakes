@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+    private static final String CLASSPATH_STATIC = "classpath:/static/";
+
     @Value("${island.directory}")
     private String islandDirectory;
 
@@ -16,17 +18,17 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/islands/**")
                 .addResourceLocations(islandDirectory);
         registry.addResourceHandler("/static/**")
-                .addResourceLocations("/WEB-INF/view/react/build/static/");
+                .addResourceLocations(CLASSPATH_STATIC + "static/");
         registry.addResourceHandler("/*.js")
-                .addResourceLocations("/WEB-INF/view/react/build/");
+                .addResourceLocations(CLASSPATH_STATIC);
         registry.addResourceHandler("/*.css")
-                .addResourceLocations("/WEB-INF/view/react/build/");
+                .addResourceLocations(CLASSPATH_STATIC);
         registry.addResourceHandler("/*.json")
-                .addResourceLocations("/WEB-INF/view/react/build/");
+                .addResourceLocations(CLASSPATH_STATIC);
         registry.addResourceHandler("/*.ico")
-                .addResourceLocations("/WEB-INF/view/react/build/");
+                .addResourceLocations(CLASSPATH_STATIC);
         registry.addResourceHandler("/index.html")
-                .addResourceLocations("/WEB-INF/view/react/build/index.html");
+                .addResourceLocations(CLASSPATH_STATIC + "index.html");
     }
 
     @Override
