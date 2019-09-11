@@ -182,7 +182,8 @@ export default class WorldMap extends Component {
                 <Modal isOpen={this.state.selectedIsland}
                        toggle={this.clearSelectedIsland.bind(this)}
                        className={"island-wiki-box"}>
-                    <ModalBody>
+                    <ModalBody
+                        className={"wiki-page"}>
                         <WikiPage island={this.state.selectedIsland}/>
                     </ModalBody>
                 </Modal>
