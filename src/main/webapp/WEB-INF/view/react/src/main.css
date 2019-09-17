@@ -72,3 +72,8 @@ html, body, #root {
     width: 80%;
     max-width: none;
 }
+
+.navbar-date-time {
+    color: rgba(255, 255, 255, 0.5);
+    padding: 8px;
+}

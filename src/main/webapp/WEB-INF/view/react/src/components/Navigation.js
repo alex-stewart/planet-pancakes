@@ -1,5 +1,6 @@
 import React from 'react';
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
+import DateAndTime from "./DateAndTime";
 
 export default class Example extends React.Component {
     constructor(props) {
@@ -24,6 +25,9 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
+                            <DateAndTime/>
+                        </NavItem>
+                        <NavItem>
                             <NavLink href="/user">{user.name}</NavLink>
                         </NavItem>
                         <NavItem>
@@ -34,6 +38,9 @@ export default class Example extends React.Component {
             } else {
                 return (
                     <Nav className="ml-auto" navbar>,
+                        <NavItem>
+                            <DateAndTime/>
+                        </NavItem>
                         <NavItem>
                             <NavLink href="/login">Login</NavLink>
                         </NavItem>
