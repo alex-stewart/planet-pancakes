@@ -77,3 +77,32 @@ html, body, #root {
     color: rgba(255, 255, 255, 0.5);
     padding: 8px;
 }
+
+.news-page {
+    background-color: #F8ECC2;
+    height: 100%;
+    padding-top: 50px;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.newspaper-body {
+    background-color: #FFFFFF;
+    padding: 20px;
+}
+
+.newspaper-title {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.newspaper-headline {
+    text-align: justify;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.newspaper-divider {
+    width: 100%;
+    background-color: #660066;;
+    color: #FFFFFF;
+    font-family: "Times New Roman", Times, serif;
+ }

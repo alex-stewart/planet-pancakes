@@ -13,6 +13,7 @@ export default class DateAndTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showTime: props.time,
             date: new Date()
         };
     };
@@ -34,16 +35,23 @@ export default class DateAndTime extends Component {
         });
     }
 
+    formatDate() {
+        if (this.state.showTime) {
+            return this.state.date.toLocaleTimeString('en-GB', {hour12: false});
+        } else {
+            return "";
+        }
+    }
+
     render() {
-        let timeOptions = {hour12: false};
         let days = Math.ceil(this.state.date / MILLISECONDS_IN_DAY);
         let year = Math.ceil(days / (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
         let dayOfYear = Math.ceil(days % (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
         let cycleOfYear = Math.ceil(dayOfYear / DAYS_IN_CYCLE);
         let dayOfCycle = Math.floor(dayOfYear % DAYS_IN_CYCLE);
 
-        return <div className={"navbar-date-time"}>
-            {year}y {cycleOfYear}c {CYCLE_DAY_NAMES[dayOfCycle]} {this.state.date.toLocaleTimeString('en-GB', timeOptions)}
+        return <div>
+            {year}y {cycleOfYear}c {CYCLE_DAY_NAMES[dayOfCycle]} {this.formatDate()}
         </div>
 
     }

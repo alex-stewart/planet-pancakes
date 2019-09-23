@@ -25,7 +25,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <DateAndTime/>
+                            <div className={"navbar-date-time"}><DateAndTime time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/user">{user.name}</NavLink>
@@ -39,7 +39,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>,
                         <NavItem>
-                            <DateAndTime/>
+                            <div className={"navbar-date-time"}><DateAndTime time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/login">Login</NavLink>
@@ -57,6 +57,9 @@ export default class Example extends React.Component {
                     <Nav className="p2" navbar>
                         <NavItem>
                             <NavLink href="/map">World Map</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/news">News</NavLink>
                         </NavItem>
                     </Nav>
                     {userNavigation(this.props.user)}

@@ -3,6 +3,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import WorldMap from './WorldMap';
 import Navigation from './Navigation';
 import User from './User';
+import News from './News'
 import axios from "axios";
 
 export default class App extends Component {
@@ -57,6 +58,7 @@ export default class App extends Component {
                     <Route exact path="/" component={WorldMap}/>
                     <Route path="/map" component={WorldMap}/>
                     <Route path="/user" user={this.state.currentUser} component={User}/>
+                    <Route path="/news" component={News}/>
                 </div>
             </BrowserRouter>
         ]);
