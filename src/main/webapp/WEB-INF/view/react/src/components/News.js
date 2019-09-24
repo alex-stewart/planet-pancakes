@@ -1,34 +1,68 @@
 import React, {Component} from 'react';
 import DateAndTime from "./DateAndTime";
+import {Row, Col} from 'reactstrap';
+import axios from "axios";
 
 export default class News extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            headline: "",
+            headlineStory: "",
+            secondaryHeadlines: [],
+            imageUrl: ""
+        }
     };
+
+    componentDidMount() {
+        this.getNews();
+    }
+
+    getNews() {
+        axios.get("http://localhost/api/news")
+            .then(
+                (result) => {
+                    this.setState({
+                        headline: result.data.headline,
+                        headlineStory: result.data.headlineStory,
+                        secondaryHeadlines: result.data.secondaryHeadlines,
+                        imageUrl: result.data.imageUrl
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        error
+                    });
+                }
+            )
+    }
 
     render() {
         return <div className={"news-page"}>
             <div className={"newspaper-body container"}>
-                <div className={"display-1 text-center newspaper-title"}>The Homeland View</div>
+                <div className={"display-1 text-center"}>
+                    The Homeland View
+                </div>
                 <div className={"newspaper-divider text-center"}>
                     <DateAndTime/>
                 </div>
-                <div className={"display-1 text-center newspaper-headline"}>THIS IS A VERY LONG HEADLINE WHICH TAKES UP A FEW LINES</div>
-                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce massa felis, molestie id malesuada
-                    at,
-                    sagittis sed purus. Donec at fermentum ligula. Quisque non fringilla nibh. Sed ultricies, nibh a
-                    hendrerit dapibus, orci dolor volutpat diam, ullamcorper tempor urna neque id velit. In ultrices,
-                    massa
-                    sed dictum bibendum, augue felis scelerisque augue, eget accumsan ex diam sit amet est. Morbi sem
-                    nulla,
-                    facilisis id suscipit in, mattis a lacus. Donec in commodo sem, nec dapibus enim. Integer mattis mi
-                    at
-                    ex luctus consectetur. Ut id sem ullamcorper, molestie nulla id, dictum ligula.
+                <div className={"display-1 text-center newspaper-headline"}>
+                    {this.state.headline}
                 </div>
-                <div>side headline 1</div>
-                <div>side headline 2</div>
-                <div>side headline 3</div>
+                <Row>
+                    <Col>
+                        <img className={"newspaper-image"} src={this.state.imageUrl}/>
+                    </Col>
+                    <Col>
+                        {this.state.headlineStory}
+                    </Col>
+                </Row>
+                <div  className={"newspaper-secondary-headlines h4"}>
+                    {this.state.secondaryHeadlines.map(function(headline) {
+                        return <span>○ {headline} </span>
+                    }, this)} ○
+                </div>
             </div>
         </div>
     }

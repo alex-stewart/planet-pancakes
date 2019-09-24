@@ -14,9 +14,11 @@ import java.util.List;
 public class News {
 
     @Id
-    private Long publishDay;
+    private Long id;
 
+    private Long publishDay;
     private String headline;
     private String headlineStory;
-    private List<String> sideStoryHeadlines;
+    private List<String> secondaryHeadlines;
+    private String imageUrl;
 }
