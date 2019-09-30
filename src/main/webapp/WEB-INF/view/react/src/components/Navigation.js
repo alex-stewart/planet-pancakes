@@ -2,13 +2,16 @@ import React from 'react';
 import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
 
+const MILLISECONDS_IN_DAY = 86400000;
+
 export default class Example extends React.Component {
     constructor(props) {
         super(props);
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
+            date: Date.now()
         };
     }
 
@@ -18,14 +21,30 @@ export default class Example extends React.Component {
         });
     }
 
-    render() {
+    tick() {
+        this.setState({
+            date: new Date(),
+        });
+    }
 
-        function userNavigation(user) {
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            3600000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    render() {
+        function userNavigation(user, days) {
             if (user != null) {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <DateAndTime/>
+                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/user">{user.name}</NavLink>
@@ -39,7 +58,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>,
                         <NavItem>
-                            <DateAndTime/>
+                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/login">Login</NavLink>
@@ -48,6 +67,8 @@ export default class Example extends React.Component {
                 )
             }
         }
+
+        let days = Math.ceil(this.state.date / MILLISECONDS_IN_DAY);
 
         return (
             <Navbar color="dark" dark expand="md">
@@ -58,8 +79,11 @@ export default class Example extends React.Component {
                         <NavItem>
                             <NavLink href="/map">World Map</NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink href="/news">News</NavLink>
+                        </NavItem>
                     </Nav>
-                    {userNavigation(this.props.user)}
+                    {userNavigation(this.props.user, days)}
                 </Collapse>
             </Navbar>
         );
