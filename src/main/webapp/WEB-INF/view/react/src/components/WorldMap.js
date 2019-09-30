@@ -142,20 +142,22 @@ export default class WorldMap extends Component {
     }
 
     generateSideBarItem(island) {
-        return (
-            <ListGroupItem key={'island-menu-item-' + island.id}
-                           className={"map-sidebar-menu-item"}>
-                {island.name}
-                <div>
+        if (island.name) {
+            return (
+                <ListGroupItem key={'island-menu-item-' + island.id}
+                               className={"map-sidebar-menu-item"}>
+                    {island.name}
+                    <div>
                     <span className={"map-sidebar-icon"} onClick={event => this.setSelectedIsland(event, island)}>
                         <FontAwesomeIcon icon={faAtlas}/>
                     </span>
-                    <span className={"map-sidebar-icon"} onClick={event => this.focusOnIsland(event, island)}>
+                        <span className={"map-sidebar-icon"} onClick={event => this.focusOnIsland(event, island)}>
                         <FontAwesomeIcon icon={faSearchLocation}/>
                     </span>
-                </div>
-            </ListGroupItem>
-        )
+                    </div>
+                </ListGroupItem>
+            )
+        }
     }
 
     setSelectedIsland(event, selectedIsland) {

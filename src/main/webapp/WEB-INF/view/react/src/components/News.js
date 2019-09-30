@@ -16,7 +16,7 @@ export default class News extends Component {
     }
 
     getNews() {
-        axios.get("http://localhost/api/news", {
+        axios.get("/api/news", {
             params : {
                 pageNumber: this.state.papers.length
             }
