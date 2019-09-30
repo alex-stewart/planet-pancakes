@@ -44,7 +44,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <div className={"navbar-date-time"}><DateAndTime days={days}/></div>
+                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/user">{user.name}</NavLink>
@@ -58,7 +58,7 @@ export default class Example extends React.Component {
                 return (
                     <Nav className="ml-auto" navbar>,
                         <NavItem>
-                            <div className={"navbar-date-time"}><DateAndTime days={days}/></div>
+                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/login">Login</NavLink>

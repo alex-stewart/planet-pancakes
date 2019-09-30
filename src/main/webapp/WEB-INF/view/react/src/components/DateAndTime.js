@@ -9,6 +9,41 @@ const CYCLE_DAY_NAMES = [
 
 export default class DateAndTime extends Component {
 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showTime: props.time,
+            time: new Date()
+        };
+    };
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({
+            time: new Date(),
+        });
+    }
+
+    formatTime() {
+        if (this.state.showTime) {
+            return this.state.time.toLocaleTimeString('en-GB', {hour12: false});
+        } else {
+            return "";
+        }
+    }
+
+
     render() {
         let year = Math.ceil(this.props.days / (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
         let dayOfYear = Math.ceil(this.props.days % (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
@@ -16,7 +51,7 @@ export default class DateAndTime extends Component {
         let dayOfCycle = Math.floor(dayOfYear % DAYS_IN_CYCLE);
 
         return <div>
-            {year}y {cycleOfYear}c {CYCLE_DAY_NAMES[dayOfCycle]}
+            {year}y {cycleOfYear}c {CYCLE_DAY_NAMES[dayOfCycle]} {this.formatTime()}
         </div>
 
     }
