@@ -18,7 +18,6 @@ public class Island {
     private String name;
     private Double size;
     private Integer ring;
-    private Double radius;
     private Double bearing;
     private Double wobbleRadius;
     private Integer wobbleCycleDays;
