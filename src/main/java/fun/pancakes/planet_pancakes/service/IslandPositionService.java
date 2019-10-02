@@ -37,20 +37,22 @@ public class IslandPositionService {
     }
 
     private Double islandBearingAtTime(Island island, Ring ring, Double currentTimeInSeconds) {
-        if (ring.getYearDays() != null) {
-            Double yearFraction = fractionIntoCurrentCycle(currentTimeInSeconds, ring.getYearDays());
-            Double angle = yearFraction * 360;
-            if (ring.getClockwise()) {
-                return island.getBearing() + angle;
-            } else {
-                return island.getBearing() - angle;
-            }
-        } else {
+        if (ring.getYearDays() == null) {
             return 0d;
+        }
+        Double yearFraction = fractionIntoCurrentCycle(currentTimeInSeconds, ring.getYearDays());
+        Double angle = yearFraction * 360;
+        if (ring.getClockwise()) {
+            return island.getBearing() + angle;
+        } else {
+            return island.getBearing() - angle;
         }
     }
 
     private Double fractionIntoCurrentCycle (Double currentTimeInSeconds, Integer cycleDays) {
+        if (cycleDays == 0) {
+            return 0d;
+        }
         Double cycleSeconds = (double) TimeUnit.DAYS.toSeconds(cycleDays);
         Double remainderSeconds = currentTimeInSeconds % cycleSeconds;
         return remainderSeconds / cycleSeconds;
