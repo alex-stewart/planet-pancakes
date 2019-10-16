@@ -15,7 +15,7 @@ export default class NewsPaper extends Component {
                 The Homeland View
             </div>
             <div className={"newspaper-divider text-center"}>
-                <DateAndTime days={this.props.paper.id}/>
+                <DateAndTime days={this.props.paper.publishDay}/>
             </div>
             <div className={"display-1 text-center newspaper-headline"}>
                 {headline}

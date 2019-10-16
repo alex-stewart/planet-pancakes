@@ -9,7 +9,6 @@ const CYCLE_DAY_NAMES = [
 
 export default class DateAndTime extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
