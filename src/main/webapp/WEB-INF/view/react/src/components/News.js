@@ -45,7 +45,8 @@ export default class News extends Component {
     render() {
         let papers = this.state.papers || [];
 
-        return <div className={"news-page"} onScroll={this.handleScroll}>
+        return <div className={"news-page"}
+                    onScroll={this.handleScroll}>
             {papers.map(function (paper) {
                 return <NewsPaper paper={paper}/>
             }, this)}

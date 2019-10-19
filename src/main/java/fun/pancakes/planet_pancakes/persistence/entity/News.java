@@ -16,6 +16,8 @@ public class News {
     @Id
     private Long id;
 
+    private String newspaperTitle;
+    private String newspaperColour;
     private Long publishDay;
     private String headline;
     private String headlineStory;

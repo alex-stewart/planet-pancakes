@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class NewsController {
 
-    private static final int PAGE_SIZE = 1;
+    private static final int PAGE_SIZE = 2;
 
     private NewsRepository newsRepository;
 

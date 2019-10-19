@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
-import {Row, Col} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
 
 export default class NewsPaper extends Component {
 
     render() {
+        let newspaperTitle = this.props.paper.newspaperTitle;
+        let divierStyle = {
+            "background-color": this.props.paper.newspaperColour
+        };
+
         let headline = this.props.paper.headline;
         let headlineStory = this.props.paper.headlineStory;
         let imageUrl = this.props.paper.imageUrl;
@@ -12,9 +17,9 @@ export default class NewsPaper extends Component {
 
         return <div className={"newspaper-body container"}>
             <div className={"display-1 text-center"}>
-                The Homeland View
+                {newspaperTitle}
             </div>
-            <div className={"newspaper-divider text-center"}>
+            <div className={"newspaper-divider text-center"} style={divierStyle}>
                 <DateAndTime days={this.props.paper.publishDay}/>
             </div>
             <div className={"display-1 text-center newspaper-headline"}>
