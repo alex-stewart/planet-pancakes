@@ -57,7 +57,9 @@ export default class App extends Component {
                     <Navigation user={this.state.currentUser}/>
                     <Route exact path="/" component={WorldMap}/>
                     <Route path="/map" component={WorldMap}/>
-                    <Route path="/user" user={this.state.currentUser} component={User}/>
+                    <Route path="/user"
+                           render={(props) => <User {...props} user={this.state.currentUser}/>}
+                    />
                     <Route path="/news" component={News}/>
                 </div>
             </BrowserRouter>

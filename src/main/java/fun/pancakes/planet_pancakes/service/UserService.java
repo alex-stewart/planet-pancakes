@@ -45,6 +45,7 @@ public class UserService {
         return ProfileDto.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .location(user.getLocation())
                 .build();
     }
 }

@@ -40,7 +40,7 @@ export default class Example extends React.Component {
 
     render() {
         function userNavigation(user, days) {
-            if (user != null) {
+            if (user) {
                 return (
                     <Nav className="ml-auto" navbar>
                         <NavItem>

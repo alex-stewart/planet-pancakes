@@ -22,6 +22,7 @@ public class UserRegistrationServiceTest {
 
     private static final String USER_ID = "pancakes2";
     private static final String USER_NAME = "Pancakes";
+    private static final String START_LOCATION = "start city";
 
     @Mock
     private UserRepository mockUserRepository;
@@ -32,7 +33,7 @@ public class UserRegistrationServiceTest {
 
     @Before
     public void setUp() {
-        userRegistrationService = new UserRegistrationService(mockUserRepository);
+        userRegistrationService = new UserRegistrationService(mockUserRepository, START_LOCATION);
         userCaptor = ArgumentCaptor.forClass(User.class);
         when(mockUserRepository.findById(USER_ID)).thenReturn(Optional.empty());
     }
@@ -63,6 +64,15 @@ public class UserRegistrationServiceTest {
         verify(mockUserRepository, times(1)).insert(userCaptor.capture());
 
         assertThat(userCaptor.getValue().getCoins()).isEqualTo(500);
+    }
+
+    @Test
+    public void shouldSetStartLocation() {
+        userRegistrationService.createUserIfNotExist(USER_ID, USER_NAME);
+
+        verify(mockUserRepository, times(1)).insert(userCaptor.capture());
+
+        assertThat(userCaptor.getValue().getLocation()).isEqualTo(START_LOCATION);
     }
 
     private User anExistingUser() {
