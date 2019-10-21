@@ -1,6 +1,6 @@
 package fun.pancakes.planet_pancakes.security;
 
-import fun.pancakes.planet_pancakes.service.UserService;
+import fun.pancakes.planet_pancakes.service.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -21,20 +21,20 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private static final String USERNAME = "username";
     private static final String AUTHORITIES = "authorities";
 
-    private UserService userService;
+    private UserRegistrationService userRegistrationService;
 
     @Autowired
-    private UserAuthenticationSuccessHandler(UserService userService) {
-        this.userService = userService;
+    private UserAuthenticationSuccessHandler(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
 
         Map<String, Object> userAttributes = getUserAttributes(authentication);
-        String username = (String )userAttributes.get(USERNAME);
+        String username = (String) userAttributes.get(USERNAME);
 
-        createUserIfNotExists(authentication.getName(), username);
+        userRegistrationService.createUserIfNotExist(authentication.getName(), username);
 
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute(USER_ID, authentication.getName());
@@ -42,12 +42,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         httpServletResponse.sendRedirect("/");
-    }
-
-    private void createUserIfNotExists(String userId, String username) {
-        if (!userService.retrieveUserById(userId).isPresent()){
-            userService.createUser(userId, username);
-        }
     }
 
     private Map<String, Object> getUserAttributes(Authentication authentication) {

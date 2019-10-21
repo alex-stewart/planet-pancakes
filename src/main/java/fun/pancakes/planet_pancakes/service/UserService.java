@@ -18,19 +18,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> retrieveUserById(String userId) {
-        return userRepository.findById(userId);
-    }
-
-    public void createUser(String userId, String username) {
-        User user = User.builder()
-                .id(userId)
-                .name(username)
-                .coins(500)
-                .build();
-        userRepository.insert(user);
-    }
-
     public Optional<ProfileDto> getProfileForUser(String userId, boolean isLoggedInUser) {
         return userRepository.findById(userId)
                 .map(u -> profileForUser(u, isLoggedInUser));
@@ -47,6 +34,10 @@ public class UserService {
     private ProfileDto profileForLoggedInUser(User user) {
         return profileForGenericUser(user).toBuilder()
                 .coins(user.getCoins())
+                .wood(user.getWood())
+                .coal(user.getCoal())
+                .cloth(user.getCloth())
+                .iron(user.getIron())
                 .build();
     }
 
