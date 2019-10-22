@@ -11,6 +11,8 @@ import java.io.IOException;
 @Component
 public class RedirectToIndexFilter implements Filter {
 
+    private static final String[] URI_PREFIXES = {"/api", "/islands", "/static"};
+
     @Override
     public void doFilter(ServletRequest request,
                          ServletResponse response,
@@ -19,19 +21,11 @@ public class RedirectToIndexFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         String requestURI = req.getRequestURI();
 
-        if (requestURI.startsWith("/api")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        if (requestURI.startsWith("/islands")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        if (requestURI.startsWith("/static")) {
-            chain.doFilter(request, response);
-            return;
+        for (String uriPrefix : URI_PREFIXES) {
+            if (requestURI.startsWith(uriPrefix)) {
+                chain.doFilter(request, response);
+                return;
+            }
         }
 
         request.getRequestDispatcher("/").forward(request, response);

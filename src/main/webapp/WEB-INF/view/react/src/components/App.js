@@ -4,6 +4,7 @@ import WorldMap from './WorldMap';
 import Navigation from './Navigation';
 import User from './User';
 import News from './News'
+import Market from './Market'
 import axios from "axios";
 
 export default class App extends Component {
@@ -61,6 +62,9 @@ export default class App extends Component {
                            render={(props) => <User {...props} user={this.state.currentUser}/>}
                     />
                     <Route path="/news" component={News}/>
+                    <Route path="/market"
+                           render={(props) => <Market {...props} user={this.state.currentUser}/>}
+                    />
                 </div>
             </BrowserRouter>
         ]);

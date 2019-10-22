@@ -19,20 +19,5 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations(islandDirectory);
         registry.addResourceHandler("/static/**")
                 .addResourceLocations(CLASSPATH_STATIC + "static/");
-        registry.addResourceHandler("/*.js")
-                .addResourceLocations(CLASSPATH_STATIC);
-        registry.addResourceHandler("/*.css")
-                .addResourceLocations(CLASSPATH_STATIC);
-        registry.addResourceHandler("/*.json")
-                .addResourceLocations(CLASSPATH_STATIC);
-        registry.addResourceHandler("/*.ico")
-                .addResourceLocations(CLASSPATH_STATIC);
-        registry.addResourceHandler("/index.html")
-                .addResourceLocations(CLASSPATH_STATIC + "index.html");
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
     }
 }

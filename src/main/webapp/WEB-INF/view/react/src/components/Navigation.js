@@ -1,5 +1,5 @@
 import React from 'react';
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
+import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
 
 const MILLISECONDS_IN_DAY = 86400000;
@@ -39,32 +39,53 @@ export default class Example extends React.Component {
     }
 
     render() {
-        function userNavigation(user, days) {
+        function leftNavigation(user) {
             if (user) {
-                return (
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/user">{user.name}</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/logout">Logout</NavLink>
-                        </NavItem>
-                    </Nav>
-                )
+                return <Nav className="p2" navbar>
+                    <NavItem>
+                        <NavLink href="/map">World Map</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/news">News</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/market">Market</NavLink>
+                    </NavItem>
+                </Nav>
             } else {
-                return (
-                    <Nav className="ml-auto" navbar>,
-                        <NavItem>
-                            <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/login">Login</NavLink>
-                        </NavItem>
-                    </Nav>
-                )
+                return <Nav className="p2" navbar>
+                    <NavItem>
+                        <NavLink href="/map">World Map</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/news">News</NavLink>
+                    </NavItem>
+                </Nav>
+            }
+        }
+
+        function rightNavigation(user, days) {
+            if (user) {
+                return <Nav className="ml-auto" navbar>
+                    <NavItem>
+                        <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/user">{user.name}</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/logout">Logout</NavLink>
+                    </NavItem>
+                </Nav>
+            } else {
+                return <Nav className="ml-auto" navbar>,
+                    <NavItem>
+                        <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/login">Login</NavLink>
+                    </NavItem>
+                </Nav>
             }
         }
 
@@ -75,15 +96,8 @@ export default class Example extends React.Component {
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav className="p2" navbar>
-                        <NavItem>
-                            <NavLink href="/map">World Map</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/news">News</NavLink>
-                        </NavItem>
-                    </Nav>
-                    {userNavigation(this.props.user, days)}
+                    {leftNavigation(this.props.user)}
+                    {rightNavigation(this.props.user, days)}
                 </Collapse>
             </Navbar>
         );
