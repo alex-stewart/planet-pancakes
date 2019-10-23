@@ -3,10 +3,10 @@ pipeline {
     stages {
         stage('Build' ) {
             steps {
-                ./mvnw clean verify
-                ./mvwn release:clean
-                ./mvnw release:prepare -B
-                ./mvnw release:perform
+                sh "./mvnw clean verify"
+                sh "./mvwn release:clean"
+                sh "./mvnw release:prepare -B"
+                sh "./mvnw release:perform"
             }
         }
         stage('Docker Publish') {
