@@ -8,8 +8,8 @@ pipeline {
         }
         stage('Docker Publish') {
             steps {
-                sh "docker build -t atomicpancakes/planet-pancakes:${BUILD_NUMBER} ."
-                sh "docker push atomicpancakes/planet-pancakes:${BUILD_NUMBER}"
+                sh "docker build -t atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER} ."
+                sh "docker push atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER}"
             }
         }
     }
