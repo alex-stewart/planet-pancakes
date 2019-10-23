@@ -1,12 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('Build' ) {
+        stage('Maven Build' ) {
             steps {
                 sh "./mvnw clean verify"
-                sh "./mvwn release:clean"
-                sh "./mvnw release:prepare -B"
-                sh "./mvnw release:perform"
             }
         }
         stage('Docker Publish') {
@@ -16,4 +13,4 @@ pipeline {
             }
         }
     }
- }
+}
