@@ -1,17 +1,23 @@
-node {
-    def app
-    stage('Maven Build' ) {
-        steps {
-            sh "./mvnw clean verify"
+pipeline {
+    agent any
+    stages {
+        stage('Maven Build' ) {
+            steps {
+                sh "./mvnw clean verify"
+            }
         }
-    }
-    stage('Docker Build') {
-        def image = docker.build("atomicpancakes/planet-pancakes")
-    }
-    stage('Docker Publish') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-            image.push("${BRANCH_NAME}-${BUILD_NUMBER}")
-            image.push("latest")
+        stage('Docker Build') {
+            steps {
+                def image = docker.build("atomicpancakes/planet-pancakes")
+            }
+        }
+        stage('Docker Publish') {
+            steps {
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+                    image.push("${BRANCH_NAME}-${BUILD_NUMBER}")
+                    image.push("latest")
+                }
+            }
         }
     }
 }
