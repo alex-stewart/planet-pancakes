@@ -1,19 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Build' ) {
+        stage('Maven Build' ) {
             steps {
-                ./mvnw clean verify
-                ./mvwn release:clean
-                ./mvnw release:prepare -B
-                ./mvnw release:perform
+                sh "./mvnw clean verify"
             }
         }
         stage('Docker Publish') {
             steps {
-                sh "docker build -t atomicpancakes/planet-pancakes:${BUILD_NUMBER} ."
-                sh "docker push atomicpancakes/planet-pancakes:${BUILD_NUMBER}"
+                sh "docker build -t atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER} ."
+                sh "docker push atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER}"
             }
         }
     }
- }
+}
