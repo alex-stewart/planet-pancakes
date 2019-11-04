@@ -8,8 +8,11 @@ pipeline {
         }
         stage('Docker Publish') {
             steps {
-                sh "docker build -t atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER} ."
-                sh "docker push atomicpancakes/planet-pancakes:${BRANCH_NAME}-${BUILD_NUMBER}"
+                docker.withRegistry("https://registry.hub.docker.com", "docker-hub") {
+                    def image = docker.build("atomicpancakes/planet-pancakes")
+                    image.push("${BRANCH_NAME}-${BUILD_NUMBER}")
+                    image.push("latest")
+                }
             }
         }
     }
