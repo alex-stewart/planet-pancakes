@@ -1,5 +1,5 @@
-pipeline {
-    agent any
+node {
+    def app
     stages {
         stage('Maven Build' ) {
             steps {
