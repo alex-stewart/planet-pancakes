@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 @Component
 public class UserRegistrationService {
 
@@ -31,6 +33,7 @@ public class UserRegistrationService {
                 .name(username)
                 .location(playerStartLocation)
                 .coins(500)
+                .resources(new HashMap<>())
                 .build();
     }
 

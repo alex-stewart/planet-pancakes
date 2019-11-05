@@ -1,8 +1,8 @@
 package fun.pancakes.planet_pancakes.service;
 
-import fun.pancakes.planet_pancakes.persistence.entity.Price;
+import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.entity.User;
-import fun.pancakes.planet_pancakes.persistence.repository.PriceRepository;
+import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;
 import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;
 import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import fun.pancakes.planet_pancakes.service.exception.UserNotFoundException;
@@ -33,18 +33,19 @@ public class MarketServiceTest {
     private UserRepository userRepositoryMock;
 
     @Mock
-    private PriceRepository priceRepositoryMock;
+    private ResourceRepository resourceRepositoryMock;
 
     private ArgumentCaptor<User> userArgumentCaptor;
 
     @Before
     public void setUp() {
-        Price price = Price.builder()
+        Resource resource = Resource.builder()
+                .resourceName(RESOURCE)
                 .price(RESOURCE_PRICE)
                 .build();
-        when(priceRepositoryMock.findFirstByResourceOrderByPriceDateDesc(RESOURCE)).thenReturn(Optional.of(price));
+        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.of(resource));
 
-        marketService = new MarketService(userRepositoryMock, priceRepositoryMock);
+        marketService = new MarketService(userRepositoryMock, resourceRepositoryMock);
         userArgumentCaptor = ArgumentCaptor.forClass(User.class);
     }
 
@@ -97,7 +98,7 @@ public class MarketServiceTest {
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenNoResourcePriceFound() throws Exception {
-        when(priceRepositoryMock.findFirstByResourceOrderByPriceDateDesc(RESOURCE)).thenReturn(Optional.empty());
+        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.empty());
         mockUserWithCoins(500);
 
         marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
@@ -180,7 +181,7 @@ public class MarketServiceTest {
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenResourceNotFoundWhenSellingResource() throws Exception {
-        when(priceRepositoryMock.findFirstByResourceOrderByPriceDateDesc(RESOURCE)).thenReturn(Optional.empty());
+        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.empty());
         mockUserWithCoins(500);
 
         marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);

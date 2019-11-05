@@ -1,8 +1,8 @@
 package fun.pancakes.planet_pancakes.service;
 
-import fun.pancakes.planet_pancakes.persistence.entity.Price;
+import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.entity.User;
-import fun.pancakes.planet_pancakes.persistence.repository.PriceRepository;
+import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;
 import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;
 import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import fun.pancakes.planet_pancakes.service.exception.UserNotFoundException;
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Component;
 public class MarketService {
 
     private UserRepository userRepository;
-    private PriceRepository priceRepository;
+    private ResourceRepository resourceRepository;
 
-    public MarketService(UserRepository userRepository, PriceRepository priceRepository) {
+    public MarketService(UserRepository userRepository, ResourceRepository resourceRepository) {
         this.userRepository = userRepository;
-        this.priceRepository = priceRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     public boolean buyResourceIfEnoughCoins(String userId, String resource) throws PriceNotFoundException, UserNotFoundException {
-        Price price = priceRepository.findFirstByResourceOrderByPriceDateDesc(resource)
+        Resource price = resourceRepository.findByResourceName(resource)
                 .orElseThrow(PriceNotFoundException::new);
 
         User user = userRepository.findById(userId)
@@ -37,7 +37,7 @@ public class MarketService {
     }
 
     public boolean sellResourceIfResourceOwned(String userId, String resource) throws PriceNotFoundException, UserNotFoundException {
-        Price price = priceRepository.findFirstByResourceOrderByPriceDateDesc(resource)
+        Resource price = resourceRepository.findByResourceName(resource)
                 .orElseThrow(PriceNotFoundException::new);
 
         User user = userRepository.findById(userId)

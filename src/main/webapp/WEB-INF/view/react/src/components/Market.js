@@ -4,6 +4,10 @@ import React from "react";
 
 export default class Market extends Component {
 
+    // get user
+
+    // get prices
+
     render() {
         let user = this.props.user;
 

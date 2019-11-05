@@ -22,7 +22,7 @@ public class MarketController {
     private static final String RESPONSE_NOT_ENOUGH_COINS = "Not enough coins.";
     private static final String RESPONSE_NOT_ENOUGH_RESOURCE = "Not enough of resource: %s.";
     private static final String RESPONSE_USER_NOT_FOUND = "User not found.";
-    private static final String RESPONSE_PRICE_NOT_FOUND = "Price not found for resource: %s.";
+    private static final String RESPONSE_PRICE_NOT_FOUND = "Resource not found for resource: %s.";
 
     private MarketService marketService;
 
@@ -30,7 +30,7 @@ public class MarketController {
         this.marketService = marketService;
     }
 
-    @GetMapping("/buy")
+    @GetMapping("/market/buy")
     public ResponseEntity buyResource(Principal loggedInUser, @RequestParam("resource") String resource) {
         try {
             if (marketService.buyResourceIfEnoughCoins(loggedInUser.getName(), resource)) {
@@ -45,7 +45,7 @@ public class MarketController {
         }
     }
 
-    @GetMapping("/sell")
+    @GetMapping("/market/sell")
     public ResponseEntity sellResource(Principal loggedInUser, @RequestParam("resource") String resource) {
         try {
             if (marketService.sellResourceIfResourceOwned(loggedInUser.getName(), resource)) {
