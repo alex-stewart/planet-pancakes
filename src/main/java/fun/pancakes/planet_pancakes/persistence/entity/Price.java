@@ -5,19 +5,15 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Map;
-
 @Data
 @Builder
-@Document(collection = "users")
-public class User {
+@Document(collection = "prices")
+public class Price {
 
     @Id
-    private String id;
+    private Long id;
 
-    private String name;
-    private String location;
-
-    private Integer coins;
-    private Map<String, Integer> resources;
+    private Long priceDate;
+    private String resource;
+    private Integer price;
 }

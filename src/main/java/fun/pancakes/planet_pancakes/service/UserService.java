@@ -34,10 +34,7 @@ public class UserService {
     private ProfileDto profileForLoggedInUser(User user) {
         return profileForGenericUser(user).toBuilder()
                 .coins(user.getCoins())
-                .wood(user.getWood())
-                .coal(user.getCoal())
-                .cloth(user.getCloth())
-                .iron(user.getIron())
+                .resources(user.getResources())
                 .build();
     }
 
