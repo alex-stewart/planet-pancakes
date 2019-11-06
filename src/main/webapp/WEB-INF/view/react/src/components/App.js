@@ -32,7 +32,7 @@ export default class App extends Component {
                         loading: false
                     });
                 },
-                (error) => {
+                () => {
                     this.setState({
                         loading: false
                     });
@@ -63,7 +63,7 @@ export default class App extends Component {
                     />
                     <Route path="/news" component={News}/>
                     <Route path="/market"
-                           render={(props) => <Market {...props} user={this.state.currentUser}/>}
+                           render={(props) => <Market {...props} user={this.state.currentUser} updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>}
                     />
                 </div>
             </BrowserRouter>

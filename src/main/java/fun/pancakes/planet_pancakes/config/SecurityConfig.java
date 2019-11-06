@@ -4,6 +4,7 @@ import fun.pancakes.planet_pancakes.security.UserAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.RequestEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import static fun.pancakes.planet_pancakes.security.OAuth2UserAgentUtils.withUserAgent;
 
 @Configuration
+@PropertySource("classpath:secret.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
