@@ -9,11 +9,10 @@ export default class User extends Component {
 
         if (user) {
             return <Col>
-                <Row>Id: {user.id}</Row>
                 <Row>Name: {user.name}</Row>
                 <Row>Location: {user.location}</Row>
                 <Row>Coins: {user.coins}</Row>
-                <Row>Resources: {user.resources}</Row>
+                {/*<Row>Resources: {user.resources}</Row>*/}
             </Col>
         } else {
             return <div>Not Found.</div>
