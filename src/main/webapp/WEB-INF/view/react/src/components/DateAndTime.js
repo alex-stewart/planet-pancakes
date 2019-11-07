@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+const EPOCH_START_YEAR = 150;
 const CYCLES_IN_YEAR = 8;
 const DAYS_IN_CYCLE = 14;
 const CYCLE_DAY_NAMES = [
@@ -44,7 +45,7 @@ export default class DateAndTime extends Component {
 
 
     render() {
-        let year = Math.ceil(this.props.days / (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
+        let year = EPOCH_START_YEAR + Math.ceil(this.props.days / (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
         let dayOfYear = Math.ceil(this.props.days % (CYCLES_IN_YEAR * DAYS_IN_CYCLE));
         let cycleOfYear = Math.ceil(dayOfYear / DAYS_IN_CYCLE);
         let dayOfCycle = Math.floor(dayOfYear % DAYS_IN_CYCLE);
