@@ -13,9 +13,8 @@ import java.util.List;
 public class Resource {
 
     @Id
-    private Integer id;
-
     private String resourceName;
+
     private Integer price;
     private List<Integer> priceHistory;
 }
