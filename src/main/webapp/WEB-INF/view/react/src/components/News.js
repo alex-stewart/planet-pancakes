@@ -18,7 +18,8 @@ export default class News extends Component {
     getNews() {
         axios.get("/api/news", {
             params: {
-                pageNumber: this.state.papers.length
+                pageNumber: this.state.papers.length,
+                pageSize: 5
             }
         })
             .then(

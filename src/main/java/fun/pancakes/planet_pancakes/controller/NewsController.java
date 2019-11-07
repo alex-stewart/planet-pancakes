@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class NewsController {
 
-    private static final int PAGE_SIZE = 1;
+    private static final String DEFAULT_PAGE_NUMBER = "0";
+    private static final String DEFAULT_PAGE_SIZE = "1";
 
     private NewsRepository newsRepository;
 
@@ -28,8 +29,8 @@ public class NewsController {
     }
 
     @GetMapping("/news")
-    public ResponseEntity getAllNews(@RequestParam(defaultValue = "0") Integer pageNumber) {
-        Pageable paging = PageRequest.of(pageNumber, PAGE_SIZE);
+    public ResponseEntity getAllNews(@RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer pageNumber, @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize);
         Page<News> pagedResult = newsRepository.findAll(paging);
 
         if (pagedResult.hasContent()) {
