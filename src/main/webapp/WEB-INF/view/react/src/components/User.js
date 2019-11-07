@@ -1,6 +1,5 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {Col, Row} from 'reactstrap';
-import React from "react";
 
 export default class User extends Component {
 
@@ -12,7 +11,9 @@ export default class User extends Component {
                 <Row>Name: {user.name}</Row>
                 <Row>Location: {user.location}</Row>
                 <Row>Coins: {user.coins}</Row>
-                <Row>Resources: {user.resources}</Row>
+                {Object.keys(user.resources).map(resource => {
+                    return <Row>{resource}: {user.resources[resource]}</Row>
+                })}
             </Col>
         } else {
             return <div>Not Found.</div>

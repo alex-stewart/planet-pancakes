@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Alert, Button, Col, Row} from 'reactstrap';
+import {Alert, Button, Table} from 'reactstrap';
 import axios from "axios";
 
 export default class Market extends Component {
@@ -71,22 +71,23 @@ export default class Market extends Component {
             )
     }
 
-    generateResourceRow(resource) {
+    generateResourceRow(resource, user) {
         return (
-            <Row>
-                <Col>{resource.resourceName}</Col>
-                <Col>{resource.price}</Col>
-                <Col>
+            <tr>
+                <th>{resource.resourceName}</th>
+                <td>{resource.price} coins</td>
+                <td>{this.props.user.resources[resource.resourceName] || 0}</td>
+                <td>
                     <Button color="primary" onClick={event => this.buyResource(event, resource).bind(this)}>
                         Buy {resource.name}
                     </Button>
-                </Col>
-                <Col>
+                </td>
+                <td>
                     <Button color="primary" onClick={event => this.sellResource(event, resource).bind(this)}>
                         Sell {resource.name}
                     </Button>
-                </Col>
-            </Row>
+                </td>
+            </tr>
         )
     }
 
@@ -100,17 +101,20 @@ export default class Market extends Component {
         if (user) {
             return <div>
                 <div>Coins: {user.coins}</div>
-                <div>
-                    <Row>
-                        <Col>Resource</Col>
-                        <Col>Price</Col>
-                        <Col>Buy</Col>
-                        <Col>Sell</Col>
-                    </Row>
-                    {
-                        this.state.resources.map(this.generateResourceRow.bind(this))
-                    }
-                </div>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Resource</th>
+                            <th>Price</th>
+                            <th>Quantity Owned</th>
+                            <th>Buy</th>
+                            <th>Sell</th>
+                        </tr>
+                    </thead>
+                {
+                    this.state.resources.map(this.generateResourceRow.bind(this))
+                }
+                </Table>
                 <Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={onAlertDismiss}>
                     {this.state.alertText}
                 </Alert>
