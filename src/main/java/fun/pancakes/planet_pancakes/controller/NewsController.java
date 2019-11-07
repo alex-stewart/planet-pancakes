@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Slf4j
 @RestController
 @RequestMapping("/api")
-@EnableSwagger2
 public class NewsController {
 
     private static final int PAGE_SIZE = 1;

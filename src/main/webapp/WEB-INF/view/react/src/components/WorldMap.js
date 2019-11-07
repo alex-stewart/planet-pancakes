@@ -106,7 +106,7 @@ export default class WorldMap extends Component {
         let divIcon = new L.DivIcon({
             iconSize: new L.Point(500, 10),
             className: "map-island-label",
-            html: island.name
+            html: island.name || ""
         });
 
         let islandLabelPosition = [

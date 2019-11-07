@@ -12,7 +12,7 @@ export default class User extends Component {
                 <Row>Name: {user.name}</Row>
                 <Row>Location: {user.location}</Row>
                 <Row>Coins: {user.coins}</Row>
-                {/*<Row>Resources: {user.resources}</Row>*/}
+                <Row>Resources: {user.resources}</Row>
             </Col>
         } else {
             return <div>Not Found.</div>
