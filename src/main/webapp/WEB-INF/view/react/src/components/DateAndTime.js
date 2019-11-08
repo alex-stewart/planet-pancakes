@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-const EPOCH_START_YEAR = 150;
-const CYCLES_IN_YEAR = 8;
+const EPOCH_START_YEAR = 300;
+const CYCLES_IN_YEAR = 26;
 const DAYS_IN_CYCLE = 14;
 const CYCLE_DAY_NAMES = [
     "Wonday", "Tooday", "Triday", "Forday", "Thiffday", "Ixday", "Kingsday",
