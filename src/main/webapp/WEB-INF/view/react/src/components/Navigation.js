@@ -93,7 +93,7 @@ export default class Example extends React.Component {
 
         return (
             <Navbar color="dark" dark expand="md">
-                <NavbarBrand href="/">Legacy of Bureaucracy</NavbarBrand>
+                <NavbarBrand href="/">A Legacy of Bureaucracy</NavbarBrand>
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     {leftNavigation(this.props.user)}
