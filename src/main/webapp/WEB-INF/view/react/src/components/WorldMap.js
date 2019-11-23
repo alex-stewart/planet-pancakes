@@ -64,9 +64,9 @@ export default class WorldMap extends Component {
     calculateCityPositionsForIsland(island) {
         if (island.cities) {
             island.cities.forEach(city => {
-                let cityX = island.position[0] + city.location.x;
-                let cityY = island.position[1] + city.location.y;
-                city.position = rotatePoint(cityY, cityX, island.position[0], island.position[1], island.bearing);
+                let cityLat = island.position[0] + city.location.y;
+                let cityLong = island.position[1] + city.location.x;
+                city.position = rotatePoint(cityLat, cityLong, island.position[0], island.position[1], island.bearing);
                 return city;
             })
         }
