@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,5 +24,6 @@ public class Island {
     private Double wobbleRadius;
     private Integer wobbleCycleDays;
     private WikiSection wiki;
-    private List<Landmark> cities;
+    private List<Settlement> cities;
+    private List<Settlement> towns;
 }

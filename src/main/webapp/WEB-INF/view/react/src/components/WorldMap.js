@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {LayerGroup, LayersControl, Map, Marker, Popup, Tooltip} from 'react-leaflet';
+import {LayerGroup, LayersControl, Map, Marker} from 'react-leaflet';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -9,7 +9,8 @@ import {ListGroup, ListGroupItem, Modal, ModalBody} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
 import {rotatePoint} from '../util/point-utils';
 import WikiPage from "./WikiPage";
-import {cityIcon} from "./icon/CityIcon";
+import SettlementMarker from "./SettlementMarker";
+import {SETTLEMENT_TYPES} from "./Constants";
 
 export default class WorldMap extends Component {
 
@@ -106,7 +107,7 @@ export default class WorldMap extends Component {
     generateIslandMarker(island) {
         let divIcon = new L.DivIcon({
             iconSize: new L.Point(500, 10),
-            className: "map-island-label",
+            className: "map-text-label",
             html: island.name || ""
         });
 
@@ -121,29 +122,14 @@ export default class WorldMap extends Component {
     }
 
     generateCityMarkers(island) {
-        if (!island.cities) {
-            return null;
-        }
+        return _.map(island.cities, function(city) {
+            return <SettlementMarker settlement={city} type={SETTLEMENT_TYPES.CITY}/>
+        });
+    }
 
-        return island.cities.map(function (city) {
-            return <LayerGroup>
-                <Marker key={"city-icon-" + city.name}
-                        position={city.position}
-                        icon={cityIcon}>
-                    <Popup key={"city-popup-" + city.name}
-                           permanent={true}
-                           direction={'right'}>
-                        <h3>{city.name}</h3>
-                        <h4>{city.description}</h4>
-                    </Popup>
-                    <Tooltip key={"city-tooltip-" + city.name}
-                             permanent={true}
-                             direction={"right"}
-                             className={"map-island-label"}>
-                        {city.name}
-                    </Tooltip>
-                </Marker>
-            </LayerGroup>
+    generateTownMarkers(island) {
+        return _.map(island.towns, function(town) {
+            return <SettlementMarker settlement={town} type={SETTLEMENT_TYPES.TOWN}/>
         });
     }
 
@@ -221,6 +207,15 @@ export default class WorldMap extends Component {
                             <LayerGroup>
                                 {
                                     this.state.islands.map(this.generateCityMarkers)
+                                }
+                            </LayerGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay key={"town-overlay"}
+                                               name={"Towns"}
+                                               checked={false}>
+                            <LayerGroup>
+                                {
+                                    this.state.islands.map(this.generateTownMarkers)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Landmark {
+public class Settlement {
     private String name;
     private String description;
     private Point location;
