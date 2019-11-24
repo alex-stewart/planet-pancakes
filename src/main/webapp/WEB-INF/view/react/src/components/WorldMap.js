@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Map, LayersControl, LayerGroup, Marker, Popup} from 'react-leaflet';
+import {LayerGroup, LayersControl, Map, Marker, Popup, Tooltip} from 'react-leaflet';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -9,6 +9,7 @@ import {ListGroup, ListGroupItem, Modal, ModalBody} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
 import {rotatePoint} from '../util/point-utils';
 import WikiPage from "./WikiPage";
+import {cityIcon} from "./icon/CityIcon";
 
 export default class WorldMap extends Component {
 
@@ -125,19 +126,24 @@ export default class WorldMap extends Component {
         }
 
         return island.cities.map(function (city) {
-            let divIcon = new L.DivIcon({
-                iconSize: new L.Point(10, 10),
-                className: "map-city-label",
-            });
-
-            return <Marker key={"city-icon-" + city.name}
-                           position={city.position}
-                           icon={divIcon}>
-                <Popup>
-                    <h3>{city.name}</h3>
-                    <h5>{city.description}</h5>
-                </Popup>
-            </Marker>
+            return <LayerGroup>
+                <Marker key={"city-icon-" + city.name}
+                        position={city.position}
+                        icon={cityIcon}>
+                    <Popup key={"city-popup-" + city.name}
+                           permanent={true}
+                           direction={'right'}>
+                        <h3>{city.name}</h3>
+                        <h4>{city.description}</h4>
+                    </Popup>
+                    <Tooltip key={"city-tooltip-" + city.name}
+                             permanent={true}
+                             direction={"right"}
+                             className={"map-island-label"}>
+                        {city.name}
+                    </Tooltip>
+                </Marker>
+            </LayerGroup>
         });
     }
 

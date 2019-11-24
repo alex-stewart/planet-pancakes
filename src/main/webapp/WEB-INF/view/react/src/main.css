@@ -62,11 +62,25 @@ html, body, #root {
     font-size: 20px;
     font-family: 'Bilbo Swash Caps';
     width: 100%;
+    cursor: grab;
 }
 
-.map-city-label {
-    background: #8B0000;
-    border-radius: 50%;
+.leaflet-tooltip {
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    position: absolute;
+    pointer-events: none;
+    border: none;
+    background: transparent;
+    content: "";
 }
 
 .island-wiki-box {
