@@ -1,4 +1,4 @@
-const SETTLEMENT_TYPES = Objects.freeze({
+const SETTLEMENT_TYPES = Object.freeze({
     CITY: 1,
     TOWN: 2
 });
