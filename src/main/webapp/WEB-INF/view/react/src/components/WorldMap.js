@@ -11,6 +11,7 @@ import {rotatePoint} from '../util/point-utils';
 import WikiPage from "./WikiPage";
 import SettlementMarker from "./SettlementMarker";
 import {SETTLEMENT_TYPES} from "./Constants";
+import _ from "lodash";
 
 export default class WorldMap extends Component {
 
