@@ -8,7 +8,7 @@
         <version>2.1.7.RELEASE</version>
     </parent>
 
-    <groupId>fun.pancakes.planet</groupId>
+    <groupId>fun.pancakes</groupId>
     <artifactId>planet-pancakes</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
