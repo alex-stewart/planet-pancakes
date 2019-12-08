@@ -139,7 +139,7 @@ export default class Market extends Component {
         if (user) {
             return (
                 [
-                    <td>{user[resource.resourceName] || 0}</td>,
+                    <td>{user.resources[resource.resourceName] || 0}</td>,
                     <td>
                         <Button color="primary" onClick={event => this.buyResource(event, resource).bind(this)}>
                             Buy {resource.name}
