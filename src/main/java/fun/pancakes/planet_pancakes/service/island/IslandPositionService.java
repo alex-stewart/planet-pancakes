@@ -31,13 +31,18 @@ public class IslandPositionService {
     }
 
     private Double islandRadiusAtTime(Island island, Ring ring, Long currentTimeInSeconds) {
+        Double radius = ring.getRadius();
+
         if (island.getWobbleCycleDays() != null) {
-            Double cycleFraction = fractionIntoCurrentCycle(currentTimeInSeconds, island.getWobbleCycleDays());
-            Double offset = island.getWobbleRadius() * Math.sin(cycleFraction * 360);
-            return ring.getRadius() + offset;
-        } else {
-            return ring.getRadius();
+            radius += calculateRadiusOffset(island, currentTimeInSeconds);
         }
+
+        return radius;
+    }
+
+    private Double calculateRadiusOffset(Island island, Long currentTimeInSeconds) {
+        Double cycleFraction = fractionIntoCurrentCycle(currentTimeInSeconds, island.getWobbleCycleDays());
+        return island.getWobbleRadius() * Math.sin(cycleFraction * 360);
     }
 
     private Double islandBearingAtTime(Island island, Ring ring, Long currentTimeInSeconds) {
@@ -46,11 +51,19 @@ public class IslandPositionService {
         }
         Double yearFraction = fractionIntoCurrentCycle(currentTimeInSeconds, ring.getYearDays());
         Double angle = yearFraction * 360;
+        return calculateNewIslandBearingOffset(island, ring, angle);
+    }
+
+    private Double calculateNewIslandBearingOffset(Island island, Ring ring, Double angle) {
+        Double bearing = island.getBearing();
+
         if (ring.getClockwise()) {
-            return island.getBearing() + angle;
+            bearing += angle;
         } else {
-            return island.getBearing() - angle;
+            bearing -= angle;
         }
+
+        return bearing;
     }
 
     private Double fractionIntoCurrentCycle(Long currentTimeInSeconds, Integer cycleDays) {
