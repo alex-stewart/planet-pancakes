@@ -1,6 +1,6 @@
 package fun.pancakes.planet_pancakes.controller;
 
-import fun.pancakes.planet_pancakes.converter.ResourceConverter;
+import fun.pancakes.planet_pancakes.dto.converter.ResourceConverter;
 import fun.pancakes.planet_pancakes.dto.ResourceDto;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;

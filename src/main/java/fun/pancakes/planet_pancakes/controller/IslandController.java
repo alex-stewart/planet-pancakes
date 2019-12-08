@@ -1,7 +1,7 @@
 package fun.pancakes.planet_pancakes.controller;
 
 import fun.pancakes.planet_pancakes.dto.IslandDto;
-import fun.pancakes.planet_pancakes.service.IslandService;
+import fun.pancakes.planet_pancakes.service.island.IslandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package fun.pancakes.planet_pancakes.security;
 
-import fun.pancakes.planet_pancakes.service.UserRegistrationService;
+import fun.pancakes.planet_pancakes.service.user.UserRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;

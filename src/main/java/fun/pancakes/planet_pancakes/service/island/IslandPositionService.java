@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.service;
+package fun.pancakes.planet_pancakes.service.island;
 
 import fun.pancakes.planet_pancakes.persistence.entity.Island;
 import fun.pancakes.planet_pancakes.persistence.entity.Ring;

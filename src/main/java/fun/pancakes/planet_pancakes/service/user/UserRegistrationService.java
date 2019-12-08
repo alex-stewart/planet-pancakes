@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.service;
+package fun.pancakes.planet_pancakes.service.user;
 
 import fun.pancakes.planet_pancakes.persistence.entity.User;
 import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;

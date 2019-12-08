@@ -1,7 +1,8 @@
-package fun.pancakes.planet_pancakes.service;
+package fun.pancakes.planet_pancakes.service.user;
 
 import fun.pancakes.planet_pancakes.persistence.entity.User;
 import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;
+import fun.pancakes.planet_pancakes.service.user.UserRegistrationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

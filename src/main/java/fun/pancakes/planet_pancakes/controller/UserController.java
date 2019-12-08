@@ -1,7 +1,7 @@
 package fun.pancakes.planet_pancakes.controller;
 
 import fun.pancakes.planet_pancakes.dto.ProfileDto;
-import fun.pancakes.planet_pancakes.service.UserService;
+import fun.pancakes.planet_pancakes.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

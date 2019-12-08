@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.converter;
+package fun.pancakes.planet_pancakes.dto.converter;
 
 import fun.pancakes.planet_pancakes.dto.ResourceDto;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;

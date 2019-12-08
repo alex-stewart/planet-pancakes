@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.controller;
+package fun.pancakes.planet_pancakes.controller.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

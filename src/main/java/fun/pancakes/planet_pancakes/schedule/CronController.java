@@ -1,4 +1,4 @@
-package fun.pancakes.planet_pancakes.controller;
+package fun.pancakes.planet_pancakes.schedule;
 
 import fun.pancakes.planet_pancakes.service.resource.ResourcePriceUpdater;
 import lombok.extern.slf4j.Slf4j;

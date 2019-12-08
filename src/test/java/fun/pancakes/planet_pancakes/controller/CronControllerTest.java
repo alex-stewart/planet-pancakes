@@ -1,5 +1,6 @@
 package fun.pancakes.planet_pancakes.controller;
 
+import fun.pancakes.planet_pancakes.schedule.CronController;
 import fun.pancakes.planet_pancakes.service.resource.ResourcePriceUpdater;
 import org.junit.Before;
 import org.junit.Test;
