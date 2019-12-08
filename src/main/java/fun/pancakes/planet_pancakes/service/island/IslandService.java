@@ -29,11 +29,13 @@ public class IslandService {
     public List<IslandDto> getAllIslands() {
         List<Island> islands = islandRepository.findAll();
 
-        return islands.stream().map(
-                island -> {
-                    islandPositionService.enrichIslandPosition(island);
-                    return modelMapper.map(island, IslandDto.class);
-                }
-        ).collect(Collectors.toList());
+        return islands.stream()
+                .map(islandPositionService::enrichIslandPosition)
+                .map(this::islandToIslandDto)
+                .collect(Collectors.toList());
+    }
+
+    private IslandDto islandToIslandDto(Island island) {
+        return modelMapper.map(island, IslandDto.class);
     }
 }
