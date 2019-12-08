@@ -3,8 +3,7 @@ package fun.pancakes.planet_pancakes.service.island;
 import fun.pancakes.planet_pancakes.dto.IslandDto;
 import fun.pancakes.planet_pancakes.persistence.entity.Island;
 import fun.pancakes.planet_pancakes.persistence.repository.IslandRepository;
-import fun.pancakes.planet_pancakes.service.island.IslandPositionService;
-import fun.pancakes.planet_pancakes.service.island.IslandService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,6 +21,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class IslandServiceTest {
 
+    private static final Island ISLAND = generateIsland();
+
     @Mock
     private IslandRepository islandRepository;
 
@@ -34,19 +35,21 @@ public class IslandServiceTest {
     @InjectMocks
     private IslandService islandService;
 
+    @Before
+    public void setUpMock() {
+        when(islandPositionService.enrichIslandPosition(ISLAND)).thenReturn(ISLAND);
+    }
+
     @Test
     public void shouldReturnAllIslands() {
         List<Island> islandList = new ArrayList<>();
-        Island island = Island.builder()
-                .id(1)
-                .build();
-        islandList.add(island);
+        islandList.add(ISLAND);
 
         IslandDto islandDto = new IslandDto();
         islandDto.setId(1);
 
         when(islandRepository.findAll()).thenReturn(islandList);
-        when(modelMapper.map(island, IslandDto.class)).thenReturn(islandDto);
+        when(modelMapper.map(ISLAND, IslandDto.class)).thenReturn(islandDto);
 
         List<IslandDto> result = islandService.getAllIslands();
         assertEquals(islandDto, result.get(0));
@@ -58,5 +61,11 @@ public class IslandServiceTest {
 
         List<IslandDto> result = islandService.getAllIslands();
         assertEquals(Collections.emptyList(), result);
+    }
+
+    private static Island generateIsland() {
+        return Island.builder()
+                .id(1)
+                .build();
     }
 }
