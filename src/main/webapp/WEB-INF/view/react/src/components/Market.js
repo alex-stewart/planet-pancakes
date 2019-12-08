@@ -71,56 +71,83 @@ export default class Market extends Component {
             )
     }
 
-    generateResourceRow(resource, user) {
-        return (
-            <tr>
-                <th>{resource.resourceName}</th>
-                <td>{resource.price} coins</td>
-                <td>{this.props.user.resources[resource.resourceName] || 0}</td>
-                <td>
-                    <Button color="primary" onClick={event => this.buyResource(event, resource).bind(this)}>
-                        Buy {resource.name}
-                    </Button>
-                </td>
-                <td>
-                    <Button color="primary" onClick={event => this.sellResource(event, resource).bind(this)}>
-                        Sell {resource.name}
-                    </Button>
-                </td>
-            </tr>
-        )
-    }
-
     render() {
-        let user = this.props.user;
-
         const onAlertDismiss = () => this.setState({
             alertVisible: false
         });
 
-        if (user) {
-            return <div>
-                <div>Coins: {user.coins}</div>
+        const loggedInColumns = [
+            <tr key={"header-row"}>
+                <th>Resource</th>
+                <th>Price</th>
+                <th>Quantity Owned</th>
+                <th>Buy</th>
+                <th>Sell</th>
+            </tr>
+        ];
+
+        const defaultColumns = [
+            <tr key={"header-row-default"}>
+                <th>Resource</th>
+                <th>Price</th>
+            </tr>
+        ];
+
+        let user = this.props.user;
+        let coinsBar = user ? <div>Coins: {this.props.user.coins}</div> : null;
+        let headers = user ? loggedInColumns : defaultColumns;
+
+        return (
+            <div>
+                {coinsBar}
                 <Table>
-                    <thead>
-                        <tr>
-                            <th>Resource</th>
-                            <th>Price</th>
-                            <th>Quantity Owned</th>
-                            <th>Buy</th>
-                            <th>Sell</th>
-                        </tr>
+                    <thead className={"thead-dark"}>
+                         {headers}
                     </thead>
-                {
-                    this.state.resources.map(this.generateResourceRow.bind(this))
-                }
+                    <tbody>
+                        {
+                            this.state.resources.map(this.renderResourceRow.bind(this))
+                        }
+                    </tbody>
                 </Table>
                 <Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={onAlertDismiss}>
                     {this.state.alertText}
                 </Alert>
             </div>
+        )
+    }
+
+    renderResourceRow(resource) {
+        return (
+            <tr key={"resource-row-" + resource.id}>
+                <th className={"resource-name-col"}>{resource.resourceName}</th>
+                <td>{resource.price} coins</td>
+                {
+                    this.renderUserColumns(resource, this.props.user)
+                }
+            </tr>
+        )
+    }
+
+    renderUserColumns(resource, user) {
+        if (user) {
+            return (
+                [
+                    <td>{user[resource.resourceName] || 0}</td>,
+                    <td>
+                        <Button color="primary" onClick={event => this.buyResource(event, resource).bind(this)}>
+                            Buy {resource.name}
+                        </Button>
+                    </td>,
+                    <td>
+                        <Button color="primary" onClick={event => this.sellResource(event, resource).bind(this)}>
+                            Sell {resource.name}
+                        </Button>
+                    </td>
+                ]
+            )
         } else {
-            return <div>Not Found.</div>
+            return [];
         }
     }
 }

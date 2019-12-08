@@ -39,29 +39,18 @@ export default class Example extends React.Component {
     }
 
     render() {
-        function leftNavigation(user) {
-            if (user) {
-                return <Nav className="p2" navbar>
-                    <NavItem>
-                        <NavLink href="/map">World Map</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/news">News</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/market">Market</NavLink>
-                    </NavItem>
-                </Nav>
-            } else {
-                return <Nav className="p2" navbar>
-                    <NavItem>
-                        <NavLink href="/map">World Map</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/news">News</NavLink>
-                    </NavItem>
-                </Nav>
-            }
+        function leftNavigation() {
+            return <Nav className="p2" navbar>
+                <NavItem>
+                    <NavLink href="/map">World Map</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/news">News</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/market">Market</NavLink>
+                </NavItem>
+            </Nav>
         }
 
         function rightNavigation(user, days) {
@@ -96,7 +85,7 @@ export default class Example extends React.Component {
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
                 <NavbarToggler onClick={this.toggle}/>
                 <Collapse isOpen={this.state.isOpen} navbar>
-                    {leftNavigation(this.props.user)}
+                    {leftNavigation()}
                     {rightNavigation(this.props.user, days)}
                 </Collapse>
             </Navbar>
