@@ -13,7 +13,7 @@ export default class PriceChart extends Component {
         let resource = this.props.resource;
 
         let priceHistory = [];
-        Object.keys(resource.priceHistory).forEach(function(dateString) {
+        Object.keys(resource.priceHistory).sort().forEach(function(dateString) {
             let date = Date.parse(dateString);
             priceHistory[date] = resource.priceHistory[dateString];
         });
