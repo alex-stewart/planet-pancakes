@@ -13,6 +13,7 @@
     "leaflet-imageoverlay-rotated": "^0.1.4",
     "lodash": "^4.17.11",
     "react": "^16.8.3",
+    "react-charts": "^2.0.0-beta.6",
     "react-dom": "^16.8.3",
     "react-leaflet": "^2.5.0",
     "react-router-dom": "^4.3.1",

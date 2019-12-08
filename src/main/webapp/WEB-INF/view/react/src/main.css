@@ -132,6 +132,15 @@ html, body, #root {
     margin-top: 20px;
 }
 
+.market-page {
+    background-color: #F8ECC2;
+    height: calc(100% - 56px);
+    padding-top: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+    overflow-y: scroll;
+}
+
 .resource-name-col:first-letter {
     text-transform:capitalize;
 }

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Alert, Button, Table} from 'reactstrap';
 import axios from "axios";
+import PriceChart from "./PriceChart";
 
 export default class Market extends Component {
 
@@ -80,6 +81,7 @@ export default class Market extends Component {
             <tr key={"header-row"}>
                 <th>Resource</th>
                 <th>Price</th>
+                <th>Price Trend</th>
                 <th>Quantity Owned</th>
                 <th>Buy</th>
                 <th>Sell</th>
@@ -90,6 +92,7 @@ export default class Market extends Component {
             <tr key={"header-row-default"}>
                 <th>Resource</th>
                 <th>Price</th>
+                <th>Price Trend</th>
             </tr>
         ];
 
@@ -98,13 +101,13 @@ export default class Market extends Component {
         let headers = user ? loggedInColumns : defaultColumns;
 
         return (
-            <div>
+            <div className={"market-page"}>
                 {coinsBar}
                 <Table>
                     <thead className={"thead-dark"}>
                          {headers}
                     </thead>
-                    <tbody>
+                    <tbody  className={"table-light"}>
                         {
                             this.state.resources.map(this.renderResourceRow.bind(this))
                         }
@@ -119,9 +122,12 @@ export default class Market extends Component {
 
     renderResourceRow(resource) {
         return (
-            <tr key={"resource-row-" + resource.id}>
+            <tr key={"resource-row-" + resource.resourceName}>
                 <th className={"resource-name-col"}>{resource.resourceName}</th>
-                <td>{resource.price} coins</td>
+                <td>{resource.price} Coins</td>
+                <td>
+                    <PriceChart resource={resource}/>
+                </td>
                 {
                     this.renderUserColumns(resource, this.props.user)
                 }
