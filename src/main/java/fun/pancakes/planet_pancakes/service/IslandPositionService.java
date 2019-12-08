@@ -49,7 +49,7 @@ public class IslandPositionService {
         }
     }
 
-    private Double fractionIntoCurrentCycle (Double currentTimeInSeconds, Integer cycleDays) {
+    private Double fractionIntoCurrentCycle(Double currentTimeInSeconds, Integer cycleDays) {
         if (cycleDays == 0) {
             return 0d;
         }

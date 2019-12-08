@@ -32,7 +32,7 @@ public class UserRegistrationService {
                 .id(userId)
                 .name(username)
                 .location(playerStartLocation)
-                .coins(500)
+                .coins(500L)
                 .resources(new HashMap<>())
                 .build();
     }

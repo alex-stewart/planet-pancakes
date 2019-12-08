@@ -60,6 +60,5 @@ public class MarketControllerTest {
         when(marketServiceMock.sellResourceIfResourceOwned(USER_ID, RESOURCE)).thenReturn(false);
         ResponseEntity responseEntity = marketController.sellResource(principalMock, RESOURCE);
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(400);
-
     }
 }

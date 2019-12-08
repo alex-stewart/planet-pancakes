@@ -5,7 +5,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Date;
+import java.util.Map;
 
 @Data
 @Builder
@@ -15,6 +16,8 @@ public class Resource {
     @Id
     private String resourceName;
 
-    private Integer price;
-    private List<Integer> priceHistory;
+    private Long price;
+    private Integer priceTrendPercent;
+    private Integer priceMaxChangePercent;
+    private Map<Date, Long> priceHistory;
 }

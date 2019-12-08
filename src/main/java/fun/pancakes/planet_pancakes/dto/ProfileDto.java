@@ -12,6 +12,6 @@ public class ProfileDto {
     private String name;
     private String location;
 
-    private Integer coins;
+    private Long coins;
     private Map<String, Integer> resources;
 }

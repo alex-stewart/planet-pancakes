@@ -19,16 +19,16 @@ public class MarketService {
         this.resourceRepository = resourceRepository;
     }
 
-    public boolean buyResourceIfEnoughCoins(String userId, String resource) throws PriceNotFoundException, UserNotFoundException {
-        Resource price = resourceRepository.findByResourceName(resource)
+    public boolean buyResourceIfEnoughCoins(String userId, String resourceName) throws PriceNotFoundException, UserNotFoundException {
+        Resource resource = resourceRepository.findByResourceName(resourceName)
                 .orElseThrow(PriceNotFoundException::new);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        if (user.getCoins() >= price.getPrice()) {
-            user.setCoins(user.getCoins() - price.getPrice());
-            updateUserResourceCount(user, resource, 1);
+        if (user.getCoins() >= resource.getPrice()) {
+            user.setCoins(user.getCoins() - resource.getPrice());
+            updateUserResourceCount(user, resourceName, 1);
             userRepository.save(user);
             return true;
         }
@@ -36,19 +36,19 @@ public class MarketService {
         return false;
     }
 
-    public boolean sellResourceIfResourceOwned(String userId, String resource) throws PriceNotFoundException, UserNotFoundException {
-        Resource price = resourceRepository.findByResourceName(resource)
+    public boolean sellResourceIfResourceOwned(String userId, String resourceName) throws PriceNotFoundException, UserNotFoundException {
+        Resource resource = resourceRepository.findByResourceName(resourceName)
                 .orElseThrow(PriceNotFoundException::new);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
 
-        Integer resourceCount = user.getResources().getOrDefault(resource, 0);
+        Integer resourceCount = user.getResources().getOrDefault(resourceName, 0);
 
         if (resourceCount > 0) {
-            user.setCoins(user.getCoins() + price.getPrice());
-            updateUserResourceCount(user, resource, -1);
+            user.setCoins(user.getCoins() + resource.getPrice());
+            updateUserResourceCount(user, resourceName, -1);
             userRepository.save(user);
             return true;
         }
@@ -58,7 +58,7 @@ public class MarketService {
 
     private void updateUserResourceCount(User user, String resource, Integer resourceCountChange) {
         Integer currentCount = user.getResources().getOrDefault(resource, 0);
-        Integer updatedCount = currentCount + resourceCountChange;
+        int updatedCount = currentCount + resourceCountChange;
         user.getResources().put(resource, updatedCount);
     }
 }

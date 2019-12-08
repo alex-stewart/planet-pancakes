@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -24,10 +25,9 @@ import static org.mockito.Mockito.*;
 public class MarketServiceTest {
 
     private static final String USER_ID = "123";
-    private static final String RESOURCE = "wood";
-    private static final int RESOURCE_PRICE = 500;
-
-    private MarketService marketService;
+    private static final String RESOURCE_NAME = "wood";
+    private static final long RESOURCE_PRICE = 500L;
+    private static final Resource RESOURCE = aResource();
 
     @Mock
     private UserRepository userRepositoryMock;
@@ -35,44 +35,41 @@ public class MarketServiceTest {
     @Mock
     private ResourceRepository resourceRepositoryMock;
 
+    @InjectMocks
+    private MarketService marketService;
+
     private ArgumentCaptor<User> userArgumentCaptor;
 
     @Before
     public void setUp() {
-        Resource resource = Resource.builder()
-                .resourceName(RESOURCE)
-                .price(RESOURCE_PRICE)
-                .build();
-        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.of(resource));
-
-        marketService = new MarketService(userRepositoryMock, resourceRepositoryMock);
+        when(resourceRepositoryMock.findByResourceName(RESOURCE_NAME)).thenReturn(Optional.of(RESOURCE));
         userArgumentCaptor = ArgumentCaptor.forClass(User.class);
     }
 
     @Test
     public void shouldAddResourceWhenUserBuysFirstResource() throws Exception {
-        mockUserWithCoinsAndResources(500, new HashMap());
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        mockUserWithCoinsAndResources(500L, new HashMap<>());
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(1)).save(userArgumentCaptor.capture());
 
-        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE)).isEqualTo(1);
+        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE_NAME)).isEqualTo(1);
     }
 
     @Test
     public void shouldIncrementResourceCountWhenUserAlreadyHasResource() throws Exception {
-        mockUserWithCoins(500);
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        mockUserWithCoins(500L);
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(1)).save(userArgumentCaptor.capture());
 
-        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE)).isEqualTo(2);
+        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE_NAME)).isEqualTo(2);
     }
 
     @Test
     public void shouldDeductCoinsWhenEnoughCoins() throws Exception {
-        mockUserWithCoins(500);
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        mockUserWithCoins(500L);
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(1)).save(userArgumentCaptor.capture());
 
@@ -81,8 +78,8 @@ public class MarketServiceTest {
 
     @Test
     public void shouldNotUpdateUserWhenNotEnoughCoins() throws Exception {
-        mockUserWithCoins(499);
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        mockUserWithCoins(499L);
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
@@ -91,53 +88,53 @@ public class MarketServiceTest {
     public void shouldNotUpdateUserWhenNoUserFound() throws Exception {
         when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
 
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenNoResourcePriceFound() throws Exception {
-        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.empty());
-        mockUserWithCoins(500);
+        when(resourceRepositoryMock.findByResourceName(RESOURCE_NAME)).thenReturn(Optional.empty());
+        mockUserWithCoins(500L);
 
-        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
 
     @Test
     public void shouldReturnTrueIfItemBought() throws Exception {
-        mockUserWithCoins(500);
+        mockUserWithCoins(500L);
 
-        boolean result = marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        boolean result = marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         assertThat(result).isTrue();
     }
 
     @Test
     public void shouldReturnFalseIfNotEnoughCoins() throws Exception {
-        mockUserWithCoins(499);
+        mockUserWithCoins(499L);
 
-        boolean result = marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE);
+        boolean result = marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
 
         assertThat(result).isFalse();
     }
 
     @Test
     public void shouldDecrementUserResourcesWhenUserPurchasesResource() throws Exception {
-        mockUserWithCoins(0);
-        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        mockUserWithCoins(0L);
+        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(1)).save(userArgumentCaptor.capture());
-        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE)).isEqualTo(0);
+        assertThat(userArgumentCaptor.getValue().getResources().get(RESOURCE_NAME)).isEqualTo(0);
     }
 
     @Test
     public void shouldAddCoinsWhenUserSellsResource() throws Exception {
-        mockUserWithCoins(0);
+        mockUserWithCoins(0L);
 
-        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(1)).save(userArgumentCaptor.capture());
         assertThat(userArgumentCaptor.getValue().getCoins()).isEqualTo(RESOURCE_PRICE);
@@ -145,27 +142,27 @@ public class MarketServiceTest {
 
     @Test
     public void shouldReturnTrueWhenUserSellsResource() throws Exception {
-        mockUserWithCoins(0);
+        mockUserWithCoins(0L);
 
-        boolean result = marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        boolean result = marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         assertThat(result).isTrue();
     }
 
     @Test
     public void shouldNotUpdateUserWhenUserDoesNotHaveResourceToSell() throws Exception {
-        mockUserWithCoinsAndResources(0, new HashMap<>());
+        mockUserWithCoinsAndResources(0L, new HashMap<>());
 
-        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
 
     @Test
     public void shouldReturnFalseWhenUserDoesNotHaveResourceToSell() throws Exception {
-        mockUserWithCoinsAndResources(0, new HashMap<>());
+        mockUserWithCoinsAndResources(0L, new HashMap<>());
 
-        boolean result = marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        boolean result = marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         assertThat(result).isFalse();
     }
@@ -174,22 +171,22 @@ public class MarketServiceTest {
     public void shouldNotUpdateUserWhenNoUserFoundWhenSellingResource() throws Exception {
         when(userRepositoryMock.findById(any())).thenReturn(Optional.empty());
 
-        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenResourceNotFoundWhenSellingResource() throws Exception {
-        when(resourceRepositoryMock.findByResourceName(RESOURCE)).thenReturn(Optional.empty());
-        mockUserWithCoins(500);
+        when(resourceRepositoryMock.findByResourceName(RESOURCE_NAME)).thenReturn(Optional.empty());
+        mockUserWithCoins(500L);
 
-        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE);
+        marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
 
         verify(userRepositoryMock, times(0)).save(any(User.class));
     }
 
-    private void mockUserWithCoinsAndResources(Integer coins, HashMap<String, Integer> resources) {
+    private void mockUserWithCoinsAndResources(Long coins, HashMap<String, Integer> resources) {
         User user = User.builder()
                 .id(USER_ID)
                 .coins(coins)
@@ -198,9 +195,16 @@ public class MarketServiceTest {
         when(userRepositoryMock.findById(USER_ID)).thenReturn(Optional.of(user));
     }
 
-    private void mockUserWithCoins(Integer coins) {
+    private void mockUserWithCoins(Long coins) {
         HashMap<String, Integer> resources = new HashMap<>();
-        resources.put(RESOURCE, 1);
+        resources.put(RESOURCE_NAME, 1);
         mockUserWithCoinsAndResources(coins, resources);
+    }
+
+    private static Resource aResource() {
+        return Resource.builder()
+                .resourceName(RESOURCE_NAME)
+                .price(RESOURCE_PRICE)
+                .build();
     }
 }
