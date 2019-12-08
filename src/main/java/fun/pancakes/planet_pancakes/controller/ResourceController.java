@@ -5,8 +5,6 @@ import fun.pancakes.planet_pancakes.dto.ResourceDto;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/resources")
 public class ResourceController {
 
-    private static Logger logger = LoggerFactory.getLogger(ResourceController.class);
-
     private ResourceRepository resourceRepository;
     private ResourceConverter resourceConverter;
 
@@ -35,15 +31,15 @@ public class ResourceController {
 
     @GetMapping()
     public ResponseEntity getAllResources() {
-        logger.debug("Request for all resources.");
+        log.debug("Request for all resources.");
 
         try {
             List<Resource> resources = resourceRepository.findAll();
             List<ResourceDto> resourceDtos = convertResourceListToDto(resources);
-            logger.debug("Resources found and returned: {}", resourceDtos);
+            log.debug("Resources found and returned: {}", resourceDtos);
             return ResponseEntity.ok(resourceDtos);
         } catch (Exception e) {
-            logger.error("Unable to build resources response.");
+            log.error("Unable to build resources response.");
             return buildErrorResponse();
         }
     }
