@@ -8,7 +8,7 @@ export default class NewsPaper extends Component {
         let paper = this.props.paper;
         
         let newspaperTitle = paper.newspaperTitle;
-        let divierStyle = {
+        let dividerStyle = {
             "background-color": paper.newspaperColour
         };
 
@@ -21,8 +21,8 @@ export default class NewsPaper extends Component {
             <div className={"display-1 text-center"}>
                 {newspaperTitle}
             </div>
-            <div className={"newspaper-divider text-center"} style={divierStyle}>
-                <DateAndTime days={paper.publishDay}/>
+            <div className={"newspaper-divider text-center"} style={dividerStyle}>
+                <DateAndTime date={paper.publishDay}/>
             </div>
             <div className={"display-1 text-center newspaper-headline"}>
                 {headline}
