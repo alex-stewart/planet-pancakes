@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
-
 export default class NewsPaper extends Component {
 
     render() {
@@ -9,20 +8,21 @@ export default class NewsPaper extends Component {
         
         let newspaperTitle = paper.newspaperTitle;
         let dividerStyle = {
-            "background-color": paper.newspaperColour
+            'backgroundColor': paper.newspaperColour
         };
 
         let headline = paper.headline;
         let headlineStory = paper.headlineStory;
         let imageUrl = paper.imageUrl;
         let secondaryHeadlines = paper.secondaryHeadlines || [];
+        let date = Date.parse(paper.publishDay);
 
         return <div className={"newspaper-body container"}>
             <div className={"display-1 text-center"}>
                 {newspaperTitle}
             </div>
             <div className={"newspaper-divider text-center"} style={dividerStyle}>
-                <DateAndTime date={paper.publishDay}/>
+                <DateAndTime date={date}/>
             </div>
             <div className={"display-1 text-center newspaper-headline"}>
                 {headline}
@@ -39,7 +39,7 @@ export default class NewsPaper extends Component {
             </Row>
             <div className={"newspaper-secondary-headlines h4"}>
                 {secondaryHeadlines.map(function (headline) {
-                    return <span>○ {headline} </span>
+                    return <span key={headline}>○ {headline} </span>
                 }, this)} ○
             </div>
         </div>

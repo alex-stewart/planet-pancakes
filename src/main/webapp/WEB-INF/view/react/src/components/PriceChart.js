@@ -18,13 +18,7 @@ export default class PriceChart extends Component {
 
         const dateTooltipLabelFormatter = function(timestamp) {
             let date = new Date(timestamp);
-            return (
-                <div>
-                    {
-                        formatDateAndTime(date)
-                    }
-                </div>
-            )
+            return (<span>{formatDateAndTime(date)}</span>)
         };
 
         return (

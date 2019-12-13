@@ -49,7 +49,7 @@ export default class News extends Component {
         return <div className={"news-page"}
                     onScroll={this.handleScroll}>
             {papers.map(function (paper) {
-                return <NewsPaper paper={paper}/>
+                return <NewsPaper paper={paper} key={paper.id}/>
             }, this)}
         </div>
     }
