@@ -124,13 +124,17 @@ export default class WorldMap extends Component {
 
     generateCityMarkers(island) {
         return _.map(island.cities, function(city) {
-            return <SettlementMarker settlement={city} type={SETTLEMENT_TYPES.CITY}/>
+            return <SettlementMarker settlement={city}
+                                     key={"city-marker-" + city.name}
+                                     type={SETTLEMENT_TYPES.CITY}/>
         });
     }
 
     generateTownMarkers(island) {
         return _.map(island.towns, function(town) {
-            return <SettlementMarker settlement={town} type={SETTLEMENT_TYPES.TOWN}/>
+            return <SettlementMarker settlement={town}
+                                     key={"town-marker-" + town.name}
+                                     type={SETTLEMENT_TYPES.TOWN}/>
         });
     }
 
@@ -187,7 +191,7 @@ export default class WorldMap extends Component {
                      crs={Leaflet.CRS.Simple}
                      zoom={3}
                      ref={"map"}>
-                    <LayerGroup>
+                    <LayerGroup key={"layer-group-map"}>
                         {
                             this.state.islands.map(this.generateIslandOverlay)
                         }
@@ -196,7 +200,7 @@ export default class WorldMap extends Component {
                         <LayersControl.Overlay key={"label-overlay"}
                                                name={"Island Labels"}
                                                checked={true}>
-                            <LayerGroup>
+                            <LayerGroup key={"layer-group-island-labels"}>
                                 {
                                     this.state.islands.map(this.generateIslandMarker)
                                 }
@@ -205,7 +209,7 @@ export default class WorldMap extends Component {
                         <LayersControl.Overlay key={"city-overlay"}
                                                name={"Cities"}
                                                checked={false}>
-                            <LayerGroup>
+                            <LayerGroup key={"layer-group-cities"}>
                                 {
                                     this.state.islands.map(this.generateCityMarkers)
                                 }
@@ -214,7 +218,7 @@ export default class WorldMap extends Component {
                         <LayersControl.Overlay key={"town-overlay"}
                                                name={"Towns"}
                                                checked={false}>
-                            <LayerGroup>
+                            <LayerGroup key={"layer-group-towns"}>
                                 {
                                     this.state.islands.map(this.generateTownMarkers)
                                 }
