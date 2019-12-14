@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { LineChart, Line, Tooltip, XAxis, YAxis } from 'recharts';
-import {formatCycle, formatDateAndTime} from '../util/date-utils';
+import {GameDate} from "../util/GameDate";
 
 export default class PriceChart extends Component {
 
@@ -16,17 +16,24 @@ export default class PriceChart extends Component {
             )
         });
 
-        const dateTooltipLabelFormatter = function(timestamp) {
+        const formatTooltipLabel = function(timestamp) {
             let date = new Date(timestamp);
-            return (<span>{formatDateAndTime(date)}</span>)
+            let gameDate = new GameDate(date);
+            return (<span>{gameDate.toString()}</span>)
+        };
+
+        const formatTick = function(timestamp) {
+            let date = new Date(timestamp);
+            let gameDate = new GameDate(date);
+            return gameDate.toStringWithoutDay();
         };
 
         return (
             <LineChart width={400} height={150} data={data}>
-                <XAxis dataKey="date" tickFormatter={formatCycle}/>
+                <XAxis dataKey="date" tickFormatter={formatTick}/>
                 <YAxis/>
                 <Line type="monotone" dataKey="price" stroke="#8884d8" dot={false} activeDot={false}/>
-                <Tooltip labelFormatter={dateTooltipLabelFormatter}/>
+                <Tooltip labelFormatter={formatTooltipLabel}/>
             </LineChart>
         );
     }

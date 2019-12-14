@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row} from 'reactstrap';
-import DateAndTime from "./DateAndTime";
+import {GameDate} from "../util/GameDate";
 export default class NewsPaper extends Component {
 
     render() {
@@ -15,14 +15,14 @@ export default class NewsPaper extends Component {
         let headlineStory = paper.headlineStory;
         let imageUrl = paper.imageUrl;
         let secondaryHeadlines = paper.secondaryHeadlines || [];
-        let date = Date.parse(paper.publishDay);
+        let date = new GameDate(Date.parse(paper.publishDay));
 
         return <div className={"newspaper-body container"}>
             <div className={"display-1 text-center"}>
                 {newspaperTitle}
             </div>
             <div className={"newspaper-divider text-center"} style={dividerStyle}>
-                <DateAndTime date={date}/>
+                {date.toStringWithoutTime()}
             </div>
             <div className={"display-1 text-center newspaper-headline"}>
                 {headline}

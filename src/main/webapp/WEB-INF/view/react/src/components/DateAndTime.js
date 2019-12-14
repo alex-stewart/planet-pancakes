@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {formatDate, formatDateAndTime} from '../util/date-utils';
+import {GameDate} from '../util/GameDate';
 
 const TICK_TIMEOUT = 1000;
 
@@ -8,7 +8,7 @@ export default class DateAndTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            time: props.date || new Date()
+            gateDate: new GameDate(new Date())
         };
     };
 
@@ -25,25 +25,16 @@ export default class DateAndTime extends Component {
 
     tick() {
         this.setState({
-            time: new Date(),
+            gameDate: new GameDate(new Date()),
         });
     }
 
-    formatTime () {
-        if (this.props.time) {
-            return formatDateAndTime(this.state.time)
-        } else {
-            return formatDate(this.state.time)
-        }
-    };
-
-
     render() {
-        return <div>
-            {
-                this.formatTime()
-            }
-        </div>
+        let date = "";
+        if (this.state.gameDate) {
+            date = this.state.gameDate.toString()
+        }
 
+        return <div>{date}</div>
     }
 }
