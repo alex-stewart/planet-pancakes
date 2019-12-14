@@ -1,13 +1,15 @@
 import _ from "lodash";
 
-const MILLISECONDS_IN_DAY = 86400000;
-const EPOCH_START_YEAR = 300;
-const DAYS_IN_YEAR = 364;
-const DAYS_IN_CYCLE = 14;
-const CYCLE_DAY_NAMES = [
+export const DAYS_IN_CYCLE = 14;
+export const CYCLES_IN_YEAR = 26;
+export const CYCLE_DAY_NAMES = [
     "Wonday", "Tooday", "Triday", "Forday", "Thiffday", "Ixday", "Kingsday",
     "Newday", "Nonday", "Shuhday", "Sheday", "Sharday", "Queensday", "Emperorday"
 ];
+
+const MILLISECONDS_IN_DAY = 86400000;
+const EPOCH_START_YEAR = 300;
+const DAYS_IN_YEAR = CYCLES_IN_YEAR * DAYS_IN_CYCLE;
 
 export class GameDate {
 
@@ -16,8 +18,8 @@ export class GameDate {
         this.days = date / MILLISECONDS_IN_DAY;
         this.year = EPOCH_START_YEAR + Math.ceil(this.days / DAYS_IN_YEAR);
         this.dayOfYear = Math.ceil(this.days % DAYS_IN_YEAR);
-        this.cycleOfYear = Math.ceil(this.dayOfYear / DAYS_IN_CYCLE);
-        this.dayOfCycle = Math.floor(this.dayOfYear % DAYS_IN_CYCLE);
+        this.cycle = Math.ceil(this.dayOfYear / DAYS_IN_CYCLE);
+        this.day = CYCLE_DAY_NAMES[Math.floor(this.dayOfYear % DAYS_IN_CYCLE)];
     }
 
     toString() {
@@ -25,18 +27,17 @@ export class GameDate {
     }
 
     toStringWithoutTime() {
-        return this.toStringWithoutDay() + " " + CYCLE_DAY_NAMES[this.dayOfCycle];
+        return this.toStringWithoutDay() + " " + this.day;
     }
 
     toStringWithoutDay() {
-        return this.year + "☼ " + this.cycleOfYear + "☾";
+        return this.year + "☼ " + this.cycle + "☾";
     }
 
     formatTime(date) {
         let hours = _.padStart(date.getUTCHours(), 2, 0);
         let minutes = _.padStart(date.getUTCMinutes(), 2, 0);
-        let seconds = _.padStart(date.getUTCSeconds(), 2, 0);
-        return hours + ":" + minutes + ":" +seconds
+        return hours + ":" + minutes;
     };
 }
 
