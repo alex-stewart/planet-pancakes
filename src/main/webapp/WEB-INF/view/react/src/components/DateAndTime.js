@@ -8,7 +8,7 @@ export default class DateAndTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gateDate: GameDate.now()
+            gameDate: GameDate.now()
         };
     };
 
@@ -35,6 +35,12 @@ export default class DateAndTime extends Component {
             date = this.state.gameDate.toString()
         }
 
-        return <div>{date}</div>
+        return (
+            <div>
+                <div className={"navbar-date-time"}>
+                    {date}
+                </div>
+            </div>
+        )
     }
 }

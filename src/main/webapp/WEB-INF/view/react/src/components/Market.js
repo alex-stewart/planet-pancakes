@@ -101,16 +101,16 @@ export default class Market extends Component {
         let headers = user ? loggedInColumns : defaultColumns;
 
         return (
-            <div className={"market-page"}>
+            <div className={"pp-page"}>
                 {coinsBar}
                 <Table>
                     <thead className={"thead-dark"}>
-                         {headers}
+                    {headers}
                     </thead>
-                    <tbody  className={"table-light"}>
-                        {
-                            this.state.resources.map(this.renderResourceRow.bind(this))
-                        }
+                    <tbody className={"table-light"}>
+                    {
+                        this.state.resources.map(this.renderResourceRow.bind(this))
+                    }
                     </tbody>
                 </Table>
                 <Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={onAlertDismiss}>

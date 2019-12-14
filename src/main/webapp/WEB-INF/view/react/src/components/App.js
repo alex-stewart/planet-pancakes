@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import User from './User';
 import News from './News'
 import Market from './Market'
+import Calendar from './Calendar'
 import axios from "axios";
 
 export default class App extends Component {
@@ -65,6 +66,7 @@ export default class App extends Component {
                     <Route path="/market"
                            render={(props) => <Market {...props} user={this.state.currentUser} updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>}
                     />
+                    <Route path={"/calendar"} component={Calendar}/>
                 </div>
             </BrowserRouter>
         ]);

@@ -2,47 +2,27 @@ import React from 'react';
 import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
 
-const MILLISECONDS_IN_DAY = 86400000;
-
 export default class Example extends React.Component {
     constructor(props) {
         super(props);
 
-        this.toggle = this.toggle.bind(this);
+        this.toggleNav = this.toggleNav.bind(this);
         this.state = {
-            isOpen: false,
-            date: Date.now()
+            navIsOpen: false,
         };
     }
 
-    toggle() {
+    toggleNav() {
         this.setState({
-            isOpen: !this.state.isOpen
+            navIsOpen: !this.state.navIsOpen
         });
-    }
-
-    tick() {
-        this.setState({
-            date: new Date(),
-        });
-    }
-
-    componentDidMount() {
-        this.timerID = setInterval(
-            () => this.tick(),
-            3600000
-        );
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timerID);
     }
 
     render() {
-        function leftNavigation() {
+        const leftNavigation = function () {
             return <Nav className="p2" navbar>
                 <NavItem>
-                    <NavLink href="/map">World Map</NavLink>
+                    <NavLink href="/map">Map</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink href="/news">News</NavLink>
@@ -51,13 +31,13 @@ export default class Example extends React.Component {
                     <NavLink href="/market">Market</NavLink>
                 </NavItem>
             </Nav>
-        }
+        };
 
-        function rightNavigation(user, days) {
+        const rightNavigation = function (user) {
             if (user) {
                 return <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
+                        <DateAndTime/>
                     </NavItem>
                     <NavItem>
                         <NavLink href="/user">{user.name}</NavLink>
@@ -69,24 +49,22 @@ export default class Example extends React.Component {
             } else {
                 return <Nav className="ml-auto" navbar>,
                     <NavItem>
-                        <div className={"navbar-date-time"}><DateAndTime days={days} time={true}/></div>
+                        <DateAndTime/>
                     </NavItem>
                     <NavItem>
                         <NavLink href="/login">Login</NavLink>
                     </NavItem>
                 </Nav>
             }
-        }
-
-        let days = Math.ceil(this.state.date / MILLISECONDS_IN_DAY);
+        };
 
         return (
             <Navbar color="dark" dark expand="md">
                 <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
-                <NavbarToggler onClick={this.toggle}/>
-                <Collapse isOpen={this.state.isOpen} navbar>
+                <NavbarToggler onClick={this.toggleNav}/>
+                <Collapse isOpen={this.state.navIsOpen} navbar>
                     {leftNavigation()}
-                    {rightNavigation(this.props.user, days)}
+                    {rightNavigation(this.props.user)}
                 </Collapse>
             </Navbar>
         );
