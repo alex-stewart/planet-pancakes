@@ -17,14 +17,12 @@ export default class PriceChart extends Component {
         });
 
         const formatTooltipLabel = function(timestamp) {
-            let date = new Date(timestamp);
-            let gameDate = new GameDate(date);
+            let gameDate = GameDate.fromTimestamp(timestamp);
             return (<span>{gameDate.toString()}</span>)
         };
 
         const formatTick = function(timestamp) {
-            let date = new Date(timestamp);
-            let gameDate = new GameDate(date);
+            let gameDate = GameDate.fromTimestamp(timestamp);
             return gameDate.toStringWithoutDay();
         };
 

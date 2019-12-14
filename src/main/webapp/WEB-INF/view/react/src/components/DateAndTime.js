@@ -8,7 +8,7 @@ export default class DateAndTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            gateDate: new GameDate(new Date())
+            gateDate: GameDate.now()
         };
     };
 
@@ -25,7 +25,7 @@ export default class DateAndTime extends Component {
 
     tick() {
         this.setState({
-            gameDate: new GameDate(new Date()),
+            gameDate: GameDate.now(),
         });
     }
 

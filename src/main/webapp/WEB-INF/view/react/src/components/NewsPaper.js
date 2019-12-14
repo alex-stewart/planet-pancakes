@@ -15,7 +15,7 @@ export default class NewsPaper extends Component {
         let headlineStory = paper.headlineStory;
         let imageUrl = paper.imageUrl;
         let secondaryHeadlines = paper.secondaryHeadlines || [];
-        let date = new GameDate(Date.parse(paper.publishDay));
+        let date = GameDate.fromTimestamp(paper.publishDay);
 
         return <div className={"newspaper-body container"}>
             <div className={"display-1 text-center"}>

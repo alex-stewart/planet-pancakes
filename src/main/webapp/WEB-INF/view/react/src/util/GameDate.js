@@ -1,10 +1,10 @@
 import _ from "lodash";
 
-export const MILLISECONDS_IN_DAY = 86400000;
-export const EPOCH_START_YEAR = 300;
-export const DAYS_IN_YEAR = 364;
-export const DAYS_IN_CYCLE = 14;
-export const CYCLE_DAY_NAMES = [
+const MILLISECONDS_IN_DAY = 86400000;
+const EPOCH_START_YEAR = 300;
+const DAYS_IN_YEAR = 364;
+const DAYS_IN_CYCLE = 14;
+const CYCLE_DAY_NAMES = [
     "Wonday", "Tooday", "Triday", "Forday", "Thiffday", "Ixday", "Kingsday",
     "Newday", "Nonday", "Shuhday", "Sheday", "Sharday", "Queensday", "Emperorday"
 ];
@@ -38,7 +38,14 @@ export class GameDate {
         let seconds = _.padStart(date.getUTCSeconds(), 2, 0);
         return hours + ":" + minutes + ":" +seconds
     };
-
-
 }
+
+GameDate.fromTimestamp = function(timestamp) {
+    let date = new Date(timestamp);
+    return new GameDate(date);
+};
+
+GameDate.now = function(){
+    return new GameDate(new Date());
+};
 
