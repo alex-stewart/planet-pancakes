@@ -36,10 +36,8 @@ export default class DateAndTime extends Component {
         }
 
         return (
-            <div>
-                <div className={"navbar-date-time"}>
-                    {date}
-                </div>
+            <div className={"nav-link"}>
+                {date}
             </div>
         )
     }

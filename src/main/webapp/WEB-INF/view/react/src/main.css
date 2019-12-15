@@ -88,6 +88,15 @@ html, body, #root {
     max-width: none;
 }
 
+.navbar-item:focus, .navbar-item:active {
+    outline: none;
+}
+
+.navbar-brand, .navbar-brand:focus, .navbar-brand:active {
+    color: #FFFFFF !important;
+    outline: none;
+}
+
 .navbar-date-time {
     color: rgba(255, 255, 255, 0.5);
     padding: 8px;

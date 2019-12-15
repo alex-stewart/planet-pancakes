@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {Route, BrowserRouter} from 'react-router-dom';
 import WorldMap from './WorldMap';
 import Navigation from './Navigation';
 import User from './User';

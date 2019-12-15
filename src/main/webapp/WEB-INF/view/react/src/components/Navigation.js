@@ -1,6 +1,7 @@
 import React from 'react';
 import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
+import {Link} from "react-router-dom";
 
 export default class Example extends React.Component {
     constructor(props) {
@@ -19,48 +20,57 @@ export default class Example extends React.Component {
     }
 
     render() {
+        const generateNavItem = function (name, to) {
+            return (
+                <NavItem>
+                    <NavLink to={to}
+                             tag={Link}
+                             className={"navbar-item"}>
+                        {name}
+                    </NavLink>
+                </NavItem>
+            )
+        };
+
         const leftNavigation = function () {
             return <Nav className="p2" navbar>
-                <NavItem>
-                    <NavLink href="/map">Map</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink href="/news">News</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink href="/market">Market</NavLink>
-                </NavItem>
+                {generateNavItem("Map", "/map")}
+                {generateNavItem("News", "/news")}
+                {generateNavItem("Market", "/market")}
+                {generateNavItem("Calendar", "/calendar")}
             </Nav>
         };
 
         const rightNavigation = function (user) {
             if (user) {
-                return <Nav className="ml-auto" navbar>
-                    <NavItem>
-                        <DateAndTime/>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/user">{user.name}</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/logout">Logout</NavLink>
-                    </NavItem>
-                </Nav>
+                return (
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                            <DateAndTime/>
+                        </NavItem>
+                        {generateNavItem(user.name, "/user")}
+                        {generateNavItem("Logout", "/logout")}
+                    </Nav>
+                )
             } else {
-                return <Nav className="ml-auto" navbar>,
-                    <NavItem>
-                        <DateAndTime/>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/login">Login</NavLink>
-                    </NavItem>
-                </Nav>
+                return (
+                    <Nav className="ml-auto" navbar>
+                        <NavItem>
+                            <DateAndTime/>
+                        </NavItem>
+                        {generateNavItem("Login", "/login")}
+                    </Nav>
+                )
             }
         };
 
         return (
             <Navbar color="dark" dark expand="md">
-                <NavbarBrand href="/">Planet Pancakes</NavbarBrand>
+                <NavbarBrand className={"navbar-brand"}
+                             tag={Link}
+                             to="/">
+                    PP
+                </NavbarBrand>
                 <NavbarToggler onClick={this.toggleNav}/>
                 <Collapse isOpen={this.state.navIsOpen} navbar>
                     {leftNavigation()}
