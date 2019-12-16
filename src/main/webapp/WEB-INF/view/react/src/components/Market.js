@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Alert, Button, Table} from 'reactstrap';
 import axios from "axios";
 import PriceChart from "./PriceChart";
+import commaNumber from "comma-number";
 
 export default class Market extends Component {
 
@@ -124,7 +125,11 @@ export default class Market extends Component {
         return (
             <tr key={"resource-row-" + resource.resourceName}>
                 <th className={"resource-name-col"}>{resource.resourceName}</th>
-                <td>{resource.price} Coins</td>
+                <td>
+                {
+                    commaNumber(resource.price) + " Coins"
+                }
+                </td>
                 <td>
                     <PriceChart resource={resource}/>
                 </td>
