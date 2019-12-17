@@ -49,7 +49,7 @@ export default class Example extends React.Component {
                             <DateAndTime/>
                         </NavItem>
                         {generateNavItem(user.name, "/user")}
-                        {generateNavItem("Logout", "/logout")}
+                        <NavLink href={"/logout"} className={"navbar-item"}>Logout</NavLink>
                     </Nav>
                 )
             } else {
@@ -58,7 +58,9 @@ export default class Example extends React.Component {
                         <NavItem>
                             <DateAndTime/>
                         </NavItem>
-                        {generateNavItem("Login", "/login")}
+                        <NavItem>
+                            <NavLink href={"/login"} className={"navbar-item"}>Login</NavLink>
+                        </NavItem>
                     </Nav>
                 )
             }
