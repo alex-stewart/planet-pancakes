@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Col, Row} from 'reactstrap';
-import {GameDate} from "../util/GameDate";
+import {GameDate} from "../../util/GameDate";
 export default class NewsPaper extends Component {
 
     render() {

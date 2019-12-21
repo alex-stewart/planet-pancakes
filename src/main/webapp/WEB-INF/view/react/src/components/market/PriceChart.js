@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Line, LineChart, Tooltip, XAxis, YAxis} from 'recharts';
-import {GameDate} from "../util/GameDate";
+import {GameDate} from "../../util/GameDate";
 import commaNumber from 'comma-number';
 
 export default class PriceChart extends Component {

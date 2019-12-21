@@ -7,7 +7,7 @@ import Leaflet from 'leaflet';
 import L from 'leaflet';
 import {ListGroup, ListGroupItem, Modal, ModalBody} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
-import {rotatePoint} from '../util/point-utils';
+import {rotatePoint} from '../../util/point-utils';
 import WikiPage from "./WikiPage";
 import SettlementMarker from "./SettlementMarker";
 import {SETTLEMENT_TYPES} from "./Constants";

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Route, BrowserRouter} from 'react-router-dom';
-import WorldMap from './WorldMap';
+import WorldMap from './map/WorldMap';
 import Navigation from './Navigation';
 import User from './User';
-import News from './News'
-import Market from './Market'
+import News from './news/News'
+import Market from './market/Market'
 import Calendar from './Calendar'
 import axios from "axios";
 
