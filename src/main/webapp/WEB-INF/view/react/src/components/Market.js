@@ -98,7 +98,7 @@ export default class Market extends Component {
         ];
 
         let user = this.props.user;
-        let coinsBar = user ? <div>Coins: {this.props.user.coins}</div> : null;
+        let coinsBar = user ? <div>Coins: {commaNumber(this.props.user.coins)}</div> : null;
         let headers = user ? loggedInColumns : defaultColumns;
 
         return (
@@ -109,12 +109,13 @@ export default class Market extends Component {
                     {headers}
                     </thead>
                     <tbody className={"table-light"}>
-                    {
-                        this.state.resources.map(this.renderResourceRow.bind(this))
-                    }
+                    {this.state.resources.map(this.renderResourceRow.bind(this))}
                     </tbody>
                 </Table>
-                <Alert color={this.state.alertColor} isOpen={this.state.alertVisible} toggle={onAlertDismiss}>
+                <Alert className={"market-buy-alert"}
+                       color={this.state.alertColor}
+                       isOpen={this.state.alertVisible}
+                       toggle={onAlertDismiss}>
                     {this.state.alertText}
                 </Alert>
             </div>
@@ -126,16 +127,12 @@ export default class Market extends Component {
             <tr key={"resource-row-" + resource.resourceName}>
                 <th className={"resource-name-col"}>{resource.resourceName}</th>
                 <td>
-                {
-                    commaNumber(resource.price) + " Coins"
-                }
+                    {commaNumber(resource.price) + " Coins"}
                 </td>
                 <td>
                     <PriceChart resource={resource}/>
                 </td>
-                {
-                    this.renderUserColumns(resource, this.props.user)
-                }
+                {this.renderUserColumns(resource, this.props.user)}
             </tr>
         )
     }
@@ -146,12 +143,14 @@ export default class Market extends Component {
                 [
                     <td>{user.resources[resource.resourceName] || 0}</td>,
                     <td>
-                        <Button color="primary" onClick={event => this.buyResource(event, resource).bind(this)}>
+                        <Button color="primary"
+                                onClick={event => this.buyResource(event, resource).bind(this)}>
                             Buy {resource.name}
                         </Button>
                     </td>,
                     <td>
-                        <Button color="primary" onClick={event => this.sellResource(event, resource).bind(this)}>
+                        <Button color="primary"
+                                onClick={event => this.sellResource(event, resource).bind(this)}>
                             Sell {resource.name}
                         </Button>
                     </td>
