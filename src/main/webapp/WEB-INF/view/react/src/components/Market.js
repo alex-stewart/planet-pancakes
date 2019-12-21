@@ -130,7 +130,8 @@ export default class Market extends Component {
                     {commaNumber(resource.price) + " Coins"}
                 </td>
                 <td>
-                    <PriceChart resource={resource}/>
+                    <PriceChart resource={resource}
+                                height={100}/>
                 </td>
                 {this.renderUserColumns(resource, this.props.user)}
             </tr>

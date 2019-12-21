@@ -4,6 +4,13 @@ import {GameDate} from "../util/GameDate";
 import commaNumber from 'comma-number';
 
 export default class PriceChart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            height: this.props.height || 100
+        }
+    }
+
 
     render() {
         let resource = this.props.resource;
@@ -37,7 +44,7 @@ export default class PriceChart extends Component {
 
         return (
             <LineChart width={400}
-                       height={150}
+                       height={this.state.height}
                        data={data}>
                 <XAxis dataKey="date"
                        tickFormatter={formatTick}/>
