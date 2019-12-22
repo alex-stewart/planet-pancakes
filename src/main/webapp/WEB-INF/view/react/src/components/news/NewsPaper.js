@@ -21,7 +21,8 @@ export default class NewsPaper extends Component {
             <div className={"display-1 text-center"}>
                 {newspaperTitle}
             </div>
-            <div className={"newspaper-divider text-center"} style={dividerStyle}>
+            <div className={"newspaper-divider text-center"}
+                 style={dividerStyle}>
                 {date.toStringWithoutTime()}
             </div>
             <div className={"display-1 text-center newspaper-headline"}>

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Alert, Button, Table} from 'reactstrap';
+import {Alert, Table} from 'reactstrap';
 import axios from "axios";
-import PriceChart from "./PriceChart";
 import commaNumber from "comma-number";
+import MarketRow from "./MarketRow";
+import _ from "lodash";
 
 export default class Market extends Component {
 
@@ -11,7 +12,6 @@ export default class Market extends Component {
         this.state = {
             resources: [],
             alertText: null,
-            alertColor: null,
             alertVisible: false
         }
     }
@@ -26,48 +26,6 @@ export default class Market extends Component {
                 (result) => {
                     this.setState({
                         resources: result.data
-                    })
-                }
-            )
-    }
-
-    buyResource(event, resource) {
-        axios.get("/api/market/buy?resource=" + resource.resourceName)
-            .then(
-                () => {
-                    this.props.updateUser();
-                    this.setState({
-                        alertVisible: true,
-                        alertColor: "success",
-                        alertText: "Resource Purchased."
-                    })
-                },
-                (error) => {
-                    this.setState({
-                        alertVisible: true,
-                        alertColor: "danger",
-                        alertText: error.response.data.message
-                    })
-                }
-            )
-    }
-
-    sellResource(event, resource) {
-        axios.get("/api/market/sell?resource=" + resource.resourceName)
-            .then(
-                () => {
-                    this.props.updateUser();
-                    this.setState({
-                        alertVisible: true,
-                        alertColor: "success",
-                        alertText: "Resource Sold."
-                    })
-                },
-                (error) => {
-                    this.setState({
-                        alertVisible: true,
-                        alertColor: "danger",
-                        alertText: error.response.data.message
                     })
                 }
             )
@@ -101,6 +59,8 @@ export default class Market extends Component {
         let coinsBar = user ? <div>Coins: {commaNumber(this.props.user.coins)}</div> : null;
         let headers = user ? loggedInColumns : defaultColumns;
 
+        let resourceRows = this.renderResourceRows(this.state.resources, this.props.user, this.props.updateUser);
+
         return (
             <div className={"pp-page"}>
                 {coinsBar}
@@ -109,11 +69,11 @@ export default class Market extends Component {
                     {headers}
                     </thead>
                     <tbody className={"table-light"}>
-                    {this.state.resources.map(this.renderResourceRow.bind(this))}
+                    {resourceRows}
                     </tbody>
                 </Table>
                 <Alert className={"market-buy-alert"}
-                       color={this.state.alertColor}
+                       color={"danger"}
                        isOpen={this.state.alertVisible}
                        toggle={onAlertDismiss}>
                     {this.state.alertText}
@@ -122,43 +82,17 @@ export default class Market extends Component {
         )
     }
 
-    renderResourceRow(resource) {
-        return (
-            <tr key={"resource-row-" + resource.resourceName}>
-                <th className={"resource-name-col"}>{resource.resourceName}</th>
-                <td>
-                    {commaNumber(resource.price) + " Coins"}
-                </td>
-                <td>
-                    <PriceChart resource={resource}
-                                height={100}/>
-                </td>
-                {this.renderUserColumns(resource, this.props.user)}
-            </tr>
-        )
-    }
+    renderResourceRows(resources, user, updateUserFunction) {
+        const addErrorAlert = (message) => this.setState({
+            alertVisible: true,
+            alertText: message
+        });
 
-    renderUserColumns(resource, user) {
-        if (user) {
-            return (
-                [
-                    <td>{user.resources[resource.resourceName] || 0}</td>,
-                    <td>
-                        <Button color="primary"
-                                onClick={event => this.buyResource(event, resource).bind(this)}>
-                            Buy {resource.name}
-                        </Button>
-                    </td>,
-                    <td>
-                        <Button color="primary"
-                                onClick={event => this.sellResource(event, resource).bind(this)}>
-                            Sell {resource.name}
-                        </Button>
-                    </td>
-                ]
-            )
-        } else {
-            return [];
-        }
+        return _.map(resources, function (resource) {
+            return <MarketRow resource={resource}
+                              user={user}
+                              updateUser={updateUserFunction}
+                              addErrorAlert={addErrorAlert}/>
+        });
     }
 }
