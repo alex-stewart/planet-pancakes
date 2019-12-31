@@ -27,10 +27,10 @@ export default class Calendar extends Component {
         let gameDate = this.state.gameDate;
         let cellStyles = "calendar-table-cell";
 
-        if (WEEKENDS.includes(day)){
-            cellStyles = cellStyles + " calendar-table-cell-weekend";
-        } else if (cycle === gameDate.cycle && day === gameDate.dayOfCycle) {
+        if (cycle === gameDate.cycle && day === gameDate.dayOfCycle) {
             cellStyles = cellStyles + " calendar-table-cell-today";
+        } else if (WEEKENDS.includes(day)){
+            cellStyles = cellStyles + " calendar-table-cell-weekend";
         }
 
         let cellContent = "";
