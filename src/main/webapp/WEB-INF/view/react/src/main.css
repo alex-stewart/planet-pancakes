@@ -153,3 +153,28 @@ html, body, #root {
 .resource-name-col:first-letter {
     text-transform:capitalize;
 }
+
+.calendar-table-body {
+    background-color: #FFFFFF;
+}
+
+.calendar-table-cell {
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #adb5bd;
+    border-left: none;
+}
+
+.calendar-holiday-icon {
+    color: #777777;
+}
+
+.calendar-table-cell-today {
+    background-color: #ffeeba;
+}
+
+.calendar-table-cell-weekend {
+    background-color: #EEEEEE;
+}

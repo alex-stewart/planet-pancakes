@@ -6,6 +6,7 @@ export const CYCLE_DAY_NAMES = [
     "Wonday", "Tooday", "Triday", "Forday", "Thiffday", "Ixday", "Kingsday",
     "Newday", "Nonday", "Shuhday", "Sheday", "Sharday", "Queensday", "Emperorday"
 ];
+export const WEEKENDS = [6, 12, 13];
 
 const MILLISECONDS_IN_DAY = 86400000;
 const EPOCH_START_YEAR = 300;
@@ -13,13 +14,14 @@ const DAYS_IN_YEAR = CYCLES_IN_YEAR * DAYS_IN_CYCLE;
 
 export class GameDate {
 
-    constructor(date){
+    constructor(date) {
         this.date = date;
         this.days = date / MILLISECONDS_IN_DAY;
         this.year = EPOCH_START_YEAR + Math.ceil(this.days / DAYS_IN_YEAR);
         this.dayOfYear = Math.ceil(this.days % DAYS_IN_YEAR);
         this.cycle = Math.ceil(this.dayOfYear / DAYS_IN_CYCLE);
-        this.day = CYCLE_DAY_NAMES[Math.floor(this.dayOfYear % DAYS_IN_CYCLE)];
+        this.dayOfCycle = Math.floor(this.dayOfYear % DAYS_IN_CYCLE);
+        this.day = CYCLE_DAY_NAMES[this.dayOfCycle];
     }
 
     toString() {
@@ -31,7 +33,11 @@ export class GameDate {
     }
 
     toStringWithoutDay() {
-        return this.year + "☼ " + this.cycle + "☾";
+        return this.yearAsString() + " " + this.cycle + "☾";
+    }
+
+    yearAsString() {
+        return this.year + "☼";
     }
 
     formatTime(date) {
@@ -41,12 +47,12 @@ export class GameDate {
     };
 }
 
-GameDate.fromTimestamp = function(timestamp) {
+GameDate.fromTimestamp = function (timestamp) {
     let date = new Date(timestamp);
     return new GameDate(date);
 };
 
-GameDate.now = function(){
+GameDate.now = function () {
     return new GameDate(new Date());
 };
 

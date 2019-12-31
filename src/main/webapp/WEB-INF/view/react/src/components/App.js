@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import User from './User';
 import News from './news/News'
 import Market from './market/Market'
-import Calendar from './Calendar'
+import Calendar from './calendar/Calendar'
 import axios from "axios";
 
 export default class App extends Component {
