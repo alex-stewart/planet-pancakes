@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {CYCLE_DAY_NAMES, CYCLES_IN_YEAR, DAYS_IN_CYCLE, WEEKENDS, GameDate} from '../../util/GameDate';
+import {CYCLE_DAY_NAMES, CYCLES_IN_YEAR, DAYS_IN_CYCLE, GameDate, WEEKENDS} from '../../util/GameDate';
 import {HOLIDAYS} from './Holidays';
-import {faStar} from "@fortawesome/free-solid-svg-icons";
+import DateInfo from "./DateInfo";
 import {Table, UncontrolledTooltip} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 
 export default class Calendar extends Component {
 
@@ -29,7 +30,7 @@ export default class Calendar extends Component {
 
         if (cycle === gameDate.cycle && day === gameDate.dayOfCycle) {
             cellStyles = cellStyles + " calendar-table-cell-today";
-        } else if (WEEKENDS.includes(day)){
+        } else if (WEEKENDS.includes(day)) {
             cellStyles = cellStyles + " calendar-table-cell-weekend";
         }
 
@@ -75,6 +76,9 @@ export default class Calendar extends Component {
                     {this.generateBody()}
                     </tbody>
                 </Table>
+                <div align={"right"}>
+                    <DateInfo/>
+                </div>
             </div>
         )
     }
