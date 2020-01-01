@@ -190,7 +190,8 @@ export default class WorldMap extends Component {
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
                      zoom={3}
-                     ref={"map"}>
+                     ref={"map"}
+                     attributionControl={false}>
                     <LayerGroup key={"layer-group-map"}>
                         {
                             this.state.islands.map(this.generateIslandOverlay)
