@@ -21,13 +21,13 @@ public class PriceCalculatorTest {
     private static final long START_PRICE = 100L;
     private static final long MINIMAL_PRICE = 1L;
 
-    private static final int ZERO_TREND_PERCENT = 0;
-    private static final int TREND_PERCENT = 5;
-    private static final int NEGATIVE_TREND_PERCENT = -5;
-    private static final int EXTREME_NEGATIVE_TREND_PERCENT = -200;
+    private static final double ZERO_TREND_PERCENT = 0;
+    private static final double TREND_PERCENT = 5;
+    private static final double NEGATIVE_TREND_PERCENT = -5;
+    private static final double EXTREME_NEGATIVE_TREND_PERCENT = -200;
 
-    private static final int ZERO_MAX_CHANGE_PERCENT = 0;
-    private static final int MAX_CHANGE_PERCENT = 20;
+    private static final double ZERO_MAX_CHANGE_PERCENT = 0;
+    private static final double MAX_CHANGE_PERCENT = 20;
 
     @Mock
     private Random random;

@@ -17,7 +17,7 @@ public class Resource {
     private String resourceName;
 
     private Long price;
-    private Integer priceTrendPercent;
-    private Integer priceMaxChangePercent;
+    private Double priceTrendPercent;
+    private Double priceMaxChangePercent;
     private Map<Date, Long> priceHistory;
 }

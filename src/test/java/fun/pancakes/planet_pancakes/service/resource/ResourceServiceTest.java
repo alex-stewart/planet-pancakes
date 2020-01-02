@@ -20,8 +20,8 @@ public class ResourceServiceTest {
     private static final Date DATE = new Date();
     private static final long NEW_RESOURCE_PRICE = 123L;
     private static final long CURRENT_RESOURCE_PRICE = 100L;
-    private static final int PRICE_TREND_PERCENT = 10;
-    private static final int PRICE_MAX_CHANGE_PERCENT = 20;
+    private static final double PRICE_TREND_PERCENT = 10d;
+    private static final double PRICE_MAX_CHANGE_PERCENT = 20d;
 
     @Mock
     PriceCalculator priceCalculator;

@@ -24,6 +24,9 @@ public class ResourceConverterTest {
     private static final long HISTORY_PRICE_1 = 399L;
     private static final long HISTORY_PRICE_2 = 400L;
 
+    private static final double RESOURCE_PRICE_TREND = 10d;
+    private static final double RESOURCE_MAX_CHANGE_PERCENT = 20d;
+
     private ResourceConverter resourceConverter;
 
     @Before
@@ -64,8 +67,8 @@ public class ResourceConverterTest {
         return Resource.builder()
                 .resourceName(RESOURCE_NAME)
                 .price(RESOURCE_PRICE)
-                .priceTrendPercent(10)
-                .priceMaxChangePercent(20)
+                .priceTrendPercent(RESOURCE_PRICE_TREND)
+                .priceMaxChangePercent(RESOURCE_MAX_CHANGE_PERCENT)
                 .build();
     }
 
