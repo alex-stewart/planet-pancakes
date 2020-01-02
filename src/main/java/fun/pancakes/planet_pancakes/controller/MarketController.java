@@ -56,7 +56,7 @@ public class MarketController {
         }
     }
 
-    public ResponseEntity buildBadRequestResponse(String message) {
+    private ResponseEntity buildBadRequestResponse(String message) {
         return new ResponseEntity<>(new ErrorDto(message), HttpStatus.BAD_REQUEST);
     }
 }
