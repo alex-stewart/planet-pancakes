@@ -12,6 +12,7 @@ import WikiPage from "./WikiPage";
 import SettlementMarker from "./SettlementMarker";
 import {SETTLEMENT_TYPES} from "./Constants";
 import _ from "lodash";
+import CompassControl from "./CompassControl";
 
 export default class WorldMap extends Component {
 
@@ -192,6 +193,7 @@ export default class WorldMap extends Component {
                      zoom={3}
                      ref={"map"}
                      attributionControl={false}>
+                    <CompassControl/>
                     <LayerGroup key={"layer-group-map"}>
                         {
                             this.state.islands.map(this.generateIslandOverlay)

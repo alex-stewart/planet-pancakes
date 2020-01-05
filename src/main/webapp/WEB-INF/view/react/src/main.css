@@ -127,7 +127,7 @@ html, body, #root {
 .newspaper-divider {
     width: 100%;
     color: #FFFFFF;
- }
+}
 
 .newspaper-image {
     display: block;
@@ -151,7 +151,7 @@ html, body, #root {
 }
 
 .resource-name-col:first-letter {
-    text-transform:capitalize;
+    text-transform: capitalize;
 }
 
 .calendar-table-body {
@@ -179,6 +179,20 @@ html, body, #root {
     background-color: #EEEEEE;
 }
 
-.date-info-tooltip {
+.compass-tooltip {
+    width: 500px;
+    height: 500px;
+    margin: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
 
+.compass-tooltip .tooltip-inner {
+    background-color: transparent;
+    opacity: 8;
+}
+
+.compass-tooltip .bs-tooltip-auto[x-placement^="top"] span.arrow::before, .bs-tooltip-top .arrow::before {
+    visibility: hidden
 }

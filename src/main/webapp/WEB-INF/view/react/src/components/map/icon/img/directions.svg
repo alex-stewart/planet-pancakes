@@ -1,0 +1,41 @@
+<svg width="600mm" height="600mm" version="1.1" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <marker id="marker15704" overflow="visible" orient="auto">
+   <path transform="matrix(1.1,0,0,1.1,1.1,0)" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="marker13914" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <marker id="marker13685" overflow="visible" orient="auto">
+   <path transform="matrix(-1.1,0,0,-1.1,-1.1,0)" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-opacity=".99665" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-opacity=".99665" stroke-width=".625"/>
+  </marker>
+  <marker id="marker11603" overflow="visible" orient="auto">
+   <path transform="matrix(1.1,0,0,1.1,1.1,0)" d="m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+ </defs>
+ <g transform="translate(-400,303)">
+  <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".99665" stroke-width="20">
+   <path d="m1406.7 327a425 425 0 0 1-425 425 425 425 0 0 1-425-425 425 425 0 0 1 425-425 425 425 0 0 1 425 425z" style="paint-order:stroke fill markers"/>
+   <circle transform="scale(-1,1)" cx="-976.67" cy="327" r="200" style="paint-order:stroke fill markers"/>
+   <circle cx="981.67" cy="327" r="75" style="paint-order:stroke fill markers"/>
+  </g>
+  <circle cx="980" cy="327" r="10" fill-opacity=".98431" style="paint-order:fill markers stroke"/>
+  <ellipse cx="5e-7" cy="47" rx="0" ry="250" fill="none" stroke-width="0" style="paint-order:fill markers stroke"/>
+  <path id="path13895" d="m484.26-222.07 196.7 196.53" fill="none" marker-start="url(#marker11603)" stroke="#000" stroke-width="2"/>
+  <path id="path13895-1" d="m1334.3 629.77 196.7 196.53" fill="none" marker-start="url(#marker15704)" stroke="#000" stroke-width="2"/>
+ </g>
+ <g transform="translate(-400,-400)">
+  <text fill="#000000" font-family="'Bilbo Swash Caps'" font-size="25.4px" letter-spacing="0px" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><textPath xlink:href="#path1366-9"/></text>
+  <g transform="translate(-28.255 48.19)">
+   <path id="path11257" transform="scale(-1)" d="m-1014.2-482.81a494.75 499 0 0 1-349.84-146.15 494.75 499 0 0 1-144.91-352.85" fill="none" marker-end="url(#marker13914)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".99665" stroke-width="2" style="paint-order:stroke fill markers"/>
+   <path id="path11257-8" transform="scale(-1)" d="m-519.41-981.81a494.75 499 0 0 0-494.75-499" fill="none" marker-end="url(#marker13685)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".99665" stroke-width="2" style="paint-order:stroke fill markers"/>
+   <g fill="#000000" font-family="'Bilbo Swash Caps'" font-size="25.4px" letter-spacing="0px" word-spacing="0px">
+    <text stroke-width=".52917" style="line-height:1.25" xml:space="preserve"><textPath dx="178.90378" dy="-11.693041" font-size="70.556px" xlink:href="#path11257">Seaway / Forwise</textPath></text>
+    <text stroke-width=".52917" style="line-height:1.25" xml:space="preserve"><textPath dx="275.95663" dy="54.957287" font-size="70.556px" xlink:href="#path11257-8">Driftwise</textPath></text>
+    <text transform="translate(59.212 665.46)" style="line-height:1.25" xml:space="preserve"><textPath font-size="70.556px" xlink:href="#path13895">Ringwards</textPath></text>
+    <text transform="translate(82.249 690.67)" stroke-width=".52917" style="line-height:1.25" xml:space="preserve"><textPath font-size="70.556px" xlink:href="#path13895-1">Inwards</textPath></text>
+   </g>
+  </g>
+  <text x="434.04572" y="1483.6353" fill="#000000" font-family="'Bilbo Swash Caps'" font-size="25.4px" letter-spacing="0px" stroke-width=".52917" word-spacing="0px" style="line-height:1.25" xml:space="preserve"><tspan x="434.04572" y="1504.0823" stroke-width=".52917"/></text>
+ </g>
+</svg>
