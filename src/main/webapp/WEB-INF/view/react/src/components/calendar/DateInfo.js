@@ -21,8 +21,9 @@ export default class DateInfo extends Component {
                 <FontAwesomeIcon id={"date-info-icon"}
                                  icon={faQuestionCircle}/>
                 <UncontrolledTooltip target={"date-info-icon"}
-                                     placement={"top"}
-                                     hideArrow={true}>
+                                     placement={"left"}
+                                     hideArrow={true}
+                                     className={"date-info-tooltip"}>
                     {this.tooltipContent()}
                 </UncontrolledTooltip>
             </div>

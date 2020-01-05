@@ -179,11 +179,24 @@ html, body, #root {
     background-color: #EEEEEE;
 }
 
+.date-info-tooltip {
+    background-color: #F8ECC2;
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+
+.date-info-tooltip .tooltip-inner {
+    background-color: transparent;
+    opacity: 8;
+    color: #000000;
+}
+
 .compass-tooltip {
     width: 500px;
     height: 500px;
     margin: 10px;
-    background-color: #FFFFFF;
+    background-color: #F8ECC2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
 }
