@@ -35,8 +35,8 @@ export default class Example extends React.Component {
         const leftNavigation = function () {
             return <Nav className="p2" navbar>
                 {generateNavItem("Map", "/map")}
-                {generateNavItem("News", "/news")}
-                {generateNavItem("Market", "/market")}
+                {/*{generateNavItem("News", "/news")}*/}
+                {/*{generateNavItem("Market", "/market")}*/}
                 {generateNavItem("Calendar", "/calendar")}
             </Nav>
         };
