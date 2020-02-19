@@ -11,7 +11,6 @@ export default class PriceChart extends Component {
         }
     }
 
-
     render() {
         let resource = this.props.resource;
         let data = [];
