@@ -17,5 +17,5 @@ public class PriceHistory {
 
     private String resourceName;
     private Date date;
-    private Long value;
+    private Long price;
 }

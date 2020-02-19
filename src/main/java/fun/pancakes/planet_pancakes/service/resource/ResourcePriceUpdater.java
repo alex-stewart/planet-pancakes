@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -16,29 +14,44 @@ public class ResourcePriceUpdater {
 
     private ResourceService resourceService;
     private ResourceRepository resourceRepository;
+    private PriceHistoryService priceHistoryService;
 
     @Autowired
     public ResourcePriceUpdater(ResourceService resourceService,
-                                ResourceRepository resourceRepository) {
+                                ResourceRepository resourceRepository,
+                                PriceHistoryService priceHistoryService) {
         this.resourceService = resourceService;
         this.resourceRepository = resourceRepository;
+        this.priceHistoryService = priceHistoryService;
     }
 
-    public void updatePrices(Date time) {
-        List<Resource> resources = resourceRepository.findAll().stream()
-                .filter(resource -> priceDoesNotExistForResourceAtTime(resource, time))
-                .map(resource -> resourceService.updateResourceWithPriceAtTime(resource, time))
-                .collect(Collectors.toList());
-
-        log.debug("Persisting resources {}.", resources.toString());
-        resourceRepository.saveAll(resources);
+    public void updatePrices(Date date) {
+        resourceRepository.findAll().stream()
+                .filter(resource -> this.priceDoesNotExistForResourceAtTime(resource, date))
+                .forEach(resource -> updatePrice(resource, date));
     }
 
-    private boolean priceDoesNotExistForResourceAtTime(Resource resource, Date time) {
-        boolean containsKey = resource.getPriceHistory().containsKey(time);
-        if (containsKey) {
-            log.warn("Resource {} already has a price at {}.", resource.getResourceName(), time);
+    private void updatePrice(Resource resource, Date date) {
+        resource = resourceService.updateResourceWithPriceAtTime(resource);
+        persistResource(resource);
+        addPriceHistory(resource, date);
+    }
+
+    private boolean priceDoesNotExistForResourceAtTime(Resource resource, Date date) {
+        boolean priceHistoryExits = priceHistoryService.hasPriceHistory(resource.getResourceName(), date);
+        if (priceHistoryExits) {
+            log.warn("Resource {} already has a price at {}.", resource.getResourceName(), date);
         }
-        return !containsKey;
+        return !priceHistoryExits;
     }
+
+    private void persistResource(Resource resource) {
+        log.debug("Persisting resource {}.", resource.toString());
+        resourceRepository.save(resource);
+    }
+
+    private void addPriceHistory(Resource resource, Date date) {
+        priceHistoryService.addPriceHistory(resource.getResourceName(), resource.getPrice(), date);
+    }
+
 }

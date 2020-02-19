@@ -1,17 +1,23 @@
 package fun.pancakes.planet_pancakes.dto.converter;
 
 import fun.pancakes.planet_pancakes.dto.ResourceDto;
+import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
-import org.junit.Before;
+import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ResourceConverterTest {
 
     private static final String RESOURCE_NAME = "beans";
@@ -27,12 +33,11 @@ public class ResourceConverterTest {
     private static final double RESOURCE_PRICE_TREND = 10d;
     private static final double RESOURCE_MAX_CHANGE_PERCENT = 20d;
 
-    private ResourceConverter resourceConverter;
+    @Mock
+    private PriceHistoryRepository priceHistoryRepository;
 
-    @Before
-    public void setUp() {
-        resourceConverter = new ResourceConverter();
-    }
+    @InjectMocks
+    private ResourceConverter resourceConverter;
 
     @Test
     public void shouldConvertResourceToDtoWithNoHistory() {
@@ -45,22 +50,30 @@ public class ResourceConverterTest {
 
     @Test
     public void shouldConvertResourceToDtoWithHistory() {
-        Resource resource = aResourceWithHistory();
+        mockPriceHistory();
+
+        Resource resource = aResource();
 
         ResourceDto resourceDto = resourceConverter.convertToDto(resource);
 
         assertThat(resourceDto).isEqualTo(aResourceDtoWithHistory());
     }
 
-    private static Resource aResourceWithHistory() {
-        Resource resource = aResource();
+    private void mockPriceHistory() {
+        List<PriceHistory> priceHistoryList = new ArrayList<>();
+        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_1, HISTORY_PRICE_1));
+        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_2, HISTORY_PRICE_2));
 
-        Map<Date, Long> priceHistory = new HashMap<>();
-        priceHistory.put(HISTORY_DATE_1, HISTORY_PRICE_1);
-        priceHistory.put(HISTORY_DATE_2, HISTORY_PRICE_2);
-        resource.setPriceHistory(priceHistory);
+        when(priceHistoryRepository.findAllByResourceName(any()))
+                .thenReturn(priceHistoryList);
+    }
 
-        return resource;
+    private PriceHistory buildPriceHistory(Date date, Long price) {
+        return PriceHistory.builder()
+                .resourceName(RESOURCE_NAME)
+                .date(date)
+                .price(price)
+                .build();
     }
 
     private static Resource aResource() {
