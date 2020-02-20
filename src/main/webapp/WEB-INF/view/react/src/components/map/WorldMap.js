@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
 import {LayerGroup, LayersControl, Map, Marker} from 'react-leaflet';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faAtlas, faSearchLocation} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import Leaflet from 'leaflet';
 import L from 'leaflet';
-import {ListGroup, ListGroupItem, Modal, ModalBody} from 'reactstrap';
 import ImageOverlayRotated from './ImageOverlayRotated';
 import {rotatePoint} from '../../util/point-utils';
-import WikiPage from "./WikiPage";
 import SettlementMarker from "./SettlementMarker";
 import {SETTLEMENT_TYPES} from "./Constants";
 import _ from "lodash";
 import CompassControl from "./CompassControl";
+import MapSidebar from "./MapSidebar";
 
 export default class WorldMap extends Component {
 
@@ -21,8 +18,7 @@ export default class WorldMap extends Component {
         this.state = {
             islands: [],
             bounds: [[-100, -100], [100, 100]],
-            error: null,
-            selectedIsland: false
+            error: null
         }
     }
 
@@ -139,54 +135,12 @@ export default class WorldMap extends Component {
         });
     }
 
-    generateSideBarItem(island) {
-        if (island.name) {
-            return (
-                <ListGroupItem key={'island-menu-item-' + island.id}
-                               className={"map-sidebar-menu-item"}>
-                    {island.name}
-                    <div>
-                    <span className={"map-sidebar-icon"} onClick={event => this.setSelectedIsland(event, island)}>
-                        <FontAwesomeIcon icon={faAtlas}/>
-                    </span>
-                        <span className={"map-sidebar-icon"} onClick={event => this.focusOnIsland(event, island)}>
-                        <FontAwesomeIcon icon={faSearchLocation}/>
-                    </span>
-                    </div>
-                </ListGroupItem>
-            )
-        }
-    }
-
-    setSelectedIsland(event, selectedIsland) {
-        this.setState({
-            "selectedIsland": selectedIsland
-        })
-    }
-
-    clearSelectedIsland() {
-        this.setState({
-            "selectedIsland": null
-        })
-    }
-
     render() {
 
         return (
             <div className="map-container">
-                <ListGroup className="map-sidebar">
-                    {
-                        this.state.islands.map(this.generateSideBarItem.bind(this))
-                    }
-                </ListGroup>
-                <Modal isOpen={this.state.selectedIsland}
-                       toggle={this.clearSelectedIsland.bind(this)}
-                       className={"island-wiki-box"}>
-                    <ModalBody
-                        className={"wiki-page"}>
-                        <WikiPage island={this.state.selectedIsland}/>
-                    </ModalBody>
-                </Modal>
+                <MapSidebar islands={this.state.islands}
+                            focusOnIsland={this.focusOnIsland.bind(this)}/>
                 <Map className={"map"}
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
