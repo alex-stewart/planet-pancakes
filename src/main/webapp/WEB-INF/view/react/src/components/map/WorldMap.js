@@ -9,7 +9,9 @@ import SettlementMarker from "./SettlementMarker";
 import {SETTLEMENT_TYPES} from "./Constants";
 import _ from "lodash";
 import CompassControl from "./CompassControl";
+import SidebarCollapseControl from "./SidebarCollapseControl"
 import MapSidebar from "./MapSidebar";
+import {Collapse} from "reactstrap";
 
 export default class WorldMap extends Component {
 
@@ -18,7 +20,8 @@ export default class WorldMap extends Component {
         this.state = {
             islands: [],
             bounds: [[-100, -100], [100, 100]],
-            error: null
+            error: null,
+            sidebarVisible: true
         }
     }
 
@@ -120,7 +123,7 @@ export default class WorldMap extends Component {
     }
 
     generateCityMarkers(island) {
-        return _.map(island.cities, function(city) {
+        return _.map(island.cities, function (city) {
             return <SettlementMarker settlement={city}
                                      key={"city-marker-" + city.name}
                                      type={SETTLEMENT_TYPES.CITY}/>
@@ -128,19 +131,27 @@ export default class WorldMap extends Component {
     }
 
     generateTownMarkers(island) {
-        return _.map(island.towns, function(town) {
+        return _.map(island.towns, function (town) {
             return <SettlementMarker settlement={town}
                                      key={"town-marker-" + town.name}
                                      type={SETTLEMENT_TYPES.TOWN}/>
         });
     }
 
-    render() {
+    toggleSidebar() {
+        this.setState({
+            sidebarVisible: !this.state.sidebarVisible
+        })
+    }
 
+    render() {
         return (
             <div className="map-container">
-                <MapSidebar islands={this.state.islands}
-                            focusOnIsland={this.focusOnIsland.bind(this)}/>
+                <Collapse isOpen={this.state.sidebarVisible}
+                          className="map-sidebar">
+                    <MapSidebar islands={this.state.islands}
+                                focusOnIsland={this.focusOnIsland.bind(this)}/>
+                </Collapse>
                 <Map className={"map"}
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
@@ -148,6 +159,8 @@ export default class WorldMap extends Component {
                      ref={"map"}
                      attributionControl={false}>
                     <CompassControl/>
+                    <SidebarCollapseControl toggleSidebar={this.toggleSidebar.bind(this)}
+                                            sidebarVisible={this.state.sidebarVisible}/>
                     <LayerGroup key={"layer-group-map"}>
                         {
                             this.state.islands.map(this.generateIslandOverlay)

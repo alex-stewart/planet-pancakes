@@ -16,13 +16,13 @@ export default class MapSidebar extends Component {
 
     setSelectedIsland(event, selectedIsland) {
         this.setState({
-            "selectedIsland": selectedIsland
+            selectedIsland: selectedIsland
         })
     }
 
     clearSelectedIsland() {
         this.setState({
-            "selectedIsland": null
+            selectedIsland: null
         })
     }
 
@@ -47,9 +47,9 @@ export default class MapSidebar extends Component {
 
     render() {
         return (
-            <ListGroup className="map-sidebar">
+            <ListGroup>
                 {
-                    this.props.islands.map(island => this.generateSideBarItem(island, this.setSelectedIsland, this.props.focusOnIsland))
+                    this.props.islands.map(island => this.generateSideBarItem(island, this.setSelectedIsland.bind(this), this.props.focusOnIsland))
                 }
                 <Modal isOpen={this.state.selectedIsland}
                        toggle={this.clearSelectedIsland.bind(this)}

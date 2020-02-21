@@ -11,10 +11,10 @@ export default class CompassControl extends Component {
 
         return (
             <Control position="bottomright">
-                <FontAwesomeIcon id={"date-info-icon"}
+                <FontAwesomeIcon id={"compass-info-icon"}
                                  icon={faDraftingCompass}
-                                    size={"3x"}/>
-                <UncontrolledTooltip target={"date-info-icon"}
+                                 size={"3x"}/>
+                <UncontrolledTooltip target={"compass-info-icon"}
                                      placement={"top"}
                                      className={"compass-tooltip"}>
                         <DirectionsImage width={500} height={500}/>
