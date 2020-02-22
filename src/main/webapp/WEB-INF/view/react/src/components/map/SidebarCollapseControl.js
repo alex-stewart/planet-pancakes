@@ -19,7 +19,7 @@ export default class SidebarCollapseControl extends Component {
                 <div onClick={this.props.toggleSidebar}>
                     <FontAwesomeIcon icon={this.buttonIcon(this.props.sidebarVisible)}
                                      size={"3x"}
-                                     color={"lightGrey"}
+                                     className={"map-sidebar-toggle-icon"}
                     transform={"data-fa-transform"}/>
                 </div>
             </Control>

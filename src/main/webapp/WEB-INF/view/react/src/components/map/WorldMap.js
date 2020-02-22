@@ -148,7 +148,9 @@ export default class WorldMap extends Component {
         return (
             <div className="map-container">
                 <Collapse isOpen={this.state.sidebarVisible}
-                          className="map-sidebar">
+                          className="map-sidebar"
+                          exit={false}
+                          enter={false}>
                     <MapSidebar islands={this.state.islands}
                                 focusOnIsland={this.focusOnIsland.bind(this)}/>
                 </Collapse>

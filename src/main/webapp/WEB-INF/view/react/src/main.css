@@ -50,6 +50,13 @@ html, body, #root {
     margin-right: 10px;
 }
 
+.map-sidebar-toggle-icon {
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: #F8ECC2;
+}
+
 .map {
     height: 100%;
     width: auto;
