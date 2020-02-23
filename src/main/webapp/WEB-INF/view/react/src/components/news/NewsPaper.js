@@ -38,7 +38,7 @@ export default class NewsPaper extends Component {
     }
 
     generateHeadline(headlineContent) {
-        return <div>
+        return <div key={'headline-' + headlineContent}>
             <div className={"fill-dots"} key={headlineContent}>{headlineContent}</div>
             {this.headlineDividerLines(3)}
         </div>
