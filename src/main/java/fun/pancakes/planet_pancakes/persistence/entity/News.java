@@ -19,8 +19,5 @@ public class News {
     private String newspaperTitle;
     private String newspaperColour;
     private Date publishDay;
-    private String headline;
-    private String headlineStory;
-    private List<String> secondaryHeadlines;
-    private String imageUrl;
+    private List<String> headlines;
 }

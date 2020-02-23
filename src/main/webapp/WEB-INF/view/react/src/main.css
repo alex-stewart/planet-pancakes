@@ -109,15 +109,6 @@ html, body, #root {
     padding: 8px;
 }
 
-.news-page {
-    background-color: #F8ECC2;
-    height: calc(100% - 56px);
-    padding-top: 50px;
-    padding-left: 20%;
-    padding-right: 20%;
-    overflow-y: scroll;
-}
-
 .pp-page {
     background-color: #F8ECC2;
     height: calc(100% - 56px);
@@ -185,4 +176,18 @@ html, body, #root {
 
 .compass-tooltip .bs-tooltip-auto[x-placement^="top"] span.arrow::before, .bs-tooltip-top .arrow::before {
     visibility: hidden
+}
+
+.fill-dots {
+    overflow: hidden;
+    position: relative;
+    margin-right: 5px;
+}
+
+.fill-dots:after {
+    color: #CCCCCC;
+    content: "▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆";
+    position: absolute;
+    padding-left: 5px;
+
 }

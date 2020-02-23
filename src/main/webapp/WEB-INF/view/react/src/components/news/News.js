@@ -1,6 +1,28 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import NewsPaper from "./NewsPaper";
+import {CardDeck} from 'reactstrap';
+import Card from "reactstrap/es/Card";
+
+export const newsPageStyle = {
+    backgroundColor: '#F8ECC2',
+    height: 'calc(100% - 56px)',
+    paddingTop: '50px',
+    paddingLeft: '10%',
+    paddingRight: '10%',
+    margin: 'auto',
+    overflowY: 'scroll'
+};
+
+export const cardDeckStyle = {
+    justifyContent: 'center'
+};
+
+export const newspaperCardStyle = {
+    flex: 'none',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    marginBottom: '30px'
+};
 
 export default class News extends Component {
 
@@ -19,7 +41,7 @@ export default class News extends Component {
         axios.get("/api/news", {
             params: {
                 pageNumber: this.state.papers.length,
-                pageSize: 5
+                pageSize: 20
             }
         })
             .then(
@@ -46,12 +68,17 @@ export default class News extends Component {
     render() {
         let papers = this.state.papers || [];
 
-        return <div className={"news-page"}
+        return <div style={newsPageStyle}
                     onScroll={this.handleScroll}>
-            {papers.map(function (paper) {
-                return <NewsPaper paper={paper}
-                                  key={paper.id}/>
-            }, this)}
+            <CardDeck style={cardDeckStyle}>
+                {papers.map(function (paper) {
+                    return <Card style={newspaperCardStyle}
+                                 key={'card-' + paper.id}>
+                        <NewsPaper paper={paper}
+                                   key={paper.id}/>
+                    </Card>
+                }, this)}
+            </CardDeck>
         </div>
     }
 }
