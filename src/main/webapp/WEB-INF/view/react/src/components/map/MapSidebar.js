@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {ListGroup, ListGroupItem, Modal, ModalBody} from "reactstrap";
-import WikiPage from "./WikiPage";
+import WikiPage from "./wiki/WikiPage";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAtlas, faSearchLocation} from "@fortawesome/free-solid-svg-icons";
 
