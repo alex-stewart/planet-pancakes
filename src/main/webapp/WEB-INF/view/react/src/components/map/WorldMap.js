@@ -38,7 +38,7 @@ export default class WorldMap extends Component {
                         islands: result.data
                             .map(this.calculateIslandPosition)
                             .map(this.calculateIslandRotation)
-                            .map(this.calculateCityPositionsForIsland)
+                            .map(this.calculateIslandSettlementPositions)
                     });
                 },
                 (error) => {
@@ -64,13 +64,22 @@ export default class WorldMap extends Component {
         return island;
     }
 
-    calculateCityPositionsForIsland(island) {
+    calculateIslandSettlementPositions(island) {
+        let addLocationToSettlement = function (settlement, island) {
+            let settlementLat = island.position[0] + settlement.location.y;
+            let settlementLong = island.position[1] + settlement.location.x;
+            settlement.position = rotatePoint(settlementLat, settlementLong, island.position[0], island.position[1], island.bearing);
+            return settlement;
+        };
+
         if (island.cities) {
             island.cities.forEach(city => {
-                let cityLat = island.position[0] + city.location.y;
-                let cityLong = island.position[1] + city.location.x;
-                city.position = rotatePoint(cityLat, cityLong, island.position[0], island.position[1], island.bearing);
-                return city;
+                addLocationToSettlement(city, island)
+            })
+        }
+        if (island.towns) {
+            island.towns.forEach(town => {
+                addLocationToSettlement(town, island)
             })
         }
         return island;
@@ -100,6 +109,14 @@ export default class WorldMap extends Component {
     generateIslandOverlay(island) {
         return <ImageOverlayRotated key={'island-map-item-' + island.id}
                                     url={'/islands/island_' + island.id + '.svg'}
+                                    topLeft={island.topLeft}
+                                    topRight={island.topRight}
+                                    bottomLeft={island.bottomLeft}/>
+    }
+
+    generateIslandGridOverlay(island) {
+        return <ImageOverlayRotated key={'grid-map-item-' + island.id}
+                                    url={require('./grid/grid-' + island.size + '.svg')}
                                     topLeft={island.topLeft}
                                     topRight={island.topRight}
                                     bottomLeft={island.bottomLeft}/>
@@ -193,6 +210,15 @@ export default class WorldMap extends Component {
                             <LayerGroup key={"layer-group-towns"}>
                                 {
                                     this.state.islands.map(this.generateTownMarkers)
+                                }
+                            </LayerGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay key={"grid-overlay"}
+                                               name={"Grid Overlay"}
+                                               checked={false}>
+                            <LayerGroup key={"layer-group-grid"}>
+                                {
+                                    this.state.islands.map(this.generateIslandGridOverlay)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
