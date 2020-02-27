@@ -18,10 +18,13 @@ class ImageOverlayRotated extends MapLayer {
         );
     }
 
-    componentDidMount() {
+    componentDidUpdate({ checked }) {
         const { map } = this.props.leaflet;
-        this.leafletElement.addTo(map);
+        if (checked) {
+            this.leafletElement.addTo(map);
+        }
     }
+
 }
 
 export default withLeaflet(ImageOverlayRotated);
