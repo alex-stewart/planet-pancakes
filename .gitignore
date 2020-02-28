@@ -26,3 +26,4 @@
 
 /src/main/resources/public/
 /src/main/resources/secret.properties
+/.gradle/

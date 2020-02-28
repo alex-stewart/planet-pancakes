@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'fun.pancakes'
+version = '1.0.0'
+
+description = 'Planet Pancakes'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     maven { url "https://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.1.7.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.1.7.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.1.7.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'2.1.7.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version:'5.1.6.RELEASE'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version:'2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.9.2'
+    compile group: 'org.modelmapper', name: 'modelmapper', version:'2.3.2'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.18.4'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.1.7.RELEASE'
+}
