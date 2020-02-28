@@ -13,7 +13,7 @@ import java.util.Date;
 public class PriceHistory {
 
     @Id
-    private Long priceId;
+    private String priceId;
 
     private String resourceName;
     private Date date;

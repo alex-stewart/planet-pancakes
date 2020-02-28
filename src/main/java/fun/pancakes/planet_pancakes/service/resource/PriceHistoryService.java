@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -21,6 +22,7 @@ public class PriceHistoryService {
 
     public void addPriceHistory(String resourceName, Long resourcePrice, Date date) {
         PriceHistory priceHistory = PriceHistory.builder()
+                .priceId(UUID.randomUUID().toString())
                 .resourceName(resourceName)
                 .price(resourcePrice)
                 .date(date)
