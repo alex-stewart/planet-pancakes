@@ -3,6 +3,7 @@ import axios from "axios";
 import NewsPaper from "./NewsPaper";
 import {CardDeck} from 'reactstrap';
 import Card from "reactstrap/es/Card";
+import {Helmet} from "react-helmet";
 
 export const newsPageStyle = {
     backgroundColor: '#F8ECC2',
@@ -70,6 +71,9 @@ export default class News extends Component {
 
         return <div style={newsPageStyle}
                     onScroll={this.handleScroll}>
+            <Helmet>
+                <title>{"PP - News"}</title>
+            </Helmet>
             <CardDeck style={cardDeckStyle}>
                 {papers.map(function (paper) {
                     return <Card style={newspaperCardStyle}

@@ -5,6 +5,7 @@ import DateInfo from "./DateInfo";
 import {Table, UncontrolledTooltip} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
+import {Helmet} from "react-helmet";
 
 export default class Calendar extends Component {
 
@@ -66,6 +67,9 @@ export default class Calendar extends Component {
     render() {
         return (
             <div className={"pp-page"}>
+                <Helmet>
+                    <title>{"PP - Calendar"}</title>
+                </Helmet>
                 <Table>
                     <thead className={"thead-dark"}>
                     <tr key={"header-row"}>

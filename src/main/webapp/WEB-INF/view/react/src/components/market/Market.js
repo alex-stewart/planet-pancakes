@@ -4,6 +4,7 @@ import axios from "axios";
 import commaNumber from "comma-number";
 import MarketRow from "./MarketRow";
 import _ from "lodash";
+import {Helmet} from "react-helmet";
 
 export default class Market extends Component {
 
@@ -63,6 +64,9 @@ export default class Market extends Component {
 
         return (
             <div className={"pp-page"}>
+                <Helmet>
+                    <title>{"PP - Market"}</title>
+                </Helmet>
                 {coinsBar}
                 <Table>
                     <thead className={"thead-dark"}>

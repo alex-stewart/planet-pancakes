@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Helmet } from 'react-helmet'
 import {LayerGroup, LayersControl, Map, Marker} from 'react-leaflet';
 import axios from 'axios';
 import Leaflet from 'leaflet';
@@ -164,6 +165,9 @@ export default class WorldMap extends Component {
     render() {
         return (
             <div className="map-container">
+                <Helmet>
+                    <title>{"PP - World Map"}</title>
+                </Helmet>
                 <Collapse isOpen={this.state.sidebarVisible}
                           className="map-sidebar"
                           exit={false}
