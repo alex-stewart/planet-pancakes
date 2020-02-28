@@ -4,6 +4,8 @@ import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -28,6 +30,9 @@ public class PriceHistoryServiceTest {
 
     @InjectMocks
     private PriceHistoryService priceHistoryService;
+
+    @Captor
+    private ArgumentCaptor<PriceHistory> priceHistoryArgumentCaptor;
 
     @Test
     public void shouldReturnFalseIfNoPriceHistory() {
@@ -59,12 +64,12 @@ public class PriceHistoryServiceTest {
     }
 
     private void verifyPriceHistorySaved() {
-        PriceHistory expectedPriceHistory = PriceHistory.builder()
-                .resourceName(RESOURCE_NAME)
-                .price(PRICE)
-                .date(DATE)
-                .build();
-        verify(priceHistoryRepository).save(expectedPriceHistory);
+        verify(priceHistoryRepository).save(priceHistoryArgumentCaptor.capture());
+
+        PriceHistory priceHistory = priceHistoryArgumentCaptor.getValue();
+        assertThat(priceHistory.getResourceName()).isEqualTo(RESOURCE_NAME);
+        assertThat(priceHistory.getPrice()).isEqualTo(PRICE);
+        assertThat(priceHistory.getDate()).isEqualTo(DATE);
     }
 
 }
