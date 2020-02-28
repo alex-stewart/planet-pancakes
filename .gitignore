@@ -1,5 +1,5 @@
 /target/
-!.mvn/wrapper/maven-wrapper.jar
+/.gradle/
 
 ### STS ###
 .apt_generated
@@ -24,6 +24,6 @@
 /nbdist/
 /.nb-gradle/
 
+### Developer ###
 /src/main/resources/public/
-/src/main/resources/secret.properties
-/.gradle/
+
