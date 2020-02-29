@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Maven Build' ) {
+        stage('Gradle Build' ) {
             steps {
                 echo 'Building Project'
                 sh "./gradlew clean bootJar"
