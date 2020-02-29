@@ -38,6 +38,7 @@ export default class Example extends React.Component {
                 {generateNavItem("News", "/news")}
                 {generateNavItem("Market", "/market")}
                 {generateNavItem("Calendar", "/calendar")}
+                {generateNavItem("Codex", "/codex")}
             </Nav>
         };
 

@@ -6,6 +6,7 @@ import User from './User';
 import News from './news/News'
 import Market from './market/Market'
 import Calendar from './calendar/Calendar'
+import Codex from './codex/Codex'
 import axios from "axios";
 
 export default class App extends Component {
@@ -64,9 +65,11 @@ export default class App extends Component {
                     />
                     <Route path="/news" component={News}/>
                     <Route path="/market"
-                           render={(props) => <Market {...props} user={this.state.currentUser} updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>}
+                           render={(props) => <Market {...props} user={this.state.currentUser}
+                                                      updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>}
                     />
                     <Route path={"/calendar"} component={Calendar}/>
+                    <Route path={"/codex"} component={Codex}/>
                 </div>
             </BrowserRouter>
         ]);
