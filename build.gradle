@@ -2,12 +2,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'fun.pancakes'
-version = '1.0.0'
 
 description = 'Planet Pancakes'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
