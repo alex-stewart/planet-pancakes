@@ -4,7 +4,7 @@ pipeline {
         stage('Maven Build' ) {
             steps {
                 echo 'Building Project'
-                sh "./gradlew clean build"
+                sh "./gradlew clean bootJar"
             }
         }
         stage('Docker Build and Publish') {
