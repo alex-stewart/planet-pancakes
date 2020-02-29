@@ -24,6 +24,10 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+repositories {
+     maven { url "https://repo.maven.apache.org/maven2" }
+}
+
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.1.7.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.1.7.RELEASE'
