@@ -22,7 +22,7 @@ public class PriceHistoryService {
 
     public void addPriceHistory(String resourceName, Long resourcePrice, Date date) {
         PriceHistory priceHistory = PriceHistory.builder()
-                .priceId(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
                 .resourceName(resourceName)
                 .price(resourcePrice)
                 .date(date)
