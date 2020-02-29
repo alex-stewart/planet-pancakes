@@ -10,8 +10,11 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+}
 
 group = 'fun.pancakes'
 
@@ -19,10 +22,6 @@ description = 'Planet Pancakes'
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
-}
-
-repositories {
-     maven { url "https://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
