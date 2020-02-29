@@ -17,8 +17,7 @@ plugins {
 }
 
 group = 'fun.pancakes'
-
-description = 'Planet Pancakes'
+description = 'Planet Pancakes Web Application'
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
@@ -29,7 +28,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.1.7.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version:'2.1.7.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'2.1.7.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.1.7.RELEASE'
