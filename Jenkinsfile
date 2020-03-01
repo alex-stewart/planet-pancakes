@@ -1,10 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Gradle Build' ) {
+        stage('Maven Build' ) {
             steps {
                 echo 'Building Project'
-                sh "./gradlew clean bootJar"
+                sh "./mvnw clean verify"
             }
         }
         stage('Docker Build and Publish') {
