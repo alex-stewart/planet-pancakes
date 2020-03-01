@@ -55,4 +55,3 @@ GameDate.fromTimestamp = function (timestamp) {
 GameDate.now = function () {
     return new GameDate(new Date());
 };
-
