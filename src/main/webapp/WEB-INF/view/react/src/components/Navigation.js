@@ -2,6 +2,15 @@ import React from 'react';
 import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import DateAndTime from "./DateAndTime";
 import {Link} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+    faMapMarkedAlt,
+    faUser,
+    faStore,
+    faNewspaper,
+    faCalendarAlt,
+    faBook, faSignInAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 export default class Example extends React.Component {
     constructor(props) {
@@ -20,13 +29,14 @@ export default class Example extends React.Component {
     }
 
     render() {
-        const generateNavItem = function (name, to) {
+        const generateNavItem = function (name, to, icon) {
             return (
                 <NavItem>
                     <NavLink to={to}
                              tag={Link}
                              className={"navbar-item"}>
-                        {name}
+                        <FontAwesomeIcon icon={icon}/>
+                        {' ' + name}
                     </NavLink>
                 </NavItem>
             )
@@ -34,11 +44,11 @@ export default class Example extends React.Component {
 
         const leftNavigation = function () {
             return <Nav className="p2" navbar>
-                {generateNavItem("Map", "/map")}
-                {generateNavItem("News", "/news")}
-                {generateNavItem("Market", "/market")}
-                {generateNavItem("Calendar", "/calendar")}
-                {generateNavItem("Codex", "/codex")}
+                {generateNavItem("Map", "/map", faMapMarkedAlt)}
+                {generateNavItem("News", "/news", faNewspaper)}
+                {generateNavItem("Market", "/market", faStore)}
+                {generateNavItem("Calendar", "/calendar", faCalendarAlt)}
+                {generateNavItem("Codex", "/codex", faBook)}
             </Nav>
         };
 
@@ -49,8 +59,11 @@ export default class Example extends React.Component {
                         <NavItem>
                             <DateAndTime/>
                         </NavItem>
-                        {generateNavItem(user.name, "/user")}
-                        <NavLink href={"/logout"} className={"navbar-item"}>Logout</NavLink>
+                        {generateNavItem(user.name, "/user", faUser)}
+                        <NavLink href={"/logout"} className={"navbar-item"}>
+                            <FontAwesomeIcon icon={faSignInAlt}/>
+                            {' Sign Out'}
+                        </NavLink>
                     </Nav>
                 )
             } else {
@@ -60,7 +73,10 @@ export default class Example extends React.Component {
                             <DateAndTime/>
                         </NavItem>
                         <NavItem>
-                            <NavLink href={"/login"} className={"navbar-item"}>Login</NavLink>
+                            <NavLink href={"/login"} className={"navbar-item"}>
+                                <FontAwesomeIcon icon={faSignInAlt}/>
+                                {' Sign In'}
+                            </NavLink>
                         </NavItem>
                     </Nav>
                 )
