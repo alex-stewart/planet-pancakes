@@ -6,6 +6,10 @@ import MarketRow from "./MarketRow";
 import _ from "lodash";
 import {Helmet} from "react-helmet";
 
+const thinColStyle = {
+    width: '150px'
+};
+
 export default class Market extends Component {
 
     constructor(props) {
@@ -39,19 +43,19 @@ export default class Market extends Component {
 
         const loggedInColumns = [
             <tr key={"header-row"}>
-                <th>Resource</th>
-                <th>Price</th>
+                <th style={thinColStyle}>Resource</th>
+                <th style={thinColStyle}>Price</th>
                 <th>Price Trend</th>
-                <th>Quantity Owned</th>
-                <th>Buy</th>
-                <th>Sell</th>
+                <th style={thinColStyle}>Quantity Owned</th>
+                <th style={thinColStyle}>Buy</th>
+                <th style={thinColStyle}>Sell</th>
             </tr>
         ];
 
         const defaultColumns = [
             <tr key={"header-row-default"}>
-                <th>Resource</th>
-                <th>Price</th>
+                <th style={thinColStyle}>Resource</th>
+                <th style={thinColStyle}>Price</th>
                 <th>Price Trend</th>
             </tr>
         ];
@@ -93,7 +97,8 @@ export default class Market extends Component {
         });
 
         return _.map(resources, function (resource) {
-            return <MarketRow resource={resource}
+            return <MarketRow key={'market-row-' + resource.resourceName}
+                              resource={resource}
                               user={user}
                               updateUser={updateUserFunction}
                               addErrorAlert={addErrorAlert}/>
