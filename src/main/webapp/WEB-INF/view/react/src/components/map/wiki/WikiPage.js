@@ -42,11 +42,11 @@ export default class WikiPage extends Component {
                     <div className={"h1"}>{this.props.island.name}</div>
                     <Row style={rowStyle}>
                         <WikiStatBlock island={this.props.island}/>
-                        <img src={'/flags/flag_' + this.props.island.id + '.svg'}
-                             alt={this.props.island.id + "-flag"}
-                             style={imageStyle}/>
                         <img src={'/islands/island_' + this.props.island.id + '.svg'}
-                             alt={this.props.island.id + "-island"}
+                             alt={this.props.island.name + " Island"}
+                             style={imageStyle}/>
+                        <img src={'/flags/flag_' + this.props.island.id + '.svg'}
+                             alt={this.props.island.name + " Flag"}
                              style={imageStyle}/>
                     </Row>
                     <WikiSection section={this.props.island.wiki} depth={1}/>
