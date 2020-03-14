@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class SettlementsWikiSection extends Component {
 
     settlementInfo(settlement) {
-        return <div>
+        return <div key={"settlement-section-" + settlement.name}>
             <div className={"h4"}>{settlement.name}</div>
             <div>{settlement.description}</div>
         </div>

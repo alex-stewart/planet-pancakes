@@ -10,7 +10,7 @@ export default class MapSidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIsland: false
+            selectedIsland: null
         }
     }
 
@@ -51,7 +51,7 @@ export default class MapSidebar extends Component {
                 {
                     this.props.islands.map(island => this.generateSideBarItem(island, this.setSelectedIsland.bind(this), this.props.focusOnIsland))
                 }
-                <Modal isOpen={this.state.selectedIsland}
+                <Modal isOpen={this.state.selectedIsland != null}
                        toggle={this.clearSelectedIsland.bind(this)}
                        className={"island-wiki-box"}>
                     <ModalBody
