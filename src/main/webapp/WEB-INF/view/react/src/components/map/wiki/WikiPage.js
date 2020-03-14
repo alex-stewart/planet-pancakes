@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import WikiSection from './WikiSection';
 import SettlementsWikiSection from './SettlementsWikiSection';
+import WikiStatBlock from "./WikiStatBlock";
 
 export default class WikiPage extends Component {
 
@@ -9,6 +10,7 @@ export default class WikiPage extends Component {
         if (this.props.island && this.props.island.wiki) {
             return [
                 <div className={"h1"}>{this.props.island.name}</div>,
+                <WikiStatBlock island={this.props.island}/>,
                 <WikiSection section={this.props.island.wiki} depth={1}/>,
                 hasSettlements ? <div className={"h2"}>Settlements</div> : null,
                 <SettlementsWikiSection title={"Cities"} settlements={this.props.island.cities}/>,

@@ -25,4 +25,5 @@ public class Island {
     private WikiSection wiki;
     private List<Settlement> cities;
     private List<Settlement> towns;
+    private Long population;
 }
