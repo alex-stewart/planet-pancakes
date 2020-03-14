@@ -13,10 +13,15 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${island.directory}")
     private String islandDirectory;
 
+    @Value("${flag.directory}")
+    private String flagDirectory;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/islands/**")
                 .addResourceLocations(islandDirectory);
+        registry.addResourceHandler("/flags/**")
+                .addResourceLocations(flagDirectory);
         registry.addResourceHandler("/static/**")
                 .addResourceLocations(CLASSPATH_STATIC + "static/");
     }

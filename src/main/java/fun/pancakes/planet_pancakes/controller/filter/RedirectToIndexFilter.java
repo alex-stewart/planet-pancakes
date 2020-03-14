@@ -11,7 +11,7 @@ import java.io.IOException;
 @Component
 public class RedirectToIndexFilter implements Filter {
 
-    private static final String[] URI_PREFIXES = {"/api", "/islands", "/static", "/api-docs", "/swagger-ui.html", "/webjars", "/swagger-resources", "/configuration"};
+    private static final String[] URI_PREFIXES = {"/api", "/islands", "/flags", "/static", "/api-docs", "/swagger-ui.html", "/webjars", "/swagger-resources", "/configuration"};
 
     @Override
     public void doFilter(ServletRequest request,
