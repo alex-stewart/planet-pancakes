@@ -69,12 +69,12 @@ export default class MarketRow extends Component {
     }
 
     disableSellButton(user, resource) {
-        let userHasResource = user.resources[resource.resourceName] > 1;
+        let userHasResource = user.resources[resource.resourceName] > 0;
         return !userHasResource;
     }
 
     disableBuyButton(user, resource) {
-        let userHasEnoughCoins = user.coins > resource.price;
+        let userHasEnoughCoins = user.coins >= resource.price;
         return !userHasEnoughCoins;
     }
 }
