@@ -2,6 +2,7 @@ package fun.pancakes.planet_pancakes.service.resource;
 
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +13,17 @@ import java.util.Date;
 @Service
 public class ResourcePriceUpdater {
 
-    private ResourceService resourceService;
     private ResourceRepository resourceRepository;
     private PriceHistoryService priceHistoryService;
+    private PriceCalculator priceCalculator;
 
     @Autowired
-    public ResourcePriceUpdater(ResourceService resourceService,
-                                ResourceRepository resourceRepository,
-                                PriceHistoryService priceHistoryService) {
-        this.resourceService = resourceService;
+    public ResourcePriceUpdater(ResourceRepository resourceRepository,
+                                PriceHistoryService priceHistoryService,
+                                PriceCalculator priceCalculator) {
         this.resourceRepository = resourceRepository;
         this.priceHistoryService = priceHistoryService;
+        this.priceCalculator = priceCalculator;
     }
 
     public void updatePrices(Date date) {
@@ -32,9 +33,13 @@ public class ResourcePriceUpdater {
     }
 
     private void updatePrice(Resource resource, Date date) {
-        resource = resourceService.updateResourceWithPriceAtTime(resource);
-        persistResource(resource);
-        addPriceHistory(resource, date);
+        try {
+            Long currentPrice = currentPriceOfResource(resource.getResourceName());
+            Long newPrice = generateNewPriceForResource(resource, currentPrice);
+            addPriceHistory(resource.getResourceName(), newPrice, date);
+        } catch(PriceNotFoundException e){
+            log.error("Resource {} does not have a current price.", resource.getResourceName());
+        }
     }
 
     private boolean priceDoesNotExistForResourceAtTime(Resource resource, Date date) {
@@ -45,13 +50,16 @@ public class ResourcePriceUpdater {
         return !priceHistoryExits;
     }
 
-    private void persistResource(Resource resource) {
-        log.debug("Persisting resource {}.", resource.toString());
-        resourceRepository.save(resource);
+    private void addPriceHistory(String resourceName, Long resourcePrice, Date date) {
+        priceHistoryService.addPriceHistory(resourceName, resourcePrice, date);
     }
 
-    private void addPriceHistory(Resource resource, Date date) {
-        priceHistoryService.addPriceHistory(resource.getResourceName(), resource.getPrice(), date);
+    private Long generateNewPriceForResource(Resource resource, Long currentPrice){
+        return priceCalculator.determineResourceNewPrice(currentPrice, resource.getPriceTrendPercent(), resource.getPriceMaxChangePercent());
+    }
+
+    private Long currentPriceOfResource(String resourceName) throws PriceNotFoundException {
+        return priceHistoryService.getMostRecentPriceForResource(resourceName);
     }
 
 }

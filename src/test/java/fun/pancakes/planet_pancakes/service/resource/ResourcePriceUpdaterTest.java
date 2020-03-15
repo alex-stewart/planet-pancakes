@@ -2,6 +2,7 @@ package fun.pancakes.planet_pancakes.service.resource;
 
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.repository.ResourceRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,16 +20,16 @@ public class ResourcePriceUpdaterTest {
 
     private static final Date DATE = new Date();
 
-    private static final long RESOURCE_PRICE = 10L;
-    private static final long RESOURCE_1_PRICE = 12L;
-    private static final long RESOURCE_2_PRICE = 9L;
     private static final String RESOURCE_1_NAME = "PANCAKE";
     private static final String RESOURCE_2_NAME = "WAFFLE";
-    private static final Resource RESOURCE_1 = buildResource(RESOURCE_1_NAME, RESOURCE_PRICE);
-    private static final Resource RESOURCE_2 = buildResource(RESOURCE_2_NAME, RESOURCE_PRICE);
-
-    @Mock
-    private ResourceService resourceService;
+    private static final long RESOURCE_1_PRICE = 12L;
+    private static final long RESOURCE_2_PRICE = 9L;
+    private static final long RESOURCE_1_NEW_PRICE = 13L;
+    private static final long RESOURCE_2_NEW_PRICE = 8L;
+    private static final double RESOURCE_1_PRICE_TREND = 1D;
+    private static final double RESOURCE_2_PRICE_TREND = 2D;
+    private static final double RESOURCE_1_MAX_PRICE_CHANGE = 10D;
+    private static final double RESOURCE_2_MAX_PRICE_CHANGE = 20D;
 
     @Mock
     private ResourceRepository resourceRepository;
@@ -36,74 +37,104 @@ public class ResourcePriceUpdaterTest {
     @Mock
     private PriceHistoryService priceHistoryService;
 
+    @Mock
+    private PriceCalculator priceCalculator;
+
     @InjectMocks
     private ResourcePriceUpdater resourcePriceUpdater;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        mockPriceCalculator();
         mockResources();
-        mockUpdateResources();
+        mockMostRecentPrices();
+    }
+
+    @Test
+    public void shouldGetAllResource() {
+        resourcePriceUpdater.updatePrices(DATE);
+
+        verify(resourceRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void shouldCheckIfPriceForTimeExistsForEachResource() {
+        resourcePriceUpdater.updatePrices(DATE);
+
+        verify(priceHistoryService).hasPriceHistory(RESOURCE_1_NAME, DATE);
+        verify(priceHistoryService).hasPriceHistory(RESOURCE_2_NAME, DATE);
     }
 
     @Test
     public void shouldNotUpdatePricesIfPricesExistForTime() {
-        mockExistingPriceHistories(RESOURCE_1_NAME, RESOURCE_2_NAME);
+        mockExistingPriceHistoriesForDate();
 
         resourcePriceUpdater.updatePrices(DATE);
 
-        verifyZeroInteractions(resourceService);
+        verifyZeroInteractions(priceCalculator);
         verify(priceHistoryService, times(0)).addPriceHistory(any(), any(), any());
-        verify(resourceRepository, times(0)).save(any());
     }
 
     @Test
-    public void shouldCalculateNewPriceForResource() {
+    public void shouldGetTheCurrentPriceOfEachResource() throws Exception {
         resourcePriceUpdater.updatePrices(DATE);
 
-        verify(resourceService).updateResourceWithPriceAtTime(RESOURCE_1);
-        verify(resourceService).updateResourceWithPriceAtTime(RESOURCE_2);
+        verify(priceHistoryService).getMostRecentPriceForResource(RESOURCE_1_NAME);
+        verify(priceHistoryService).getMostRecentPriceForResource(RESOURCE_2_NAME);
+    }
+
+    @Test
+    public void shouldCalculateNewPrices() {
+        resourcePriceUpdater.updatePrices(DATE);
+
+        verify(priceCalculator).determineResourceNewPrice(RESOURCE_1_PRICE, RESOURCE_1_PRICE_TREND, RESOURCE_1_MAX_PRICE_CHANGE);
+        verify(priceCalculator).determineResourceNewPrice(RESOURCE_2_PRICE, RESOURCE_2_PRICE_TREND, RESOURCE_2_MAX_PRICE_CHANGE);
+    }
+
+    @Test
+    public void shouldNotUpdatePriceIfNoCurrentPrice() throws Exception {
+        when(priceHistoryService.getMostRecentPriceForResource(RESOURCE_1_NAME)).thenThrow(new PriceNotFoundException());
+
+        resourcePriceUpdater.updatePrices(DATE);
+
+        verify(priceHistoryService, times(1)).addPriceHistory(eq(RESOURCE_2_NAME), anyLong(), any(Date.class));
     }
 
     @Test
     public void shouldAddPricesToPriceHistory() {
         resourcePriceUpdater.updatePrices(DATE);
 
-        verify(priceHistoryService).addPriceHistory(RESOURCE_1_NAME, RESOURCE_1_PRICE, DATE);
-        verify(priceHistoryService).addPriceHistory(RESOURCE_2_NAME, RESOURCE_2_PRICE, DATE);
-    }
-
-    @Test
-    public void shouldUpdateResourcePrice() {
-        resourcePriceUpdater.updatePrices(DATE);
-
-        verifyResourcePriceUpdated(RESOURCE_1_NAME, RESOURCE_1_PRICE);
-        verifyResourcePriceUpdated(RESOURCE_2_NAME, RESOURCE_2_PRICE);
+        verify(priceHistoryService).addPriceHistory(RESOURCE_1_NAME, RESOURCE_1_NEW_PRICE, DATE);
+        verify(priceHistoryService).addPriceHistory(RESOURCE_2_NAME, RESOURCE_2_NEW_PRICE, DATE);
     }
 
     private void mockResources() {
-        when(resourceRepository.findAll()).thenReturn(Arrays.asList(RESOURCE_1, RESOURCE_2));
+        Resource resource1 = buildResource(RESOURCE_1_NAME, RESOURCE_1_PRICE_TREND, RESOURCE_1_MAX_PRICE_CHANGE);
+        Resource resource2 = buildResource(RESOURCE_2_NAME, RESOURCE_2_PRICE_TREND, RESOURCE_2_MAX_PRICE_CHANGE);
+        when(resourceRepository.findAll()).thenReturn(Arrays.asList(resource1, resource2));
     }
 
-    private void mockUpdateResources() {
-        when(resourceService.updateResourceWithPriceAtTime(RESOURCE_1)).thenReturn(buildResource(RESOURCE_1_NAME, RESOURCE_1_PRICE));
-        when(resourceService.updateResourceWithPriceAtTime(RESOURCE_2)).thenReturn(buildResource(RESOURCE_2_NAME, RESOURCE_2_PRICE));
-    }
-
-    private void mockExistingPriceHistories(String... resourceNames) {
-        for (String resourceName : resourceNames) {
-            when(priceHistoryService.hasPriceHistory(resourceName, DATE)).thenReturn(true);
-        }
-    }
-
-    private void verifyResourcePriceUpdated(String resourceName, Long price) {
-        Resource resource = buildResource(resourceName, price);
-        verify(resourceRepository).save(resource);
-    }
-
-    private static Resource buildResource(String resourceName, Long price) {
+    private Resource buildResource(String resourceName, Double priceTrend, Double priceMaxChange) {
         return Resource.builder()
                 .resourceName(resourceName)
-                .price(price)
+                .priceTrendPercent(priceTrend)
+                .priceMaxChangePercent(priceMaxChange)
                 .build();
     }
+
+    private void mockPriceCalculator() {
+        when(priceCalculator.determineResourceNewPrice(eq(RESOURCE_1_PRICE), anyDouble(), anyDouble())).thenReturn(RESOURCE_1_NEW_PRICE);
+        when(priceCalculator.determineResourceNewPrice(eq(RESOURCE_2_PRICE), anyDouble(), anyDouble())).thenReturn(RESOURCE_2_NEW_PRICE);
+    }
+
+    private void mockMostRecentPrices() throws Exception {
+        when(priceHistoryService.getMostRecentPriceForResource(RESOURCE_1_NAME)).thenReturn(RESOURCE_1_PRICE);
+        when(priceHistoryService.getMostRecentPriceForResource(RESOURCE_2_NAME)).thenReturn(RESOURCE_2_PRICE);
+    }
+
+    private void mockExistingPriceHistoriesForDate() {
+        when(priceHistoryService.hasPriceHistory(RESOURCE_1_NAME, DATE)).thenReturn(true);
+        when(priceHistoryService.hasPriceHistory(RESOURCE_2_NAME, DATE)).thenReturn(true);
+    }
+
 }
