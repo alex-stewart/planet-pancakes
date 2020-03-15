@@ -78,6 +78,8 @@ public class PriceHistoryServiceTest {
 
     @Test
     public void whenFindingCurrentPrice_shouldCallPriceHistoryRepository() throws Exception{
+        mockMostRecentPriceHistory(buildPriceHistory());
+
         priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
 
         verify(priceHistoryRepository).findTopByResourceNameOrderByDateDesc(RESOURCE_NAME);
