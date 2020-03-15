@@ -3,32 +3,41 @@ package fun.pancakes.planet_pancakes.dto.converter;
 import fun.pancakes.planet_pancakes.dto.ResourceDto;
 import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
-import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
+import fun.pancakes.planet_pancakes.service.resource.PriceHistoryService;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class ResourceConverter {
 
-    private PriceHistoryRepository priceHistoryRepository;
+    private PriceHistoryService priceHistoryService;
 
-    public ResourceConverter(PriceHistoryRepository priceHistoryRepository) {
-        this.priceHistoryRepository = priceHistoryRepository;
+    public ResourceConverter(PriceHistoryService priceHistoryService) {
+        this.priceHistoryService = priceHistoryService;
     }
 
-    public ResourceDto convertToDto(Resource resource) {
+    public ResourceDto convertToDto(Resource resource) throws PriceNotFoundException {
+        String resourceName = resource.getResourceName();
+
         return ResourceDto.builder()
-                .resourceName(resource.getResourceName())
-                .price(resource.getPrice())
-                .priceHistory(getPriceHistoriesForResource(resource.getResourceName()))
+                .resourceName(resourceName)
+                .priceHistory(getPriceHistoriesForResource(resourceName))
+                .price(getCurrentPriceForResource(resourceName))
                 .build();
     }
 
+    private Long getCurrentPriceForResource(String resourceName) throws PriceNotFoundException {
+        return priceHistoryService.getMostRecentPriceForResource(resourceName);
+    }
+
     private Map<Instant, Long> getPriceHistoriesForResource(String resourceName) {
-        List<PriceHistory> priceHistories = priceHistoryRepository.findAllByResourceName(resourceName);
+        List<PriceHistory> priceHistories = priceHistoryService.getPriceHistoryForResource(resourceName);
         return priceHistories == null ? new HashMap<>() : convertPriceHistoryMap(priceHistories);
     }
 

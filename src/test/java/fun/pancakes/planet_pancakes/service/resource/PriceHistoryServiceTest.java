@@ -2,6 +2,7 @@ package fun.pancakes.planet_pancakes.service.resource;
 
 import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -59,26 +60,24 @@ public class PriceHistoryServiceTest {
         verifyPriceHistorySaved();
     }
 
-    @Test
-    public void whenFindingCurrentPrice_andNoPrice_shouldReturnEmpty() {
+    @Test(expected = PriceNotFoundException.class)
+    public void whenFindingCurrentPrice_andNoPrice_shouldReturnEmpty() throws Exception{
         mockMostRecentPriceHistory(null);
 
-        Optional<Long> result = priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
-
-        assertThat(result).isEmpty();
+        priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
     }
 
     @Test
-    public void whenFindingCurrentPrice_shouldReturnMostRecentPrice() {
+    public void whenFindingCurrentPrice_shouldReturnMostRecentPrice() throws Exception{
         mockMostRecentPriceHistory(buildPriceHistory());
 
-        Optional<Long> result = priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
+        Long result = priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
 
-        assertThat(result).contains(PRICE);
+        assertThat(result).isEqualTo(PRICE);
     }
 
     @Test
-    public void whenFindingCurrentPrice_shouldCallPriceHistoryRepository() {
+    public void whenFindingCurrentPrice_shouldCallPriceHistoryRepository() throws Exception{
         priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
 
         verify(priceHistoryRepository).findTopByResourceNameOrderByDateDesc(RESOURCE_NAME);

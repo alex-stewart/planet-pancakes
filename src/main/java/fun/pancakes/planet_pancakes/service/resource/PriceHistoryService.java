@@ -2,12 +2,13 @@ package fun.pancakes.planet_pancakes.service.resource;
 
 import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -37,8 +38,13 @@ public class PriceHistoryService {
         return priceHistoryRepository.findByResourceNameAndDate(resourceName, date).isPresent();
     }
 
-    public Optional<Long> getMostRecentPriceForResource(String resourceName) {
+    public Long getMostRecentPriceForResource(String resourceName) throws PriceNotFoundException {
         return priceHistoryRepository.findTopByResourceNameOrderByDateDesc(resourceName)
-                .map(PriceHistory::getPrice);
+                .map(PriceHistory::getPrice)
+                .orElseThrow(PriceNotFoundException::new);
+    }
+
+    public List<PriceHistory> getPriceHistoryForResource(String resourceName) {
+        return priceHistoryRepository.findAllByResourceName(resourceName);
     }
 }

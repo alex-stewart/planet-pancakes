@@ -3,7 +3,8 @@ package fun.pancakes.planet_pancakes.dto.converter;
 import fun.pancakes.planet_pancakes.dto.ResourceDto;
 import fun.pancakes.planet_pancakes.persistence.entity.PriceHistory;
 import fun.pancakes.planet_pancakes.persistence.entity.Resource;
-import fun.pancakes.planet_pancakes.persistence.repository.PriceHistoryRepository;
+import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
+import fun.pancakes.planet_pancakes.service.resource.PriceHistoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,11 +12,14 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ResourceConverterTest {
@@ -34,47 +38,10 @@ public class ResourceConverterTest {
     private static final double RESOURCE_MAX_CHANGE_PERCENT = 20d;
 
     @Mock
-    private PriceHistoryRepository priceHistoryRepository;
+    private PriceHistoryService priceHistoryService;
 
     @InjectMocks
     private ResourceConverter resourceConverter;
-
-    @Test
-    public void shouldConvertResourceToDtoWithNoHistory() {
-        Resource resource = aResource();
-
-        ResourceDto resourceDto = resourceConverter.convertToDto(resource);
-
-        assertThat(resourceDto).isEqualTo(aResourceDto());
-    }
-
-    @Test
-    public void shouldConvertResourceToDtoWithHistory() {
-        mockPriceHistory();
-
-        Resource resource = aResource();
-
-        ResourceDto resourceDto = resourceConverter.convertToDto(resource);
-
-        assertThat(resourceDto).isEqualTo(aResourceDtoWithHistory());
-    }
-
-    private void mockPriceHistory() {
-        List<PriceHistory> priceHistoryList = new ArrayList<>();
-        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_1, HISTORY_PRICE_1));
-        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_2, HISTORY_PRICE_2));
-
-        when(priceHistoryRepository.findAllByResourceName(any()))
-                .thenReturn(priceHistoryList);
-    }
-
-    private PriceHistory buildPriceHistory(Date date, Long price) {
-        return PriceHistory.builder()
-                .resourceName(RESOURCE_NAME)
-                .date(date)
-                .price(price)
-                .build();
-    }
 
     private static Resource aResource() {
         return Resource.builder()
@@ -85,22 +52,72 @@ public class ResourceConverterTest {
                 .build();
     }
 
-    private static ResourceDto aResourceDtoWithHistory() {
-        ResourceDto resourceDto = aResourceDto();
+    @Test
+    public void shouldPopulateEmptyPriceHistoryIfNoPriceHistory() throws Exception {
+        ResourceDto resourceDto = resourceConverter.convertToDto(aResource());
 
-        Map<Instant, Long> priceHistory = new HashMap<>();
-        priceHistory.put(HISTORY_INSTANT_1, HISTORY_PRICE_1);
-        priceHistory.put(HISTORY_INSTANT_2, HISTORY_PRICE_2);
-        resourceDto.setPriceHistory(priceHistory);
-
-        return resourceDto;
+        assertThat(resourceDto.getPriceHistory()).isEmpty();
     }
 
-    private static ResourceDto aResourceDto() {
-        return ResourceDto.builder()
+    @Test
+    public void shouldPopulatePriceHistory() throws Exception {
+        mockPriceHistory();
+        ResourceDto resourceDto = resourceConverter.convertToDto(aResource());
+
+        assertThat(resourceDto.getPriceHistory()).containsOnly(
+                entry(HISTORY_INSTANT_1, HISTORY_PRICE_1),
+                entry(HISTORY_INSTANT_2, HISTORY_PRICE_2));
+    }
+
+    @Test
+    public void shouldGetPriceHistory() throws Exception {
+        resourceConverter.convertToDto(aResource());
+
+        verify(priceHistoryService, times(1)).getPriceHistoryForResource(RESOURCE_NAME);
+    }
+
+    @Test
+    public void shouldMapResourceName() throws Exception {
+        ResourceDto resourceDto = resourceConverter.convertToDto(aResource());
+
+        assertThat(resourceDto.getResourceName()).isEqualTo(RESOURCE_NAME);
+    }
+
+    @Test
+    public void shouldSetResourceCurrentPrice() throws Exception {
+        when(priceHistoryService.getMostRecentPriceForResource(any())).thenReturn(RESOURCE_PRICE);
+        ResourceDto resourceDto = resourceConverter.convertToDto(aResource());
+
+        assertThat(resourceDto.getPrice()).isEqualTo(RESOURCE_PRICE);
+    }
+
+    @Test(expected = PriceNotFoundException.class)
+    public void shouldThrowExceptionWhenCantFindCurrentPriceOfResource() throws Exception {
+        when(priceHistoryService.getMostRecentPriceForResource(any())).thenThrow(new PriceNotFoundException());
+        resourceConverter.convertToDto(aResource());
+    }
+
+    @Test
+    public void shouldGetMostRecentPriceForResource() throws Exception {
+        resourceConverter.convertToDto(aResource());
+
+        verify(priceHistoryService, times(1)).getMostRecentPriceForResource(RESOURCE_NAME);
+    }
+
+    private void mockPriceHistory() {
+        List<PriceHistory> priceHistoryList = new ArrayList<>();
+        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_1, HISTORY_PRICE_1));
+        priceHistoryList.add(buildPriceHistory(HISTORY_DATE_2, HISTORY_PRICE_2));
+
+        when(priceHistoryService.getPriceHistoryForResource(any()))
+                .thenReturn(priceHistoryList);
+    }
+
+    private PriceHistory buildPriceHistory(Date date, Long price) {
+        return PriceHistory.builder()
                 .resourceName(RESOURCE_NAME)
-                .price(RESOURCE_PRICE)
-                .priceHistory(new HashMap<>())
+                .date(date)
+                .price(price)
                 .build();
     }
 }
