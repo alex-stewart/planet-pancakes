@@ -1,6 +1,5 @@
 package fun.pancakes.planet_pancakes.service;
 
-import fun.pancakes.planet_pancakes.persistence.entity.Resource;
 import fun.pancakes.planet_pancakes.persistence.entity.User;
 import fun.pancakes.planet_pancakes.persistence.repository.UserRepository;
 import fun.pancakes.planet_pancakes.service.exception.PriceNotFoundException;
@@ -40,8 +39,8 @@ public class MarketServiceTest {
     private ArgumentCaptor<User> userArgumentCaptor;
 
     @Before
-    public void setUp() {
-        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenReturn(Optional.of(RESOURCE_PRICE));
+    public void setUp() throws Exception{
+        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenReturn(RESOURCE_PRICE);
         userArgumentCaptor = ArgumentCaptor.forClass(User.class);
     }
 
@@ -94,7 +93,7 @@ public class MarketServiceTest {
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenNoResourcePriceFound() throws Exception {
-        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenReturn(Optional.empty());
+        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenThrow(new PriceNotFoundException());
         mockUserWithCoins(500L);
 
         marketService.buyResourceIfEnoughCoins(USER_ID, RESOURCE_NAME);
@@ -177,7 +176,7 @@ public class MarketServiceTest {
 
     @Test(expected = PriceNotFoundException.class)
     public void shouldNotUpdateUserWhenResourceNotFoundWhenSellingResource() throws Exception {
-        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenReturn(Optional.empty());
+        when(priceHistoryServiceMock.getMostRecentPriceForResource(RESOURCE_NAME)).thenThrow(new PriceNotFoundException());
         mockUserWithCoins(500L);
 
         marketService.sellResourceIfResourceOwned(USER_ID, RESOURCE_NAME);
@@ -198,12 +197,5 @@ public class MarketServiceTest {
         HashMap<String, Integer> resources = new HashMap<>();
         resources.put(RESOURCE_NAME, 1);
         mockUserWithCoinsAndResources(coins, resources);
-    }
-
-    private static Resource aResource() {
-        return Resource.builder()
-                .resourceName(RESOURCE_NAME)
-                .price(RESOURCE_PRICE)
-                .build();
     }
 }

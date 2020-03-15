@@ -46,7 +46,6 @@ public class ResourceConverterTest {
     private static Resource aResource() {
         return Resource.builder()
                 .resourceName(RESOURCE_NAME)
-                .price(RESOURCE_PRICE)
                 .priceTrendPercent(RESOURCE_PRICE_TREND)
                 .priceMaxChangePercent(RESOURCE_MAX_CHANGE_PERCENT)
                 .build();

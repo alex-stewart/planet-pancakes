@@ -54,8 +54,7 @@ public class MarketService {
     }
 
     private Long currentPriceForResource(String resourceName) throws PriceNotFoundException {
-        return priceHistoryService.getMostRecentPriceForResource(resourceName)
-                .orElseThrow(PriceNotFoundException::new);
+        return priceHistoryService.getMostRecentPriceForResource(resourceName);
     }
 
     private void updateUserResourceCount(User user, String resource, Integer resourceCountChange) {
