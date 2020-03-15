@@ -24,7 +24,7 @@ export default class PriceChart extends Component {
 
         const formatTick = function (timestamp) {
             let gameDate = GameDate.fromTimestamp(timestamp);
-            return gameDate.toStringWithoutDay();
+            return '[' + gameDate.toStringWithoutDay() + ']';
         };
 
         const formatCoins = function (coins) {
