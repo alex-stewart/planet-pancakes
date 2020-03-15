@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Alert, Table} from 'reactstrap';
+import {Collapse, Table} from 'reactstrap';
 import MarketRow from "./MarketRow";
 import _ from "lodash";
 
@@ -12,17 +12,18 @@ export default class MarketTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            resources: [],
-            alertText: null,
-            alertVisible: false
+            isVisible: true,
+            resources: []
         }
     }
 
-    render() {
-        const onAlertDismiss = () => this.setState({
-            alertVisible: false
+    toggleTable() {
+        this.setState({
+            isVisible: !this.state.isVisible
         });
+    }
 
+    render() {
         const loggedInColumns = [
             <tr key={"header-row"}>
                 <th style={thinColStyle}>Resource</th>
@@ -44,41 +45,35 @@ export default class MarketTable extends Component {
 
         let user = this.props.user;
         let headers = user ? loggedInColumns : defaultColumns;
-        let resourceRows = this.renderResourceRows(this.props.resources, this.props.user, this.props.updateUser);
+        let resourceRows = this.renderResourceRows(this.props.resources, this.props.user, this.props.updateUser, this.props.setAlert);
 
         return (
             <div>
-                <div>RESOURCE TYPE</div>
-                <Table>
+                <div>{this.props.resourceType}</div>
+                <Collapse isOpen={this.state.isVisible}
+                          exit={false}
+                          enter={false}>
+
+                    <Table>
                     <thead className={"thead-dark"}>
                     {headers}
                     </thead>
-                    <tbody className={"table-light"}>
-                    {resourceRows}
-                    </tbody>
+                        <tbody className={"table-light"}>
+                        {resourceRows}
+                        </tbody>
                 </Table>
-                <Alert className={"market-buy-alert"}
-                       color={"danger"}
-                       isOpen={this.state.alertVisible}
-                       toggle={onAlertDismiss}>
-                    {this.state.alertText}
-                </Alert>
+             </Collapse>
             </div>
         )
     }
 
-    renderResourceRows(resources, user, updateUserFunction) {
-        const addErrorAlert = (message) => this.setState({
-            alertVisible: true,
-            alertText: message
-        });
-
+    renderResourceRows(resources, user, updateUserFunction, setAlertFunction) {
         return _.map(resources, function (resource) {
             return <MarketRow key={'market-row-' + resource.resourceName}
                               resource={resource}
                               user={user}
                               updateUser={updateUserFunction}
-                              addErrorAlert={addErrorAlert}/>
+                              addErrorAlert={setAlertFunction}/>
         });
     }
 }
