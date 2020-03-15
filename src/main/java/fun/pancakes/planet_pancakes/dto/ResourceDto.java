@@ -10,6 +10,7 @@ import java.util.Map;
 @Data
 public class ResourceDto {
     private String resourceName;
+    private String category;
     private Long price;
     private Map<Instant, Long> priceHistory;
 }

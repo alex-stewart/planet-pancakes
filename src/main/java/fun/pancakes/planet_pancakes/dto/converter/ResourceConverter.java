@@ -29,6 +29,7 @@ public class ResourceConverter {
                 .resourceName(resourceName)
                 .priceHistory(getPriceHistoriesForResource(resourceName))
                 .price(getCurrentPriceForResource(resourceName))
+                .category(resource.getCategory())
                 .build();
     }
 

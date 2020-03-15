@@ -13,6 +13,8 @@ public class Resource {
     @Id
     private String resourceName;
 
+    private String category;
+
     private Double priceTrendPercent;
     private Double priceMaxChangePercent;
 }
