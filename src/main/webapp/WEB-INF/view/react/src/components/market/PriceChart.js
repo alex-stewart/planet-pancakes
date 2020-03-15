@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Line, LineChart, Tooltip, XAxis, YAxis, ResponsiveContainer} from 'recharts';
+import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {GameDate} from "../../util/GameDate";
 import commaNumber from 'comma-number';
 
@@ -22,11 +22,6 @@ export default class PriceChart extends Component {
             return (<span>{gameDate.toString()}</span>)
         };
 
-        const formatTick = function (timestamp) {
-            let gameDate = GameDate.fromTimestamp(timestamp);
-            return '[' + gameDate.toStringWithoutDay() + ']';
-        };
-
         const formatCoins = function (coins) {
             return (
                 <span>
@@ -37,12 +32,13 @@ export default class PriceChart extends Component {
 
         return (
             <ResponsiveContainer id={'container-' + resource.resourceName}
-                                 height={100}>
+                                 height={20}>
                 <LineChart data={data}>
                     <XAxis dataKey="date"
-                           tickFormatter={formatTick}/>
-                    <YAxis tickFormatter={commaNumber}/>
-                    <Line type="monotone"
+                           hide={true}/>
+                    <YAxis hide={true}
+                           domain={['dataMin', 'dataMax']}/>
+                    <Line type="stepAfter"
                           dataKey="price"
                           stroke="#8884d8"
                           dot={false}
