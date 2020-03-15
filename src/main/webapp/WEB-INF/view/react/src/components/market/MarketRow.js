@@ -11,9 +11,6 @@ export default class MarketRow extends Component {
             .then(
                 () => {
                     this.props.updateUser();
-                },
-                (error) => {
-                    this.props.addErrorAlert(error.response.data.message);
                 }
             )
     }
@@ -23,9 +20,6 @@ export default class MarketRow extends Component {
             .then(
                 () => {
                     this.props.updateUser();
-                },
-                (error) => {
-                    this.props.addErrorAlert(error.response.data.message);
                 }
             )
     }

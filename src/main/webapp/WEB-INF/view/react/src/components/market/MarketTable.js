@@ -17,12 +17,6 @@ export default class MarketTable extends Component {
         }
     }
 
-    toggleTable() {
-        this.setState({
-            isVisible: !this.state.isVisible
-        });
-    }
-
     render() {
         const loggedInColumns = [
             <tr key={"header-row"}>
@@ -45,7 +39,7 @@ export default class MarketTable extends Component {
 
         let user = this.props.user;
         let headers = user ? loggedInColumns : defaultColumns;
-        let resourceRows = this.renderResourceRows(this.props.resources, this.props.user, this.props.updateUser, this.props.setAlert);
+        let resourceRows = this.renderResourceRows(this.props.resources, this.props.user, this.props.updateUser);
 
         return (
             <div>
@@ -67,13 +61,12 @@ export default class MarketTable extends Component {
         )
     }
 
-    renderResourceRows(resources, user, updateUserFunction, setAlertFunction) {
+    renderResourceRows(resources, user, updateUserFunction) {
         return _.map(resources, function (resource) {
             return <MarketRow key={'market-row-' + resource.resourceName}
                               resource={resource}
                               user={user}
-                              updateUser={updateUserFunction}
-                              addErrorAlert={setAlertFunction}/>
+                              updateUser={updateUserFunction}/>
         });
     }
 }
