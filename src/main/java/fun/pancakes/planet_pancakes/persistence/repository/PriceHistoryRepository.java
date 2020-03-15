@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PriceHistoryRepository extends MongoRepository<PriceHistory, Long> {
     Optional<PriceHistory> findByResourceNameAndDate(String resourceName, Date date);
     List<PriceHistory> findAllByResourceName(String resourceName);
+    Optional<PriceHistory> findTopByResourceNameOrderByDateDesc(String resourceName);
 }

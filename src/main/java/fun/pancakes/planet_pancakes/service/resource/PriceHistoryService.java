@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -34,5 +35,10 @@ public class PriceHistoryService {
 
     public boolean hasPriceHistory(String resourceName, Date date) {
         return priceHistoryRepository.findByResourceNameAndDate(resourceName, date).isPresent();
+    }
+
+    public Optional<Long> getMostRecentPriceForResource(String resourceName) {
+        return priceHistoryRepository.findTopByResourceNameOrderByDateDesc(resourceName)
+                .map(PriceHistory::getPrice);
     }
 }

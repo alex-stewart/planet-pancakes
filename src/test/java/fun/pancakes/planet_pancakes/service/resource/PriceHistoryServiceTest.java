@@ -45,7 +45,7 @@ public class PriceHistoryServiceTest {
 
     @Test
     public void shouldReturnTrueIfPriceHistory() {
-        mockPriceHistory(PriceHistory.builder().build());
+        mockPriceHistory(buildPriceHistory());
 
         boolean result = priceHistoryService.hasPriceHistory(RESOURCE_NAME, DATE);
 
@@ -59,6 +59,36 @@ public class PriceHistoryServiceTest {
         verifyPriceHistorySaved();
     }
 
+    @Test
+    public void whenFindingCurrentPrice_andNoPrice_shouldReturnEmpty() {
+        mockMostRecentPriceHistory(null);
+
+        Optional<Long> result = priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void whenFindingCurrentPrice_shouldReturnMostRecentPrice() {
+        mockMostRecentPriceHistory(buildPriceHistory());
+
+        Optional<Long> result = priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
+
+        assertThat(result).contains(PRICE);
+    }
+
+    @Test
+    public void whenFindingCurrentPrice_shouldCallPriceHistoryRepository() {
+        priceHistoryService.getMostRecentPriceForResource(RESOURCE_NAME);
+
+        verify(priceHistoryRepository).findTopByResourceNameOrderByDateDesc(RESOURCE_NAME);
+    }
+
+    private void mockMostRecentPriceHistory(PriceHistory priceHistory) {
+        Optional<PriceHistory> priceHistoryOptional = Optional.ofNullable(priceHistory);
+        when(priceHistoryRepository.findTopByResourceNameOrderByDateDesc(any())).thenReturn(priceHistoryOptional);
+    }
+
     private void mockPriceHistory(PriceHistory priceHistory) {
         when(priceHistoryRepository.findByResourceNameAndDate(any(), any())).thenReturn(Optional.ofNullable(priceHistory));
     }
@@ -70,6 +100,14 @@ public class PriceHistoryServiceTest {
         assertThat(priceHistory.getResourceName()).isEqualTo(RESOURCE_NAME);
         assertThat(priceHistory.getPrice()).isEqualTo(PRICE);
         assertThat(priceHistory.getDate()).isEqualTo(DATE);
+    }
+
+    private PriceHistory buildPriceHistory() {
+        return PriceHistory.builder()
+                .resourceName(RESOURCE_NAME)
+                .date(DATE)
+                .price(PRICE)
+                .build();
     }
 
 }
