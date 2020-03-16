@@ -4,6 +4,14 @@ import axios from "axios";
 import PriceChart from "./PriceChart";
 import commaNumber from "comma-number";
 
+const notAllowedCursor = {
+    cursor: "not-allowed"
+};
+
+const defaultCursor = {
+    cursor: "default"
+};
+
 export default class MarketRow extends Component {
 
     buyResource(event, resource) {
@@ -43,21 +51,26 @@ export default class MarketRow extends Component {
     }
 
     renderUserColumns(resource, user) {
+        let canSell = user.resources[resource.resourceName] > 0;
+        let canBuy = user.coins >= resource.price;
+
         if (user) {
             return (
                 [
                     <td>{user.resources[resource.resourceName] || 0}</td>,
                     <td>
                         <Button color="primary"
+                                style={canBuy ? defaultCursor : notAllowedCursor}
                                 onClick={event => this.buyResource(event, resource).bind(this)}
-                                disabled={this.disableBuyButton(user, resource)}>
+                                disabled={!canBuy}>
                             Buy {resource.name}
                         </Button>
                     </td>,
                     <td>
                         <Button color="primary"
+                                style={canSell ? defaultCursor : notAllowedCursor}
                                 onClick={event => this.sellResource(event, resource).bind(this)}
-                                disabled={this.disableSellButton(user, resource)}>
+                                disabled={!canSell}>
                             Sell {resource.name}
                         </Button>
                     </td>
@@ -66,15 +79,5 @@ export default class MarketRow extends Component {
         } else {
             return [];
         }
-    }
-
-    disableSellButton(user, resource) {
-        let userHasResource = user.resources[resource.resourceName] > 0;
-        return !userHasResource;
-    }
-
-    disableBuyButton(user, resource) {
-        let userHasEnoughCoins = user.coins >= resource.price;
-        return !userHasEnoughCoins;
     }
 }
