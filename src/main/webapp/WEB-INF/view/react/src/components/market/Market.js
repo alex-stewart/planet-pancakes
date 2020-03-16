@@ -41,7 +41,7 @@ export default class Market extends Component {
                 <MarketTable user={user}
                              resources={this.state.resources}
                              updateUser={this.props.updateUser}
-                             resourceType={"Minerals & Metals"}/>
+                             resourceType={"Placeholder resource type"}/>
             </div>
         )
     }
