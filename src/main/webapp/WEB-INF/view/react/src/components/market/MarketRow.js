@@ -51,10 +51,10 @@ export default class MarketRow extends Component {
     }
 
     renderUserColumns(resource, user) {
-        let canSell = user.resources[resource.resourceName] > 0;
-        let canBuy = user.coins >= resource.price;
-
         if (user) {
+            let canSell = user.resources[resource.resourceName] > 0;
+            let canBuy = user.coins >= resource.price;
+
             return (
                 [
                     <td>{user.resources[resource.resourceName] || 0}</td>,
