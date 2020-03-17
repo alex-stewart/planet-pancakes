@@ -39,7 +39,8 @@ export default class Market extends Component {
     }
 
     renderMarketTablesForResourceType(user, resources, updateUser, resourceType) {
-        return <MarketTable user={user}
+        return <MarketTable key={"market-table-" + resourceType}
+                            user={user}
                             resources={resources}
                             updateUser={updateUser}
                             resourceType={resourceType}/>
