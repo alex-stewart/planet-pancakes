@@ -37,7 +37,7 @@ export default class MarketRow extends Component {
 
         return (
             <tr key={"resource-row-" + resource.resourceName}>
-                <th className={"resource-name-col"}>{resource.resourceName}</th>
+                <th className={"capitalise-first-letter"}>{resource.resourceName}</th>
                 <td>
                     {commaNumber(resource.price) + " Coins"}
                 </td>

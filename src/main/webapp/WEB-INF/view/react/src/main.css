@@ -118,7 +118,7 @@ html, body, #root {
     overflow-y: scroll;
 }
 
-.resource-name-col:first-letter {
+.capitalise-first-letter:first-letter {
     text-transform: capitalize;
 }
 

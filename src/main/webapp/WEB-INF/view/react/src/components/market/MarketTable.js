@@ -43,7 +43,7 @@ export default class MarketTable extends Component {
 
         return (
             <div>
-                <div>{this.props.resourceType}</div>
+                <div className={"capitalise-first-letter"}>{this.props.resourceType}</div>
                 <Collapse isOpen={this.state.isVisible}
                           exit={false}
                           enter={false}>
