@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {Route, BrowserRouter} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import WorldMap from './map/WorldMap';
-import Navigation from './Navigation';
 import User from './User';
 import News from './news/News'
 import Market from './market/Market'
 import Calendar from './calendar/Calendar'
 import Codex from './codex/Codex'
+import PanCan from './pancan/PanCan'
 import axios from "axios";
+import Navigation from "./Navigation";
 
 export default class App extends Component {
 
@@ -53,25 +54,32 @@ export default class App extends Component {
         this.loadCurrentlyLoggedInUser();
     }
 
+    componentWithNav(path, component, user) {
+        return <Route exact path={path}>
+            <div className="main-container">
+                <Navigation user={user}/>
+                {component}
+            </div>
+        </Route>
+    }
+
     render() {
-        return ([
+        let user = this.state.currentUser;
+
+        return (
             <BrowserRouter key="browser-router">
-                <div className="main-container">
-                    <Navigation user={this.state.currentUser}/>
-                    <Route exact path="/" component={WorldMap}/>
-                    <Route path="/map" component={WorldMap}/>
-                    <Route path="/user"
-                           render={(props) => <User {...props} user={this.state.currentUser}/>}
-                    />
-                    <Route path="/news" component={News}/>
-                    <Route path="/market"
-                           render={(props) => <Market {...props} user={this.state.currentUser}
-                                                      updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>}
-                    />
-                    <Route path={"/calendar"} component={Calendar}/>
-                    <Route path={"/codex"} component={Codex}/>
-                </div>
+                <Switch>
+                    {this.componentWithNav("/", <WorldMap/>, user)}
+                    {this.componentWithNav("/map", <WorldMap/>, user)}
+                    {this.componentWithNav("/user", <User user={user}/>, user)}
+                    {this.componentWithNav("/news", <News/>, user)}
+                    {this.componentWithNav("/market", <Market user={user}
+                                                              updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>, user)}
+                    {this.componentWithNav("/calendar", <Calendar/>, user)}
+                    {this.componentWithNav("/codex", <Codex/>, user)}
+                    <Route path={"/pp"} component={PanCan}/>
+                </Switch>
             </BrowserRouter>
-        ]);
+        );
     }
 }
