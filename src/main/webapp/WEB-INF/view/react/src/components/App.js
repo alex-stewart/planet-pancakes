@@ -9,6 +9,7 @@ import Codex from './codex/Codex'
 import PanCan from './pancan/PanCan'
 import axios from "axios";
 import Navigation from "./Navigation";
+import Herald from "./herald/Herald";
 
 export default class App extends Component {
 
@@ -77,6 +78,7 @@ export default class App extends Component {
                                                               updateUser={this.loadCurrentlyLoggedInUser.bind(this)}/>, user)}
                     {this.componentWithNav("/calendar", <Calendar/>, user)}
                     {this.componentWithNav("/codex", <Codex/>, user)}
+                    {this.componentWithNav("/herald", <Herald/>, user)}
                     <Route path={"/pp"} component={PanCan}/>
                 </Switch>
             </BrowserRouter>

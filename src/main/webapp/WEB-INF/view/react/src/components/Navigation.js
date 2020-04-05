@@ -4,12 +4,14 @@ import DateAndTime from "./DateAndTime";
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faMapMarkedAlt,
-    faUser,
-    faStore,
-    faNewspaper,
+    faBook,
     faCalendarAlt,
-    faBook, faSignInAlt
+    faMapMarkedAlt,
+    faNewspaper,
+    faShieldAlt,
+    faSignInAlt,
+    faStore,
+    faUser
 } from "@fortawesome/free-solid-svg-icons";
 
 export default class Example extends React.Component {
@@ -49,6 +51,7 @@ export default class Example extends React.Component {
                 {generateNavItem("Market", "/market", faStore)}
                 {generateNavItem("Calendar", "/calendar", faCalendarAlt)}
                 {generateNavItem("Codex", "/codex", faBook)}
+                {generateNavItem("Herald", "/herald", faShieldAlt)}
             </Nav>
         };
 
