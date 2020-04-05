@@ -15,24 +15,28 @@ const mapContainerStyle = {
 const settlements = [
     {
         name: 'XXXX',
-        position: [3, -15],
-        type: SETTLEMENT_TYPES.CITY
+        position: [3, -15]
     }, {
         name: 'Ogg Bogg',
-        position: [-45, -7],
-        type: SETTLEMENT_TYPES.CITY
+        position: [-45, -7]
     }, {
         name: 'Agg Bagg',
-        position: [-32, -17],
-        type: SETTLEMENT_TYPES.CITY
+        position: [-32, -17]
     }, {
         name: 'Ugg Bugg',
-        position: [-40, -30],
-        type: SETTLEMENT_TYPES.CITY
+        position: [-40, -30]
     }, {
-        name: 'town1',
-        position: [-50, -50],
-        type: SETTLEMENT_TYPES.TOWN
+        name: 'Igg Bigg',
+        position: [-1, -1]
+    }, {
+        name: "Onetown",
+        position: [-52, -47]
+    }, {
+        name: "Twotown",
+        position: [-60, -39]
+    }, {
+        name: "Windwall",
+        position: [-39, -89]
     }
 ];
 
@@ -42,7 +46,7 @@ export default class PanCan extends Component {
         return _.map(settlements, function (settlement) {
             return <SettlementMarker settlement={settlement}
                                      key={"settlement-marker-" + settlement.name}
-                                     type={settlement.type}/>
+                                     type={SETTLEMENT_TYPES.CITY}/>
         });
     }
 
