@@ -83,12 +83,6 @@ export default class PanCan extends Component {
                                                name={"Settlements"}
                                                checked={true}>
                             <LayerGroup>{this.generateSettlementMarkers()}</LayerGroup>
-
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay key={"overlay-transport-network"}
-                                               name={"Trade Routes"}
-                                               checked={false}>
-                            {/*City connections and trade routes*/}
                         </LayersControl.Overlay>
                     </LayersControl>
                 </Map>
