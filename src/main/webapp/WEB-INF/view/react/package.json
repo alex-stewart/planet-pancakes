@@ -14,6 +14,7 @@
     "leaflet-imageoverlay-rotated": "^0.1.4",
     "lodash": "^4.17.11",
     "react": "^16.8.3",
+    "react-color": "^2.18.0",
     "react-dom": "^16.8.3",
     "react-helmet": "^5.2.1",
     "react-image-lightbox": "^5.1.1",
