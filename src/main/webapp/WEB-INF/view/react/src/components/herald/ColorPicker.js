@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {GithubPicker} from 'react-color'
 
 const containerStyle = {
@@ -27,44 +27,41 @@ const coverStyle = {
     left: '0px',
 };
 
-class ColourPicker extends React.Component {
+class ColourPicker extends Component {
     state = {
-        displayColorPicker: false,
-        color: {
-            r: 'FF',
-            g: 'FF',
-            b: 'FF',
-            a: '1',
-        },
+        displayColourPicker: false,
+        colour: '#FFFFFF',
     };
 
     handleClick = () => {
-        this.setState({displayColorPicker: !this.state.displayColorPicker})
+        this.setState({displayColourPicker: !this.state.displayColourPicker})
     };
 
     handleClose = () => {
-        this.setState({displayColorPicker: false})
+        this.setState({displayColourPicker: false})
     };
 
-    handleChange = (color) => {
-        this.setState({color: color.rgb})
+    handleChange = (colour) => {
+        this.setState({displayColourPicker: false,
+            colour: colour.hex});
+        this.props.setColour(colour.hex, this.props.size);
     };
 
     render() {
 
-        const colorStyle = {
+        const colourStyle = {
             width: '26px',
             height: '26px',
             borderRadius: '2px',
-            background: `rgba(${this.state.color.r}, ${this.state.color.g}, ${this.state.color.b}, ${this.state.color.a})`,
+            background: `${this.state.colour}`,
         };
 
         return (
             <div style={containerStyle}>
                 <div style={swatchStyle} onClick={this.handleClick}>
-                    <div style={colorStyle}/>
+                    <div style={colourStyle}/>
                 </div>
-                {this.state.displayColorPicker ? <div style={popoverStyle}>
+                {this.state.displayColourPicker ? <div style={popoverStyle}>
                     <div style={coverStyle} onClick={this.handleClose}/>
                     <GithubPicker onChange={this.handleChange}/>
                 </div> : null}

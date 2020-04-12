@@ -13,25 +13,44 @@ const heraldPageStyle = {
     overflowY: 'scroll'
 };
 
-const contentInputStyle = {
-  width: '500px'
-};
-
 const inputGroupStyle = {
     display: 'flex',
     padding: '0px'
 };
 
-const heraldCanvasStyle = {
-    padding: '100px'
-};
-
-const sizes = {
-    1: {name: 'Tiny'},
-    2: {name: 'Small'},
-    3: {name: 'Medium'},
-    4: {name: 'Large'}
-};
+const heraldComponents = [
+    {
+        size: 0,
+        name: 'Tiny',
+        x: 0,
+        y: 0,
+        length: 100
+    }, {
+        size: 1,
+        name: 'Small',
+        x: 0,
+        y: 100,
+        length: 100
+    }, {
+        size: 2,
+        name: 'Medium',
+        x: 100,
+        y: 0,
+        length: 200
+    }, {
+        size: 3,
+        name: 'Large',
+        x: 0,
+        y: 200,
+        length: 300
+    }, {
+        size: 4,
+        name: 'Very Large',
+        x: 300,
+        y: 0,
+        length: 500
+    }
+];
 
 export default class Herald extends Component {
 
@@ -39,7 +58,10 @@ export default class Herald extends Component {
         super(props);
         this.state = {
             arms: {
-                size: 1
+                size: 0,
+                components: heraldComponents.map(() => {
+                    return {'backgroundColour': '#FFFFFF'}
+                })
             }
         };
     }
@@ -49,42 +71,64 @@ export default class Herald extends Component {
         this.setState({
             canvasContext: ctx
         });
-        this.draw(ctx, 1)
+        this.draw(ctx, this.state.arms)
     }
 
-    draw(context, size) {
-        context.fillStyle = "#FFFFFF";
-        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
-        context.fillRect(0, 0, size * 100, size * 100);
+    draw(ctx, arms) {
+        ctx.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+
+        ctx.beginPath();
+        heraldComponents.forEach(h => {
+            if (h.size <= arms.size) {
+                ctx.rect(h.x, h.y, h.length, h.length);
+                ctx.fillStyle = arms.components[h.size].backgroundColour;
+                ctx.fillRect(h.x, h.y, h.length, h.length);
+            }
+        });
+        ctx.stroke();
     }
 
     setSize(size) {
         let arms = this.state.arms;
         arms.size = size;
         this.setState({arms: arms});
-        this.draw(this.state.canvasContext, size);
+        this.draw(this.state.canvasContext, arms);
     };
 
-    sizeSelectButton(size) {
+    sizeSelectButton(heraldComponents) {
         return <Button color="dark"
-                       onClick={() => this.setSize(size)}>
-            {sizes[size].name}
+                       onClick={() => this.setSize(heraldComponents.size)}
+                       key={'size-button-' + heraldComponents.size}>
+            {heraldComponents.name}
         </Button>
     }
 
-    contentDropdown(size) {
-        return <div style={inputGroupStyle}>
-            {size}
-            <ColorPicker/>
-            <Input style={contentInputStyle} type="select" name="select" id="contentShape">
-                <option>Blank</option>
-                <option>Square</option>
-                <option>Circle</option>
-                <option>Rectangle</option>
-                <option>Triangle</option>
-            </Input>
-            <ColorPicker/>
-        </div>
+    setBackgroundColour(colour, size) {
+        let arms = this.state.arms;
+        arms.components[size].backgroundColour = colour;
+        this.setState({arms: arms});
+        this.draw(this.state.canvasContext, this.state.arms);
+    }
+
+    contentDropdown(component) {
+        let size = component.size;
+
+        if (this.state.arms.size < size) {
+            return null
+        } else {
+            return <div style={inputGroupStyle}
+                        key={'content-dropdown-' + size}>
+                {size}.
+                <ColorPicker setColour={this.setBackgroundColour.bind(this)} size={size}/>
+                <Input style={{width: '200px'}} type="select" name="select" id="contentShape">
+                    <option>Blank</option>
+                    <option>Square</option>
+                    <option>Circle</option>
+                    <option>Rectangle</option>
+                    <option>Triangle</option>
+                </Input>
+            </div>
+        }
     }
 
     render() {
@@ -96,20 +140,21 @@ export default class Herald extends Component {
                 <div>
                     <ButtonGroup color="dark">
                         {
-                            Object.keys(sizes).map(this.sizeSelectButton.bind(this))
+                            heraldComponents.map(this.sizeSelectButton.bind(this))
                         }
                     </ButtonGroup>
                 </div>
-                <div>
-                    {
-                        Array.from({length: this.state.arms.size}).map(this.contentDropdown.bind(this))
-                    }
+                <div style={{display: 'flex'}}>
+                    <div>
+                        {
+                            heraldComponents.map(this.contentDropdown.bind(this))
+                        }
+                    </div>
+                    <canvas ref={"canvas"}
+                            style={{padding: '10px'}}
+                            width={1000}
+                            height={1000}/>
                 </div>
-
-                <canvas ref={"canvas"}
-                        style={heraldCanvasStyle}
-                        width={1000}
-                        height={1000}/>
             </div>
         )
     }
