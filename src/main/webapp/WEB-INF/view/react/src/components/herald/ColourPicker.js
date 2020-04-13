@@ -29,8 +29,7 @@ const coverStyle = {
 
 class ColourPicker extends Component {
     state = {
-        displayColourPicker: false,
-        colour: '#FFFFFF',
+        displayColourPicker: false
     };
 
     handleClick = () => {
@@ -42,8 +41,7 @@ class ColourPicker extends Component {
     };
 
     handleChange = (colour) => {
-        this.setState({displayColourPicker: false,
-            colour: colour.hex});
+        this.setState({displayColourPicker: false});
         this.props.setColour(colour.hex, this.props.size);
     };
 
@@ -53,7 +51,7 @@ class ColourPicker extends Component {
             width: '26px',
             height: '26px',
             borderRadius: '2px',
-            background: `${this.state.colour}`,
+            background: `${this.props.colour}`,
         };
 
         return (

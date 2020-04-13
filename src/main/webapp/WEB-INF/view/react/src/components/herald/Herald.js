@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
 import {Button, ButtonGroup, Input} from "reactstrap";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "./ColourPicker";
 
 const heraldPageStyle = {
     backgroundColor: '#F8ECC2',
@@ -119,7 +119,7 @@ export default class Herald extends Component {
             return <div style={inputGroupStyle}
                         key={'content-dropdown-' + size}>
                 {size}.
-                <ColorPicker setColour={this.setBackgroundColour.bind(this)} size={size}/>
+                <ColorPicker colour={this.state.arms.components[size].backgroundColour} setColour={this.setBackgroundColour.bind(this)} size={size}/>
                 <Input style={{width: '200px'}} type="select" name="select" id="contentShape">
                     <option>Blank</option>
                     <option>Square</option>
