@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {GithubPicker} from 'react-color'
 
+const backgroundColours = ['#FFFFFF', '#000000'];
+
 const containerStyle = {
     lineHeight: '0px'
 };
@@ -61,7 +63,7 @@ class ColourPicker extends Component {
                 </div>
                 {this.state.displayColourPicker ? <div style={popoverStyle}>
                     <div style={coverStyle} onClick={this.handleClose}/>
-                    <GithubPicker onChange={this.handleChange}/>
+                    <GithubPicker colors={backgroundColours} onChange={this.handleChange}/>
                 </div> : null}
             </div>
         )
