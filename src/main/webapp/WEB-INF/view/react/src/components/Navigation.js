@@ -75,12 +75,12 @@ export default class Example extends React.Component {
                         <NavItem>
                             <DateAndTime/>
                         </NavItem>
-                        <NavItem>
-                            <NavLink href={"/login"} className={"navbar-item"}>
-                                <FontAwesomeIcon icon={faSignInAlt}/>
-                                {' Sign In'}
-                            </NavLink>
-                        </NavItem>
+                        {/*<NavItem>*/}
+                        {/*    <NavLink href={"/login"} className={"navbar-item"}>*/}
+                        {/*        <FontAwesomeIcon icon={faSignInAlt}/>*/}
+                        {/*        {' Sign In'}*/}
+                        {/*    </NavLink>*/}
+                        {/*</NavItem>*/}
                     </Nav>
                 )
             }
