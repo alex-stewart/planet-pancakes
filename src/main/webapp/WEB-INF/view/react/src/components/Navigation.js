@@ -51,7 +51,7 @@ export default class Example extends React.Component {
                 {/*{generateNavItem("Market", "/market", faStore)}*/}
                 {generateNavItem("Calendar", "/calendar", faCalendarAlt)}
                 {generateNavItem("Codex", "/codex", faBook)}
-                {generateNavItem("Herald", "/herald", faShieldAlt)}
+                {/*{generateNavItem("Herald", "/herald", faShieldAlt)}*/}
             </Nav>
         };
 
