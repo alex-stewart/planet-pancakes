@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import { Helmet } from 'react-helmet'
+import {Helmet} from 'react-helmet'
 import {LayerGroup, LayersControl, Map, Marker} from 'react-leaflet';
 import axios from 'axios';
 import Leaflet from 'leaflet';
 import L from 'leaflet';
-import ImageOverlayRotated from './ImageOverlayRotated';
 import {rotatePoint} from '../../util/point-utils';
-import SettlementMarker from "./SettlementMarker";
-import {SETTLEMENT_TYPES} from "./Constants";
-import _ from "lodash";
-import CompassControl from "./CompassControl";
-import SidebarCollapseControl from "./SidebarCollapseControl"
-import MapSidebar from "./MapSidebar";
-import {Collapse} from "reactstrap";
+import SettlementMarker from './SettlementMarker';
+import {SETTLEMENT_TYPES} from './Constants';
+import _ from 'lodash';
+import CompassControl from './CompassControl';
+import SidebarCollapseControl from './SidebarCollapseControl'
+import MapSidebar from './MapSidebar';
+import {Collapse} from 'reactstrap';
+import ImageOverlayRotated from 'react-leaflet-image-overlay-rotated/ImageOverlayRotated';
 
 export default class WorldMap extends Component {
 
@@ -32,7 +32,7 @@ export default class WorldMap extends Component {
     }
 
     getIslands() {
-        axios.get("/api/islands")
+        axios.get('/api/islands')
             .then(
                 (result) => {
                     this.setState({
@@ -126,8 +126,8 @@ export default class WorldMap extends Component {
     generateIslandMarker(island) {
         let divIcon = new L.DivIcon({
             iconSize: new L.Point(500, 10),
-            className: "map-text-label",
-            html: island.name || ""
+            className: 'map-text-label',
+            html: island.name || ''
         });
 
         let islandLabelPosition = [
@@ -143,7 +143,7 @@ export default class WorldMap extends Component {
     generateCityMarkers(island) {
         return _.map(island.cities, function (city) {
             return <SettlementMarker settlement={city}
-                                     key={"city-marker-" + city.name}
+                                     key={'city-marker-' + city.name}
                                      type={SETTLEMENT_TYPES.CITY}/>
         });
     }
@@ -151,7 +151,7 @@ export default class WorldMap extends Component {
     generateTownMarkers(island) {
         return _.map(island.towns, function (town) {
             return <SettlementMarker settlement={town}
-                                     key={"town-marker-" + town.name}
+                                     key={'town-marker-' + town.name}
                                      type={SETTLEMENT_TYPES.TOWN}/>
         });
     }
@@ -166,7 +166,7 @@ export default class WorldMap extends Component {
         return (
             <div className="map-container">
                 <Helmet>
-                    <title>{"PP - World Map"}</title>
+                    <title>{'PP - World Map'}</title>
                 </Helmet>
                 <Collapse isOpen={this.state.sidebarVisible}
                           className="map-sidebar"
@@ -175,52 +175,52 @@ export default class WorldMap extends Component {
                     <MapSidebar islands={this.state.islands}
                                 focusOnIsland={this.focusOnIsland.bind(this)}/>
                 </Collapse>
-                <Map className={"map"}
+                <Map className={'map'}
                      bounds={this.state.bounds}
                      crs={Leaflet.CRS.Simple}
                      zoom={3}
-                     ref={"map"}
+                     ref={'map'}
                      attributionControl={false}>
                     <CompassControl/>
                     <SidebarCollapseControl toggleSidebar={this.toggleSidebar.bind(this)}
                                             sidebarVisible={this.state.sidebarVisible}/>
-                    <LayerGroup key={"layer-group-map"}>
+                    <LayerGroup key={'layer-group-map'}>
                         {
                             this.state.islands.map(this.generateIslandOverlay)
                         }
                     </LayerGroup>
                     <LayersControl>
-                        <LayersControl.Overlay key={"label-overlay"}
-                                               name={"Island Labels"}
+                        <LayersControl.Overlay key={'label-overlay'}
+                                               name={'Island Labels'}
                                                checked={true}>
-                            <LayerGroup key={"layer-group-island-labels"}>
+                            <LayerGroup key={'layer-group-island-labels'}>
                                 {
                                     this.state.islands.map(this.generateIslandMarker)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay key={"city-overlay"}
-                                               name={"Cities"}
+                        <LayersControl.Overlay key={'city-overlay'}
+                                               name={'Cities'}
                                                checked={false}>
-                            <LayerGroup key={"layer-group-cities"}>
+                            <LayerGroup key={'layer-group-cities'}>
                                 {
                                     this.state.islands.map(this.generateCityMarkers)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay key={"town-overlay"}
-                                               name={"Towns"}
+                        <LayersControl.Overlay key={'town-overlay'}
+                                               name={'Towns'}
                                                checked={false}>
-                            <LayerGroup key={"layer-group-towns"}>
+                            <LayerGroup key={'layer-group-towns'}>
                                 {
                                     this.state.islands.map(this.generateTownMarkers)
                                 }
                             </LayerGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay key={"grid-overlay"}
-                                               name={"Grid Overlay"}
+                        <LayersControl.Overlay key={'grid-overlay'}
+                                               name={'Grid Overlay'}
                                                checked={false}>
-                            <LayerGroup key={"layer-group-grid"}>
+                            <LayerGroup key={'layer-group-grid'}>
                                 {
                                     this.state.islands.map(this.generateIslandGridOverlay)
                                 }
